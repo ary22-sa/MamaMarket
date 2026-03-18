@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MamaMarket – Marketplace des Femmes Entrepreneures</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --orange:       #D4580A;
+            --orange2:      #E8761A;
+            --orange-pale:  #FDF0E3;
+            --green:        #2A6B35;
+            --green2:       #3A8B47;
+            --green-pale:   #E8F5EB;
+            --brown:        #5C2D0A;
+            --brown2:       #8B4513;
+            --gold:         #C8901A;
+            --gold2:        #E8B020;
+            --cream:        #FBF5E8;
+            --beige:        #F0E4C8;
+            --beige2:       #E2D0A8;
+            --white:        #FFFFFF;
+            --text-dark:    #2A1205;
+            --text-mid:     #5A3218;
+            --text-light:   #8A6040;
+            --shadow-sm:    0 2px 8px  rgba(92,45,10,.12);
+            --shadow-md:    0 6px 24px rgba(92,45,10,.16);
+            --shadow-lg:    0 16px 48px rgba(92,45,10,.20);
+            --r-sm: 10px; --r-md: 16px; --r-lg: 24px; --r-xl: 40px;
+            --font-d: 'Playfair Display', Georgia, serif;
+            --font-u: 'Nunito', sans-serif;
+            --ease: cubic-bezier(.4,0,.2,1);
+        }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        html{scroll-behavior:smooth}
+        body{font-family:var(--font-u);background:var(--cream);color:var(--text-dark);overflow-x:hidden}
+        img{max-width:100%;display:block}
+        a{text-decoration:none;color:inherit}
+        ul{list-style:none}
+        button{border:none;cursor:pointer;font-family:var(--font-u)}
+
+        .kente-bar{height:8px;background:repeating-linear-gradient(90deg,#D4580A 0px,#D4580A 20px,#2A6B35 20px,#2A6B35 40px,#C8901A 40px,#C8901A 60px,#8B4513 60px,#8B4513 80px,#E8761A 80px,#E8761A 100px,#3A8B47 100px,#3A8B47 120px)}
+        .kente-bar-thin{height:4px;background:repeating-linear-gradient(90deg,#D4580A 0,#D4580A 14px,#2A6B35 14px,#2A6B35 28px,#C8901A 28px,#C8901A 42px,#8B4513 42px,#8B4513 56px)}
+        .wax-cream{background-color:var(--cream);background-image:url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cpolygon points='32,4 60,32 32,60 4,32' stroke='%23D4580A' stroke-width='1.2' stroke-opacity='0.09'/%3E%3Ccircle cx='32' cy='32' r='9' stroke='%232A6B35' stroke-width='1' stroke-opacity='0.07'/%3E%3Ccircle cx='0' cy='0' r='4' fill='%23D4580A' fill-opacity='0.06'/%3E%3Ccircle cx='64' cy='64' r='4' fill='%23D4580A' fill-opacity='0.06'/%3E%3C/g%3E%3C/svg%3E")}
+        .wax-beige{background-color:var(--beige);background-image:url("data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Crect x='4' y='4' width='40' height='40' rx='4' stroke='%238B4513' stroke-width='.8' stroke-opacity='0.10'/%3E%3Ccircle cx='24' cy='24' r='8' fill='%23D4580A' fill-opacity='0.06'/%3E%3Cline x1='4' y1='24' x2='44' y2='24' stroke='%238B4513' stroke-width='.6' stroke-opacity='0.08'/%3E%3Cline x1='24' y1='4' x2='24' y2='44' stroke='%238B4513' stroke-width='.6' stroke-opacity='0.08'/%3E%3C/g%3E%3C/svg%3E")}
+        .wax-kente-green{background-color:#1A4A22;background-image:repeating-linear-gradient(0deg,transparent,transparent 18px,rgba(255,255,255,.06) 18px,rgba(255,255,255,.06) 20px),repeating-linear-gradient(90deg,transparent,transparent 18px,rgba(255,255,255,.06) 18px,rgba(255,255,255,.06) 20px),url("data:image/svg+xml,%3Csvg width='36' height='36' viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='18' height='18' fill='%23FFFFFF' fill-opacity='0.04'/%3E%3Crect x='18' y='18' width='18' height='18' fill='%23FFFFFF' fill-opacity='0.04'/%3E%3Ccircle cx='18' cy='18' r='5' stroke='%23E8B020' stroke-width='1' stroke-opacity='0.14' fill='none'/%3E%3C/svg%3E")}
+        .wax-ankara-orange{background-color:var(--orange);background-image:url("data:image/svg+xml,%3Csvg width='56' height='56' viewBox='0 0 56 56' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cpolygon points='28,4 52,28 28,52 4,28' stroke='%23FFFFFF' stroke-width='1.2' stroke-opacity='0.18'/%3E%3Ccircle cx='28' cy='28' r='8' stroke='%23FFFFFF' stroke-width='1' stroke-opacity='0.14'/%3E%3C/g%3E%3C/svg%3E")}
+
+        .section-title{font-family:var(--font-d);font-size:clamp(1.5rem,3.5vw,2.2rem);color:var(--brown);line-height:1.2}
+        .section-title::after{content:'';display:block;width:48px;height:3px;border-radius:2px;background:var(--orange);margin-top:6px}
+        .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;letter-spacing:.04em}
+        .badge-orange{background:var(--orange-pale);color:var(--orange)}
+        .badge-green{background:var(--green-pale);color:var(--green)}
+        .badge-gold{background:#FEF3D0;color:var(--gold)}
+        .btn{display:inline-flex;align-items:center;gap:7px;padding:11px 26px;border-radius:var(--r-xl);font-size:.9rem;font-weight:700;transition:all .28s var(--ease)}
+        .btn-primary{background:var(--orange);color:var(--white);box-shadow:0 4px 16px rgba(212,88,10,.35)}
+        .btn-primary:hover{background:var(--orange2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(212,88,10,.45)}
+        .btn-outline{border:2px solid var(--orange);color:var(--orange);background:transparent}
+        .btn-outline:hover{background:var(--orange-pale)}
+        .reveal{opacity:0;transform:translateY(26px);transition:opacity .65s var(--ease),transform .65s var(--ease)}
+        .reveal.in{opacity:1;transform:translateY(0)}
+
+        /* HEADER */
+        .header{position:sticky;top:0;z-index:1000;background:var(--white);box-shadow:var(--shadow-sm)}
+        .header-announce{background:var(--green);color:var(--white);text-align:center;padding:6px 16px;font-size:.78rem;font-weight:600}
+        .header-announce strong{color:var(--gold2)}
+        .navbar{max-width:1280px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px}
+        .logo{display:flex;align-items:center;gap:9px;flex-shrink:0}
+        .logo-emblem{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;background:linear-gradient(135deg,var(--orange),var(--brown));overflow:hidden}
+        .logo-text{font-family:var(--font-d);font-size:1.45rem;font-weight:900;color:var(--brown)}
+        .logo-text em{color:var(--orange);font-style:normal}
+        .search-bar{flex:1;max-width:520px;display:flex;align-items:center;gap:8px;background:var(--beige);border:2px solid transparent;border-radius:var(--r-xl);padding:8px 14px;transition:all .25s var(--ease)}
+        .search-bar:focus-within{border-color:var(--orange);background:var(--white);box-shadow:0 0 0 4px rgba(212,88,10,.10)}
+        .search-bar input{border:none;background:transparent;font-family:var(--font-u);font-size:.88rem;flex:1;outline:none;color:var(--text-dark)}
+        .search-bar input::placeholder{color:var(--text-light)}
+        .search-btn{background:var(--orange);color:var(--white);border-radius:20px;padding:4px 14px;font-size:.8rem;font-weight:700;transition:all .2s}
+        .search-btn:hover{background:var(--orange2)}
+        .nav-icons{display:flex;align-items:center;gap:2px;flex-shrink:0}
+        .nav-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem;color:var(--brown);background:transparent;position:relative;transition:all .2s var(--ease);cursor:pointer;text-decoration:none}
+        .nav-icon:hover{background:var(--beige);color:var(--orange)}
+        .nav-icon .dot{position:absolute;top:4px;right:4px;width:16px;height:16px;border-radius:50%;background:var(--orange);color:var(--white);font-size:.58rem;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--white)}
+        .nav-cats{border-top:1px solid var(--beige2);overflow-x:auto;scrollbar-width:none}
+        .nav-cats::-webkit-scrollbar{display:none}
+        .nav-cats-inner{max-width:1280px;margin:0 auto;padding:8px 20px;display:flex;gap:6px}
+        .cat-pill{flex-shrink:0;padding:5px 15px;border-radius:var(--r-xl);font-size:.8rem;font-weight:600;color:var(--text-mid);background:var(--beige);cursor:pointer;white-space:nowrap;transition:all .22s var(--ease);border:1.5px solid transparent}
+        .cat-pill:hover,.cat-pill.active{background:var(--orange);color:var(--white)}
+
+        /* HERO */
+        .hero{position:relative;min-height:90vh;display:flex;align-items:center;overflow:hidden}
+        .hero-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(150deg,#1C5228 0%,#143820 35%,#0C2814 65%,#060E08 100%)}
+        .hero-bg::before{content:'';position:absolute;inset:0;z-index:1;background-image:url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cpolygon points='50,6 94,50 50,94 6,50' stroke='%23E8761A' stroke-width='1.6' stroke-opacity='0.22'/%3E%3Ccircle cx='50' cy='50' r='14' stroke='%23E8761A' stroke-width='1.2' stroke-opacity='0.16'/%3E%3Ccircle cx='50' cy='50' r='5' fill='%23C8901A' fill-opacity='0.18'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+        .hero-bg::after{content:'';position:absolute;inset:0;z-index:2;background-image:repeating-linear-gradient(45deg,transparent 0,transparent 8px,rgba(200,144,26,.05) 8px,rgba(200,144,26,.05) 9px),repeating-linear-gradient(-45deg,transparent 0,transparent 8px,rgba(42,107,53,.04) 8px,rgba(42,107,53,.04) 9px);pointer-events:none}
+        .hero-band-l,.hero-band-r{position:absolute;top:0;bottom:0;z-index:4;width:72px;pointer-events:none}
+        .hero-band-l{left:0;background:repeating-linear-gradient(180deg,#D4580A 0px,#D4580A 10px,#2A6B35 10px,#2A6B35 20px,#C8901A 20px,#C8901A 30px,#8B4513 30px,#8B4513 40px,#E8761A 40px,#E8761A 50px,#3A8B47 50px,#3A8B47 60px);opacity:.60}
+        .hero-band-r{right:0;background:repeating-linear-gradient(180deg,#3A8B47 0px,#3A8B47 10px,#E8761A 10px,#E8761A 20px,#8B4513 20px,#8B4513 30px,#C8901A 30px,#C8901A 40px,#2A6B35 40px,#2A6B35 50px,#D4580A 50px,#D4580A 60px);opacity:.60}
+        .hero-band-l::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent 55%,rgba(6,14,8,.98))}
+        .hero-band-r::after{content:'';position:absolute;inset:0;background:linear-gradient(-90deg,transparent 55%,rgba(6,14,8,.98))}
+        .hero-band-b{position:absolute;bottom:0;left:0;right:0;height:10px;z-index:5;background:repeating-linear-gradient(90deg,#D4580A 0,#D4580A 18px,#2A6B35 18px,#2A6B35 36px,#C8901A 36px,#C8901A 54px,#8B4513 54px,#8B4513 72px,#E8761A 72px,#E8761A 90px);opacity:.70}
+        .hero-inner{position:relative;z-index:10;max-width:1280px;margin:0 auto;padding:60px 100px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+        .hero-text{color:var(--white)}
+        .hero-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(200,144,26,.25);border:1px solid rgba(200,144,26,.5);color:var(--gold2);padding:5px 14px;border-radius:20px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:20px;animation:fadeUp .8s ease both}
+        .hero-h1{font-family:var(--font-d);font-size:clamp(2rem,5vw,3.6rem);line-height:1.15;margin-bottom:18px;animation:fadeUp .8s .12s ease both}
+        .hero-h1 em{font-style:italic;color:var(--gold2);display:block}
+        .hero-sub{font-size:1rem;line-height:1.75;color:rgba(255,255,255,.75);max-width:460px;margin-bottom:34px;animation:fadeUp .8s .24s ease both}
+        .hero-cta{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp .8s .36s ease both}
+        .hero-stats{display:flex;gap:28px;margin-top:44px;animation:fadeUp .8s .48s ease both}
+        .hero-stat-n{font-family:var(--font-d);font-size:1.9rem;font-weight:900;color:var(--gold2)}
+        .hero-stat-l{font-size:.75rem;color:rgba(255,255,255,.6);margin-top:2px}
+        .hero-card{background:rgba(255,255,255,.11);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.20);border-radius:var(--r-lg);overflow:hidden;animation:fadeUp .8s .20s ease both}
+        .hero-card::before{content:'';display:block;height:4px;background:repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 14px,var(--green) 14px,var(--green) 28px,var(--gold) 28px,var(--gold) 42px,var(--brown2) 42px,var(--brown2) 56px)}
+        .hero-card-head{padding:14px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid rgba(255,255,255,.12)}
+        .hero-card-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--brown));display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+        .hero-card-name{font-weight:700;color:var(--white);font-size:.92rem}
+        .hero-card-stars{color:var(--gold2);font-size:.78rem}
+        .hero-card-sub{font-size:.72rem;color:rgba(255,255,255,.60)}
+        .hero-card-img{aspect-ratio:16/10;position:relative;overflow:hidden}
+        .hero-card-tag{position:absolute;top:10px;left:10px;background:var(--orange);color:var(--white);font-size:.68rem;font-weight:800;padding:3px 10px;border-radius:20px;z-index:1}
+        .hero-card-body{padding:13px 16px 16px}
+        .hero-card-price{font-family:var(--font-d);font-size:1.15rem;font-weight:700;color:var(--gold2)}
+        .hero-card-btn{width:100%;margin-top:11px;padding:10px;background:linear-gradient(90deg,var(--orange),var(--orange2));color:var(--white);border-radius:var(--r-sm);font-weight:700;font-size:.86rem;transition:all .22s var(--ease)}
+        .hero-card-btn:hover{opacity:.9;transform:translateY(-1px)}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+        /* SECTIONS */
+        .section{padding:64px 20px}
+        .section-inner{max-width:1280px;margin:0 auto}
+        .sec-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;gap:16px}
+        .sec-link{font-size:.85rem;font-weight:700;color:var(--orange)}
+        .sec-link:hover{color:var(--orange2)}
+
+        /* CATEGORIES */
+        .cats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:14px}
+        .cat-card{background:var(--white);border-radius:var(--r-md);padding:22px 14px;text-align:center;cursor:pointer;border:2px solid transparent;position:relative;overflow:hidden;transition:all .28s var(--ease);box-shadow:var(--shadow-sm)}
+        .cat-card:hover{border-color:var(--orange);transform:translateY(-4px);box-shadow:var(--shadow-md)}
+        .cat-card:hover .cat-ico{background:var(--orange)}
+        .cat-ico{width:50px;height:50px;border-radius:50%;background:var(--beige);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 9px;transition:all .28s var(--ease)}
+        .cat-name{font-size:.84rem;font-weight:700;color:var(--text-mid)}
+        .cat-count{font-size:.69rem;color:var(--text-light);margin-top:3px}
+
+        /* FLASH */
+        .flash-banner{position:relative;overflow:hidden}
+        .flash-inner{position:relative;z-index:1;max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+        .flash-inner h3{font-family:var(--font-d);font-size:1.5rem;color:var(--white)}
+        .flash-inner p{color:rgba(255,255,255,.80);font-size:.87rem;margin-top:4px}
+        .flash-timer{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);color:var(--white);padding:6px 17px;border-radius:var(--r-xl);font-size:.84rem;font-weight:700}
+
+        /* ===================================================
+           PRODUITS — VRAIES IMAGES (remplacement des émojis)
+        =================================================== */
+        .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:18px}
+        .product-card{background:var(--white);border-radius:var(--r-md);overflow:hidden;box-shadow:var(--shadow-sm);transition:all .28s var(--ease);cursor:pointer;border:2px solid transparent}
+        .product-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);border-color:var(--beige2)}
+
+        /* Zone image avec vraie photo */
+        .prod-img{aspect-ratio:3/4;position:relative;overflow:hidden}
+        .prod-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s var(--ease)}
+        .product-card:hover .prod-img img{transform:scale(1.07)}
+
+        .prod-overlay{position:absolute;inset:0;background:rgba(92,45,10,0);display:flex;align-items:center;justify-content:center;gap:7px;transition:background .28s var(--ease);z-index:2}
+        .product-card:hover .prod-overlay{background:rgba(92,45,10,.16)}
+        .prod-btn{width:34px;height:34px;border-radius:50%;background:var(--white);color:var(--brown);display:flex;align-items:center;justify-content:center;font-size:.85rem;opacity:0;transform:translateY(7px);transition:all .24s var(--ease);box-shadow:var(--shadow-sm)}
+        .product-card:hover .prod-btn{opacity:1;transform:translateY(0)}
+        .prod-btn:hover{background:var(--orange);color:var(--white)}
+        .prod-badge-pos{position:absolute;top:8px;left:8px;z-index:3}
+        .prod-info{padding:10px 12px 13px}
+        .prod-name{font-size:.84rem;font-weight:700;color:var(--text-dark);line-height:1.3;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+        .prod-row{display:flex;align-items:center;justify-content:space-between}
+        .prod-price{font-family:var(--font-d);font-size:.98rem;font-weight:700;color:var(--orange)}
+        .prod-old{font-size:.7rem;color:var(--text-light);text-decoration:line-through;margin-left:3px}
+        .prod-rating{font-size:.7rem;color:var(--text-light);display:flex;align-items:center;gap:2px}
+        .prod-rating .s{color:#E8B020}
+        .prod-seller{font-size:.68rem;color:var(--text-light);margin-top:3px}
+        .prod-seller a{color:var(--green);font-weight:700;text-decoration:none}
+        .prod-seller a:hover{color:var(--green2)}
+
+        /* SELLERS */
+        .sellers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(208px,1fr));gap:18px}
+        .seller-card{background:var(--white);border-radius:var(--r-md);padding:22px 17px 18px;text-align:center;box-shadow:var(--shadow-sm);cursor:pointer;position:relative;overflow:hidden;transition:all .28s var(--ease)}
+        .seller-card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 12px,var(--green) 12px,var(--green) 24px,var(--gold) 24px,var(--gold) 36px,var(--brown2) 36px,var(--brown2) 48px)}
+        .seller-card::after{content:'';position:absolute;top:0;left:0;right:0;height:65px;background:linear-gradient(160deg,var(--orange-pale),var(--beige));z-index:0}
+        .seller-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-md)}
+        .seller-av{width:66px;height:66px;border-radius:50%;background:var(--beige2);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 10px;border:3px solid var(--white);box-shadow:var(--shadow-sm);position:relative;z-index:1}
+        .seller-name{font-family:var(--font-d);font-size:1rem;font-weight:700;color:var(--brown);margin-bottom:3px}
+        .seller-spec{font-size:.73rem;color:var(--text-light);margin-bottom:9px}
+        .seller-badges{display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+        .her-score{display:flex;align-items:center;justify-content:center;gap:4px;font-size:.76rem;font-weight:700;color:var(--brown);margin-bottom:11px}
+        .her-score .s{color:#E8B020}
+        .seller-stats{display:flex;justify-content:center;gap:18px;border-top:1px solid var(--beige2);padding-top:10px}
+        .ss-n{font-weight:800;color:var(--brown);font-size:.86rem}
+        .ss-l{font-size:.66rem;color:var(--text-light)}
+
+        /* TRUST */
+        .trust-inner{position:relative;z-index:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:28px}
+        .trust-item{text-align:center;padding:14px}
+        .trust-ico{width:60px;height:60px;border-radius:50%;background:rgba(200,144,26,.20);border:2px solid rgba(200,144,26,.38);display:flex;align-items:center;justify-content:center;font-size:1.55rem;margin:0 auto 13px;transition:all .28s var(--ease)}
+        .trust-item:hover .trust-ico{background:rgba(200,144,26,.35);transform:scale(1.08)}
+        .trust-title{font-family:var(--font-d);font-size:1.05rem;color:var(--white);margin-bottom:7px}
+        .trust-desc{font-size:.82rem;color:rgba(255,255,255,.62);line-height:1.65}
+        .mama-pay{display:inline-block;background:var(--orange);color:var(--white);font-weight:800;font-size:.7rem;padding:2px 8px;border-radius:4px;margin-top:6px}
+
+        /* NEWSLETTER */
+        .newsletter{padding:54px 20px;position:relative;overflow:hidden}
+        .newsletter-inner{max-width:540px;margin:0 auto;text-align:center;position:relative;z-index:1}
+        .newsletter h2{font-family:var(--font-d);font-size:1.85rem;color:var(--white);margin-bottom:10px}
+        .newsletter p{color:rgba(255,255,255,.76);margin-bottom:22px;font-size:.9rem}
+        .nl-form{display:flex;gap:9px;flex-wrap:wrap;justify-content:center}
+        .nl-input{flex:1;min-width:196px;padding:11px 17px;border-radius:var(--r-xl);border:2px solid transparent;outline:none;font-family:var(--font-u);font-size:.87rem;background:rgba(255,255,255,.17);color:var(--white);backdrop-filter:blur(8px);transition:all .22s}
+        .nl-input::placeholder{color:rgba(255,255,255,.58)}
+        .nl-input:focus{border-color:var(--gold2);background:rgba(255,255,255,.26)}
+        .nl-btn{padding:11px 24px;border-radius:var(--r-xl);background:var(--white);color:var(--orange);font-weight:800;font-size:.87rem;transition:all .22s}
+        .nl-btn:hover{background:var(--beige);transform:translateY(-2px)}
+
+        /* TOAST */
+        .toast{position:fixed;bottom:22px;right:22px;z-index:9999;background:var(--brown);color:var(--white);border-radius:var(--r-md);padding:12px 16px;display:flex;align-items:center;gap:9px;box-shadow:var(--shadow-lg);transform:translateY(68px);opacity:0;transition:all .35s var(--ease);max-width:290px}
+        .toast::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 10px,var(--green) 10px,var(--green) 20px,var(--gold) 20px,var(--gold) 30px);border-radius:var(--r-md) var(--r-md) 0 0}
+        .toast.show{transform:translateY(0);opacity:1}
+        .toast strong{display:block;font-size:.87rem}
+        .toast span{font-size:.73rem;opacity:.8}
+
+        /* SCROLL TOP */
+        .scroll-top{position:fixed;bottom:78px;right:18px;z-index:998;width:40px;height:40px;border-radius:50%;background:var(--orange);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:.95rem;box-shadow:var(--shadow-md);opacity:0;pointer-events:none;transition:all .28s}
+        .scroll-top.on{opacity:1;pointer-events:all}
+        .scroll-top:hover{background:var(--orange2);transform:translateY(-3px)}
+
+        /* MOBILE NAV */
+        .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:var(--white);border-top:1px solid var(--beige2);padding:7px 0 max(7px,env(safe-area-inset-bottom))}
+        .mnav-inner{display:flex;justify-content:space-around}
+        .mnav-item{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.61rem;color:var(--text-light);cursor:pointer;padding:3px 10px;transition:color .2s}
+        .mnav-item.active,.mnav-item:hover{color:var(--orange)}
+        .mnav-item .mi{font-size:1.2rem}
+
+        /* FOOTER */
+        .footer{background:var(--text-dark);color:rgba(255,255,255,.70)}
+        .footer-top{max-width:1280px;margin:0 auto;padding:50px 20px 34px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:34px}
+        .ft-logo-row{display:flex;align-items:center;gap:8px;margin-bottom:13px}
+        .ft-logo-ico{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--orange),var(--brown2));display:flex;align-items:center;justify-content:center;font-size:.92rem}
+        .ft-logo-text{font-family:var(--font-d);font-size:1.2rem;font-weight:900;color:var(--white)}
+        .ft-logo-text em{color:var(--orange2);font-style:normal}
+        .ft-desc{font-size:.82rem;line-height:1.7;margin-bottom:17px}
+        .ft-socs{display:flex;gap:8px}
+        .ft-soc{width:33px;height:33px;border-radius:7px;background:rgba(255,255,255,.10);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .2s}
+        .ft-soc:hover{background:var(--orange)}
+        .ft-col h4{color:var(--white);font-size:.86rem;font-weight:700;margin-bottom:13px;letter-spacing:.04em}
+        .ft-col li{margin-bottom:8px}
+        .ft-col li a{font-size:.82rem;color:rgba(255,255,255,.56);transition:color .2s}
+        .ft-col li a:hover{color:var(--orange2)}
+        .footer-bottom{border-top:1px solid rgba(255,255,255,.07);max-width:1280px;margin:0 auto;padding:17px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+        .footer-bottom p{font-size:.77rem}
+        .pay-tags{display:flex;gap:6px}
+        .pay-tag{background:rgba(255,255,255,.10);color:rgba(255,255,255,.72);padding:3px 9px;border-radius:4px;font-size:.68rem;font-weight:700}
+
+        /* RESPONSIVE */
+        @media(max-width:960px){
+            .hero-inner{grid-template-columns:1fr;padding:60px 40px}
+            .hero-card{display:none}
+            .hero{min-height:70vh}
+            .footer-top{grid-template-columns:1fr 1fr}
+        }
+        @media(max-width:640px){
+            .header-announce{display:none}
+            .navbar{padding:10px 14px}
+            .search-bar{display:none}
+            .section{padding:44px 14px}
+            .hero-inner{padding:48px 20px}
+            .hero-band-l,.hero-band-r{width:36px}
+            .products-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+            .sellers-grid{grid-template-columns:repeat(2,1fr)}
+            .cats-grid{grid-template-columns:repeat(3,1fr)}
+            .trust-inner{grid-template-columns:1fr 1fr}
+            .footer-top{grid-template-columns:1fr;gap:22px}
+            .mobile-nav{display:block}
+            body{padding-bottom:62px}
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header" id="hdr">
+    <div class="kente-bar-thin"></div>
+    <div class="header-announce">
+        🎉 Livraison gratuite dès <strong>15 000 FCFA</strong> · Code : <strong>MAMA2025</strong> · Livraison 24h à Abidjan
+    </div>
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <div class="logo-emblem">🌺</div>
+            <div class="logo-text">Mama<em>Market</em></div>
+        </a>
+        <div class="search-bar">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="color:var(--text-light);flex-shrink:0"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input type="text" placeholder="Rechercher robes wax, karité, bijoux…"/>
+            <button class="search-btn">Chercher</button>
+        </div>
+        <div class="nav-icons">
+            <a href="login.html" class="nav-icon" title="Connexion">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            </a>
+            <button class="nav-icon" title="Favoris">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+            </button>
+            <a href="panier.html" class="nav-icon" title="Mon panier">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                <span class="dot" id="cartDot">3</span>
+            </a>
+        </div>
+    </nav>
+    <div class="nav-cats">
+        <div class="nav-cats-inner">
+            <div class="cat-pill active">Tout</div>
+            <div class="cat-pill">👗 Mode</div>
+            <div class="cat-pill">💄 Beauté</div>
+            <div class="cat-pill">🍱 Nourriture</div>
+            <div class="cat-pill">🧺 Artisanat</div>
+            <div class="cat-pill">💎 Bijoux</div>
+            <div class="cat-pill">🌿 Bien-être</div>
+            <div class="cat-pill">🏠 Maison</div>
+            <div class="cat-pill">👶 Enfants</div>
+            <div class="cat-pill">🍍 Fruits</div>
+            <div class="cat-pill">🥬 Légumes</div>
+            <div class="cat-pill">⚡ Flash Deals</div>
+        </div>
+    </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-band-l"></div>
+    <div class="hero-band-r"></div>
+    <div class="hero-band-b"></div>
+    <div class="hero-inner">
+        <div class="hero-text">
+            <div class="hero-pill">🌍 Marketplace #1 – Côte d'Ivoire</div>
+            <h1 class="hero-h1">Achetez local,<br/><em>soutenez les femmes</em></h1>
+            <p class="hero-sub">Découvrez des milliers de produits authentiques créés par des femmes entrepreneures ivoiriennes — mode wax, beauté naturelle, artisanat et plus.</p>
+            <div class="hero-cta">
+                <a href="produits.html" class="btn btn-primary" style="font-size:1rem;padding:14px 32px;">🛍️ Découvrir</a>
+                <a href="signup.html" class="btn" style="background:rgba(255,255,255,.14);color:#fff;border:2px solid rgba(255,255,255,.28);backdrop-filter:blur(8px);">Devenir vendeuse →</a>
+            </div>
+            <div class="hero-stats">
+                <div><div class="hero-stat-n">4 200+</div><div class="hero-stat-l">Vendeuses actives</div></div>
+                <div><div class="hero-stat-n">38K+</div><div class="hero-stat-l">Produits listés</div></div>
+                <div><div class="hero-stat-n">97%</div><div class="hero-stat-l">Clients satisfaits</div></div>
+            </div>
+        </div>
+        <div class="hero-card">
+            <div class="hero-card-head">
+                <div class="hero-card-av">👩🏾</div>
+                <div>
+                    <div class="hero-card-name">Aminata Couture</div>
+                    <div class="hero-card-stars">⭐⭐⭐⭐⭐</div>
+                    <div class="hero-card-sub">130 ventes · Abidjan</div>
+                </div>
+                <div style="margin-left:auto;"><span class="badge badge-green" style="font-size:.66rem;">✓ Vérifiée</span></div>
+            </div>
+            <!--  VRAIE PHOTO hero card -->
+            <div class="hero-card-img">
+                <img src="photo/robe royal.jpeg"
+                        alt="Robe Wax Royale"
+                        style="width:100%;height:100%;object-fit:cover;"
+                        loading="lazy"
+                        onerror="this.src='https://picsum.photos/seed/hero/600/400'"/>
+                <div class="hero-card-tag">Top Vendeuse</div>
+            </div>
+            <div class="hero-card-body">
+                <div style="font-weight:700;color:var(--white);font-size:.9rem;margin-bottom:5px;">Robe Wax Royale – Printemps</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                    <div><span class="hero-card-price">15 000 FCFA</span><span style="font-size:.7rem;color:rgba(255,255,255,.5);text-decoration:line-through;margin-left:4px;">20 000</span></div>
+                    <span class="badge badge-orange" style="font-size:.66rem;">-25%</span>
+                </div>
+                <button class="hero-card-btn" onclick="window.location.href='paiement.html'">🔒 Acheter avec MamaPay</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="kente-bar"></div>
+
+<!-- ===== CATEGORIES ===== -->
+<section class="section wax-cream" id="categories">
+    <div class="section-inner">
+        <div class="sec-head reveal">
+            <div>
+                <h2 class="section-title">Explorer par catégorie</h2>
+                <p style="color:var(--text-light);margin-top:9px;font-size:.87rem;">Des créations ivoiriennes pour tous les goûts</p>
+            </div>
+            <a href="produits.html" class="sec-link">Tout voir →</a>
+        </div>
+        <div class="cats-grid reveal">
+            <div class="cat-card"><div class="cat-ico">👗</div><div class="cat-name">Mode</div><div class="cat-count">8 420 articles</div></div>
+            <div class="cat-card"><div class="cat-ico">💄</div><div class="cat-name">Beauté</div><div class="cat-count">3 150 articles</div></div>
+            <div class="cat-card"><div class="cat-ico">🍱</div><div class="cat-name">Nourriture</div><div class="cat-count">2 300 articles</div></div>
+            <div class="cat-card"><div class="cat-ico">🧺</div><div class="cat-name">Artisanat</div><div class="cat-count">5 670 articles</div></div>
+            <div class="cat-card"><div class="cat-ico">💎</div><div class="cat-name">Bijoux</div><div class="cat-count">1 980 articles</div></div>
+            <div class="cat-card"><div class="cat-ico">🌿</div><div class="cat-name">Bien-être</div><div class="cat-count">900 articles</div></div>
+            <div class="cat-card"><div class="cat-ico">🏠</div><div class="cat-name">Maison</div><div class="cat-count">3 200 articles</div></div>
+            <div class="cat-card"><div class="cat-ico">👶</div><div class="cat-name">Enfants</div><div class="cat-count">1 450 articles</div></div>
+        </div>
+    </div>
+</section>
+
+<div class="kente-bar-thin"></div>
+
+<!-- ===== FLASH BANNER ===== -->
+<section class="section flash-banner wax-ankara-orange" style="padding:26px 20px;">
+    <div class="flash-inner">
+        <div>
+            <h3>🔥 Flash Sale – Aujourd'hui seulement !</h3>
+            <p>Jusqu'à -50% sur les collections pagnes &amp; accessoires</p>
+        </div>
+        <div style="display:flex;gap:11px;align-items:center;flex-wrap:wrap;">
+            <div class="flash-timer" id="flashTimer">⏰ 04:32:17</div>
+            <a href="produits.html" class="btn" style="background:var(--white);color:var(--orange);font-size:.87rem;padding:9px 20px;font-weight:800;">Voir les offres</a>
+        </div>
+    </div>
+</section>
+
+<div class="kente-bar-thin"></div>
+
+<!-- ===== PRODUCTS ===== -->
+<section class="section wax-cream" id="products">
+    <div class="section-inner">
+        <div class="sec-head reveal">
+            <div>
+                <h2 class="section-title">Produits Populaires</h2>
+                <p style="color:var(--text-light);margin-top:9px;font-size:.87rem;">Les best-sellers de notre communauté</p>
+            </div>
+            <a href="produits.html" class="sec-link">Voir tout →</a>
+        </div>
+        <div class="products-grid reveal">
+
+            <!-- ✅ PRODUIT 1 — Robe Kente -->
+            <div class="product-card">
+                <div class="prod-img">
+                    <img src="photo/robe kente.jpg"
+                        alt="Robe Kente Royale" loading="lazy"
+                        onerror="this.src='https://picsum.photos/seed/p1/400/530'"/>
+                    <div class="prod-overlay">
+                        <button class="prod-btn" onclick="event.stopPropagation();toggleFav(this)">♡</button>
+                        <button class="prod-btn" onclick="event.stopPropagation()">👁</button>
+                        <button class="prod-btn" onclick="event.stopPropagation();addToCart('Robe Kente Royale')">🛒</button>
+                    </div>
+                    <div class="prod-badge-pos"><span class="badge badge-orange">-20%</span></div>
+                </div>
+                <div class="prod-info">
+                    <div class="prod-name">Robe Kente Royale – Collection Printemps</div>
+                    <div class="prod-row"><div><span class="prod-price">24 500 FCFA</span><span class="prod-old">30 500</span></div><div class="prod-rating"><span class="s">⭐</span>4.9(128)</div></div>
+                    <div class="prod-seller">Par <a href="boutique.html">Mama Fatou ✓</a></div>
+                </div>
+            </div>
+
+            <!-- ✅ PRODUIT 2 — Beurre Karité -->
+            <div class="product-card">
+                <div class="prod-img">
+                    <img src="photo/beurre de karité.jpg"
+                            alt="Beurre Karité Bio" loading="lazy"
+                            onerror="this.src='beurre'"/>
+                    <div class="prod-overlay">
+                        <button class="prod-btn" onclick="event.stopPropagation();toggleFav(this)">♡</button>
+                        <button class="prod-btn" onclick="event.stopPropagation()">👁</button>
+                        <button class="prod-btn" onclick="event.stopPropagation();addToCart('Beurre Karité Bio')">🛒</button>
+                    </div>
+                    <div class="prod-badge-pos"><span class="badge badge-green">Nouveau</span></div>
+                </div>
+                <div class="prod-info">
+                    <div class="prod-name">Beurre de Karité Pur Bio 250g</div>
+                    <div class="prod-row"><span class="prod-price">5 200 FCFA</span><div class="prod-rating"><span class="s">⭐</span>4.8(247)</div></div>
+                    <div class="prod-seller">Par <a href="boutique.html">Mama Adjoa ✓</a></div>
+                </div>
+            </div>
+
+            <!-- ✅ PRODUIT 3 — Panier Tressé -->
+            <div class="product-card">
+                <div class="prod-img">
+                    <img src="photo/panier.jpeg"
+                            alt="Panier Tressé" loading="lazy"
+                            onerror="this.src='panier'"/>
+                    <div class="prod-overlay">
+                        <button class="prod-btn" onclick="event.stopPropagation();toggleFav(this)">♡</button>
+                        <button class="prod-btn" onclick="event.stopPropagation()">👁</button>
+                        <button class="prod-btn" onclick="event.stopPropagation();addToCart('Panier Tressé')">🛒</button>
+                    </div>
+                    <div class="prod-badge-pos"><span class="badge badge-orange">Top vente</span></div>
+                </div>
+                <div class="prod-info">
+                    <div class="prod-name">Panier Tressé Artisanal Grand Format</div>
+                    <div class="prod-row"><span class="prod-price">12 800 FCFA</span><div class="prod-rating"><span class="s">⭐</span>4.7(89)</div></div>
+                    <div class="prod-seller">Par <a href="boutique.html">Mama Koné ✓</a></div>
+                </div>
+            </div>
+
+            <!--  PRODUIT 4 — Huile Coco -->
+            <div class="product-card">
+                <div class="prod-img">
+                    <img src="photo/huile.jpeg"
+                            alt="Huile de Coco" loading="lazy"
+                            onerror="this.src='huile'"/>
+                    <div class="prod-overlay">
+                        <button class="prod-btn" onclick="event.stopPropagation();toggleFav(this)">♡</button>
+                        <button class="prod-btn" onclick="event.stopPropagation()">👁</button>
+                        <button class="prod-btn" onclick="event.stopPropagation();addToCart('Huile Coco')">🛒</button>
+                    </div>
+                </div>
+                <div class="prod-info">
+                    <div class="prod-name">Huile de Coco Pressée à Froid 200ml</div>
+                    <div class="prod-row"><span class="prod-price">3 500 FCFA</span><div class="prod-rating"><span class="s">⭐</span>5.0(312)</div></div>
+                    <div class="prod-seller">Par <a href="boutique.html">Mama Aminata ✓</a></div>
+                </div>
+            </div>
+
+            <!--  PRODUIT 5 — Collier Perles -->
+            <div class="product-card">
+                <div class="prod-img">
+                    <img src="photo/colier perle.jpeg"
+                            alt="Collier Perles Africaines" loading="lazy"
+                            onerror="this.src='colier'"/>
+                    <div class="prod-overlay">
+                        <button class="prod-btn" onclick="event.stopPropagation();toggleFav(this)">♡</button>
+                        <button class="prod-btn" onclick="event.stopPropagation()">👁</button>
+                        <button class="prod-btn" onclick="event.stopPropagation();addToCart('Collier Perles')">🛒</button>
+                    </div>
+                    <div class="prod-badge-pos"><span class="badge badge-orange">-15%</span></div>
+                </div>
+                <div class="prod-info">
+                    <div class="prod-name">Collier Perles Africaines Fait Main</div>
+                    <div class="prod-row"><div><span class="prod-price">8 500 FCFA</span><span class="prod-old">10 000</span></div><div class="prod-rating"><span class="s">⭐</span>4.6(54)</div></div>
+                    <div class="prod-seller">Par <a href="boutique.html">Mama Diallo ✓</a></div>
+                </div>
+            </div>
+
+            <!-- ✅ PRODUIT 6 — Attiéké -->
+            <div class="product-card">
+                <div class="prod-img">
+                    <img src="photo/attieké.jpeg"
+                            alt="Attiéké Premium" loading="lazy"
+                            onerror="this.src='attieke'"/>
+                    <div class="prod-overlay">
+                        <button class="prod-btn" onclick="event.stopPropagation();toggleFav(this)">♡</button>
+                        <button class="prod-btn" onclick="event.stopPropagation()">👁</button>
+                        <button class="prod-btn" onclick="event.stopPropagation();addToCart('Attiéké Premium')">🛒</button>
+                    </div>
+                    <div class="prod-badge-pos"><span class="badge badge-green">Bio</span></div>
+                </div>
+                <div class="prod-info">
+                    <div class="prod-name">Attiéké Premium Garba – 1kg</div>
+                    <div class="prod-row"><span class="prod-price">2 800 FCFA</span><div class="prod-rating"><span class="s">⭐</span>4.9(430)</div></div>
+                    <div class="prod-seller">Par <a href="boutique.html">Mama Touré ✓</a></div>
+                </div>
+            </div>
+
+            <!-- PRODUIT 7 — Tenue Wax Enfant -->
+            <div class="product-card">
+                <div class="prod-img">
+                    <img src="photo/wax enafant.jpeg"
+                            alt="Tenue Wax Enfant" loading="lazy"
+                            onerror="this.src='wax'"/>
+                    <div class="prod-overlay">
+                        <button class="prod-btn" onclick="event.stopPropagation();toggleFav(this)">♡</button>
+                        <button class="prod-btn" onclick="event.stopPropagation()">👁</button>
+                        <button class="prod-btn" onclick="event.stopPropagation();addToCart('Tenue Wax Enfant')">🛒</button>
+                    </div>
+                </div>
+                <div class="prod-info">
+                    <div class="prod-name">Tenue Wax Enfant 2-8 ans Brodée</div>
+                    <div class="prod-row"><span class="prod-price">9 900 FCFA</span><div class="prod-rating"><span class="s">⭐</span>4.8(76)</div></div>
+                    <div class="prod-seller">Par <a href="boutique.html">Mama Bamba ✓</a></div>
+                </div>
+            </div>
+
+            <!-- PRODUIT 8 — Savon Noir -->
+            <div class="product-card">
+                <div class="prod-img">
+                    <img src="photo/savon noir.jpeg"
+                            alt="Savon Noir Africain" loading="lazy"
+                            onerror="this.src='savon'"/>
+                    <div class="prod-overlay">
+                        <button class="prod-btn" onclick="event.stopPropagation();toggleFav(this)">♡</button>
+                        <button class="prod-btn" onclick="event.stopPropagation()">👁</button>
+                        <button class="prod-btn" onclick="event.stopPropagation();addToCart('Savon Noir Africain')">🛒</button>
+                    </div>
+                    <div class="prod-badge-pos"><span class="badge badge-orange">Pack ×3</span></div>
+                </div>
+                <div class="prod-info">
+                    <div class="prod-name">Savon Noir Africain Traditionnel ×3</div>
+                    <div class="prod-row"><span class="prod-price">4 200 FCFA</span><div class="prod-rating"><span class="s">⭐</span>4.7(198)</div></div>
+                    <div class="prod-seller">Par <a href="boutique.html">Mama Doumbia ✓</a></div>
+                </div>
+            </div>
+
+        </div>
+        <div style="text-align:center;margin-top:30px;" class="reveal">
+            <a href="produits.html"><button class="btn btn-outline" style="font-size:.9rem;padding:12px 32px;">Voir plus de produits</button></a>
+        </div>
+    </div>
+</section>
+
+<div class="kente-bar"></div>
+
+<!-- ===== SELLERS ===== -->
+<section class="section wax-beige" id="sellers">
+    <div class="section-inner">
+        <div class="sec-head reveal">
+            <div>
+                <h2 class="section-title">Vendeuses Vedettes</h2>
+                <p style="color:var(--text-light);margin-top:9px;font-size:.87rem;">Entrepreneures vérifiées, passionnées et de confiance</p>
+            </div>
+            <a href="boutique.html" class="sec-link">Toutes les vendeuses →</a>
+        </div>
+        <div class="sellers-grid reveal">
+            <a href="boutique.html" style="text-decoration:none">
+                <div class="seller-card">
+                    <div class="seller-av">👩🏾</div>
+                    <div class="seller-name">Mama Aminata</div>
+                    <div class="seller-spec">Mode &amp; Pagnes Wax</div>
+                    <div class="seller-badges"><span class="badge badge-green">✓ Vérifiée</span><span class="badge badge-orange">Top Vendeuse</span></div>
+                    <div class="her-score"><span class="s">⭐</span> HerScore : 4.9</div>
+                    <div class="seller-stats">
+                        <div><div class="ss-n">1.2K</div><div class="ss-l">Ventes</div></div>
+                        <div><div class="ss-n">238</div><div class="ss-l">Avis</div></div>
+                        <div><div class="ss-n">3 ans</div><div class="ss-l">Membre</div></div>
+                    </div>
+                </div>
+            </a>
+            <a href="boutique.html" style="text-decoration:none">
+                <div class="seller-card">
+                    <div class="seller-av">👩🏿</div>
+                    <div class="seller-name">Mama Fatou</div>
+                    <div class="seller-spec">Beauté Naturelle</div>
+                    <div class="seller-badges"><span class="badge badge-green">✓ Vérifiée</span><span class="badge badge-green">Bio</span></div>
+                    <div class="her-score"><span class="s">⭐</span> HerScore : 4.8</div>
+                    <div class="seller-stats">
+                        <div><div class="ss-n">874</div><div class="ss-l">Ventes</div></div>
+                        <div><div class="ss-n">156</div><div class="ss-l">Avis</div></div>
+                        <div><div class="ss-n">2 ans</div><div class="ss-l">Membre</div></div>
+                    </div>
+                </div>
+            </a>
+            <a href="boutique.html" style="text-decoration:none">
+                <div class="seller-card">
+                    <div class="seller-av">👩🏽</div>
+                    <div class="seller-name">Mama Koné</div>
+                    <div class="seller-spec">Artisanat &amp; Vannerie</div>
+                    <div class="seller-badges"><span class="badge badge-green">✓ Vérifiée</span><span class="badge badge-gold">Artisan</span></div>
+                    <div class="her-score"><span class="s">⭐</span> HerScore : 4.7</div>
+                    <div class="seller-stats">
+                        <div><div class="ss-n">520</div><div class="ss-l">Ventes</div></div>
+                        <div><div class="ss-n">98</div><div class="ss-l">Avis</div></div>
+                        <div><div class="ss-n">1 an</div><div class="ss-l">Membre</div></div>
+                    </div>
+                </div>
+            </a>
+            <a href="boutique.html" style="text-decoration:none">
+                <div class="seller-card">
+                    <div class="seller-av">🧕🏾</div>
+                    <div class="seller-name">Mama Touré</div>
+                    <div class="seller-spec">Cuisine &amp; Épices</div>
+                    <div class="seller-badges"><span class="badge badge-green">✓ Vérifiée</span><span class="badge badge-orange">Productrice</span></div>
+                    <div class="her-score"><span class="s">⭐</span> HerScore : 5.0</div>
+                    <div class="seller-stats">
+                        <div><div class="ss-n">2.1K</div><div class="ss-l">Ventes</div></div>
+                        <div><div class="ss-n">410</div><div class="ss-l">Avis</div></div>
+                        <div><div class="ss-n">4 ans</div><div class="ss-l">Membre</div></div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="reveal" style="margin-top:34px;position:relative;overflow:hidden;border-radius:var(--r-lg);padding:32px 26px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;background:linear-gradient(135deg,var(--orange) 0%,var(--brown2) 100%);">
+            <div style="position:absolute;inset:0;pointer-events:none;background-image:url('data:image/svg+xml,%3Csvg width=%2250%22 height=%2250%22 viewBox=%220 0 50 50%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpolygon points=%2225,3 47,25 25,47 3,25%22 stroke=%22%23FFFFFF%22 stroke-width=%221%22 stroke-opacity=%220.16%22 fill=%22none%22/%3E%3C/svg%3E');"></div>
+            <div style="position:relative;z-index:1;">
+                <h3 style="font-family:var(--font-d);font-size:1.4rem;color:var(--white);margin-bottom:5px;">Tu es une femme entrepreneuse ?</h3>
+                <p style="color:rgba(255,255,255,.80);font-size:.87rem;">Rejoins <strong style="color:var(--gold2)">4 200+</strong> vendeuses vérifiées. Inscription gratuite, 0 FCFA.</p>
+            </div>
+            <a href="signup.html" class="btn" style="position:relative;z-index:1;background:var(--white);color:var(--orange);font-size:.9rem;padding:12px 26px;font-weight:800;border-radius:var(--r-xl);">🌺 Devenir vendeuse →</a>
+        </div>
+    </div>
+</section>
+
+<div class="kente-bar"></div>
+
+<!-- ===== TRUST ===== -->
+<section class="section wax-kente-green">
+    <div class="section-inner">
+        <div style="text-align:center;margin-bottom:42px;" class="reveal">
+            <h2 class="section-title" style="color:var(--white);display:inline-block;">Pourquoi nous faire confiance ?</h2>
+            <p style="color:rgba(255,255,255,.58);margin-top:13px;font-size:.88rem;">MamaMarket protège chaque transaction pour vous</p>
+        </div>
+        <div class="trust-inner reveal">
+            <div class="trust-item"><div class="trust-ico">🔒</div><div class="trust-title">Paiement Sécurisé</div><div class="trust-desc">Payez via <span class="mama-pay">MamaPay™</span> — Orange Money, Wave, CB. Votre argent est protégé jusqu'à livraison.</div></div>
+            <div class="trust-item"><div class="trust-ico">🚚</div><div class="trust-title">Livraison Garantie</div><div class="trust-desc">Partout en Côte d'Ivoire avec suivi en temps réel. Remboursement intégral si colis non reçu.</div></div>
+            <div class="trust-item"><div class="trust-ico">✅</div><div class="trust-title">Vendeuses Vérifiées</div><div class="trust-desc">Identité, qualité et fiabilité contrôlées manuellement par notre équipe pour votre tranquillité.</div></div>
+            <div class="trust-item"><div class="trust-ico">↩️</div><div class="trust-title">Retour Facile</div><div class="trust-desc">Produit non conforme ? Retour en 7 jours. Support disponible 7j/7 de 8h à 22h.</div></div>
+        </div>
+    </div>
+</section>
+
+<div class="kente-bar-thin"></div>
+
+<!-- ===== NEWSLETTER ===== -->
+<section class="newsletter wax-ankara-orange">
+    <div class="newsletter-inner reveal">
+        <div style="font-size:2rem;margin-bottom:7px;">💌</div>
+        <h2>Restez dans la boucle !</h2>
+        <p>Recevez les meilleures offres, nouvelles collections et histoires de femmes entrepreneures.</p>
+        <div class="nl-form">
+            <input class="nl-input" type="email" placeholder="Votre adresse e-mail…" id="nlEmail"/>
+            <button class="nl-btn" onclick="subscribe()">S'abonner 🌸</button>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+    <div class="kente-bar-thin"></div>
+    <div class="footer-top">
+        <div>
+            <div class="ft-logo-row">
+                <div class="ft-logo-ico">🌺</div>
+                <div class="ft-logo-text">Mama<em>Market</em></div>
+            </div>
+            <p class="ft-desc">La première marketplace ivoirienne dédiée aux femmes entrepreneures. Chaque achat soutient une femme, une famille, une communauté.</p>
+            <div class="ft-socs">
+                <a href="#" class="ft-soc">📘</a>
+                <a href="#" class="ft-soc">📸</a>
+                <a href="#" class="ft-soc">💬</a>
+                <a href="#" class="ft-soc">🎵</a>
+            </div>
+        </div>
+        <div class="ft-col">
+            <h4>Acheter</h4>
+            <ul>
+                <li><a href="produits.html">Nos Produits</a></li>
+                <li><a href="#">Nouveautés</a></li>
+                <li><a href="#">Promotions</a></li>
+                <li><a href="#">Flash Deals</a></li>
+            </ul>
+        </div>
+        <div class="ft-col">
+            <h4>Vendeuses</h4>
+            <ul>
+                <li><a href="signup.html">Rejoindre</a></li>
+                <li><a href="#">Formation</a></li>
+                <li><a href="#">MamaPay</a></li>
+                <li><a href="#">HerScore</a></li>
+            </ul>
+        </div>
+        <div class="ft-col">
+            <h4>Aide</h4>
+            <ul>
+                <li><a href="#">Centre d'aide</a></li>
+                <li><a href="#">Suivi commande</a></li>
+                <li><a href="#">📞 +225 07 00 00 00</a></li>
+                <li><a href="#">✉️ hello@mamamarket.ci</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 MamaMarket CI — Fait avec ❤️ à Abidjan</p>
+        <div class="pay-tags">
+            <span class="pay-tag">Orange Money</span>
+            <span class="pay-tag">Wave</span>
+            <span class="pay-tag">Visa</span>
+            <span class="pay-tag">MasterCard</span>
+        </div>
+    </div>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <span style="font-size:1.2rem;flex-shrink:0">🛒</span>
+    <div>
+        <strong id="toastT">Ajouté !</strong>
+        <span id="toastS">Voir votre panier</span>
+    </div>
+</div>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<nav class="mobile-nav">
+    <div class="mnav-inner">
+        <div class="mnav-item active"><span class="mi">🏠</span>Accueil</div>
+        <div class="mnav-item" onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})"><span class="mi">🗂️</span>Catégories</div>
+        <div class="mnav-item" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})"><span class="mi">🔥</span>Tendances</div>
+        <div class="mnav-item"><span class="mi">♡</span>Favoris</div>
+        <div class="mnav-item" onclick="window.location.href='panier.html'"><span class="mi">🛒</span>Panier</div>
+    </div>
+</nav>
+
+<script>
+    /* Cart */
+    let cart = 3;
+    function addToCart(name) {
+        cart++;
+        document.getElementById('cartDot').textContent = cart;
+        document.getElementById('toastT').textContent = name + ' ajouté !';
+        document.getElementById('toastS').innerHTML =
+            '<a href="panier.html" style="color:var(--gold2);font-weight:700;text-decoration:underline;">🛒 Voir le panier</a>' +
+            ' &nbsp;|&nbsp; ' +
+            '<a href="paiement.html" style="color:var(--gold2);font-weight:700;text-decoration:underline;">💳 Payer →</a>';
+        const t = document.getElementById('toast');
+        t.classList.add('show');
+        clearTimeout(window._cartTimer);
+        window._cartTimer = setTimeout(() => t.classList.remove('show'), 4000);
+    }
+    function toggleFav(btn) { btn.textContent = btn.textContent === '♡' ? '❤️' : '♡'; }
+
+    /* Flash countdown */
+    let sec = 4*3600 + 32*60 + 17;
+    const timerEl = document.getElementById('flashTimer');
+    setInterval(() => {
+        sec = Math.max(0, sec - 1);
+        const h = String(Math.floor(sec / 3600)).padStart(2, '0');
+        const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+        const s = String(sec % 60).padStart(2, '0');
+        timerEl.textContent = `⏰ ${h}:${m}:${s}`;
+    }, 1000);
+
+    /* Cat pills */
+    document.querySelectorAll('.cat-pill').forEach(p => {
+        p.addEventListener('click', () => {
+            document.querySelectorAll('.cat-pill').forEach(x => x.classList.remove('active'));
+            p.classList.add('active');
+        });
+    });
+
+    /* Scroll top */
+    const stBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => stBtn.classList.toggle('on', window.scrollY > 400));
+
+    /* Reveal */
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: .09 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    /* Newsletter */
+    function subscribe() {
+        const v = document.getElementById('nlEmail').value;
+        if (v.includes('@')) {
+            document.getElementById('toastT').textContent = 'Inscription réussie 🎉';
+            document.getElementById('toastS').textContent = 'Bienvenue dans la famille MamaMarket !';
+            const t = document.getElementById('toast');
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+            document.getElementById('nlEmail').value = '';
+        }
+    }
+
+    /* Sticky header */
+    window.addEventListener('scroll', () => {
+        document.getElementById('hdr').style.boxShadow =
+            window.scrollY > 10 ? '0 4px 20px rgba(92,45,10,.18)' : '0 2px 8px rgba(92,45,10,.12)';
+    });
+</script>
+</body>
+</html>

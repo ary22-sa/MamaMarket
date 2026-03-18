@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MamaMarket – Paiement Sécurisé MamaPay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    /* ============================================
+       TOKENS
+    ============================================ */
+    :root {
+      --orange:       #D4580A;
+      --orange2:      #E8761A;
+      --orange-pale:  #FDF0E3;
+      --green:        #2A6B35;
+      --green2:       #3A8B47;
+      --green-pale:   #E8F5EB;
+      --brown:        #5C2D0A;
+      --brown2:       #8B4513;
+      --gold:         #C8901A;
+      --gold2:        #E8B020;
+      --cream:        #FBF5E8;
+      --beige:        #F0E4C8;
+      --beige2:       #E2D0A8;
+      --white:        #FFFFFF;
+      --text-dark:    #2A1205;
+      --text-mid:     #5A3218;
+      --text-light:   #8A6040;
+      --error:        #C0392B;
+      --error-pale:   #FDECEA;
+      --shadow-sm:    0 2px 8px  rgba(92,45,10,.10);
+      --shadow-md:    0 6px 24px rgba(92,45,10,.15);
+      --shadow-lg:    0 20px 60px rgba(92,45,10,.22);
+      --r-sm: 10px; --r-md: 16px; --r-lg: 24px; --r-xl: 40px;
+      --font-d: 'Playfair Display', Georgia, serif;
+      --font-u: 'Nunito', sans-serif;
+      --ease: cubic-bezier(.4,0,.2,1);
+      --spring: cubic-bezier(.34,1.56,.64,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-u); background: var(--cream); color: var(--text-dark); overflow-x: hidden; min-height: 100vh; }
+    a { text-decoration: none; color: inherit; }
+    button { border: none; cursor: pointer; font-family: var(--font-u); }
+    input, select { font-family: var(--font-u); }
+
+    /* ============================================
+       WAX PATTERNS
+    ============================================ */
+    .wax-cream {
+      background-color: var(--cream);
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cpolygon points='30,4 56,30 30,56 4,30' stroke='%23D4580A' stroke-width='1' stroke-opacity='0.07'/%3E%3Ccircle cx='30' cy='30' r='8' stroke='%232A6B35' stroke-width='.8' stroke-opacity='0.06'/%3E%3Ccircle cx='0' cy='0' r='3' fill='%23D4580A' fill-opacity='0.05'/%3E%3Ccircle cx='60' cy='60' r='3' fill='%23D4580A' fill-opacity='0.05'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .kente     { height: 7px; background: repeating-linear-gradient(90deg,#D4580A 0,#D4580A 18px,#2A6B35 18px,#2A6B35 36px,#C8901A 36px,#C8901A 54px,#8B4513 54px,#8B4513 72px,#E8761A 72px,#E8761A 90px,#3A8B47 90px,#3A8B47 108px); }
+    .kente-thin{ height: 4px; background: repeating-linear-gradient(90deg,#D4580A 0,#D4580A 14px,#2A6B35 14px,#2A6B35 28px,#C8901A 28px,#C8901A 42px,#8B4513 42px,#8B4513 56px); }
+
+    /* ============================================
+       HEADER
+    ============================================ */
+    .header { background: var(--white); box-shadow: var(--shadow-sm); }
+    .navbar { max-width: 1100px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .logo { display: flex; align-items: center; gap: 8px; }
+    .logo-ico { width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg,var(--orange),var(--brown)); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .logo-txt { font-family: var(--font-d); font-size: 22px; font-weight: 900; color: var(--brown); }
+    .logo-txt em { color: var(--orange); font-style: normal; }
+    .secure-pill { display: flex; align-items: center; gap: 6px; background: var(--green-pale); color: var(--green); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1.5px solid rgba(42,107,53,.20); }
+    .breadcrumb { max-width: 1100px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-light); }
+    .breadcrumb a { color: var(--orange); font-weight: 600; }
+    .breadcrumb a:hover { color: var(--orange2); }
+
+    /* ============================================
+       STEPS PROGRESS BAR
+    ============================================ */
+    .steps-bar { background: var(--white); border-bottom: 1px solid var(--beige2); padding: 16px 20px; }
+    .steps-inner { max-width: 600px; margin: 0 auto; display: flex; align-items: center; gap: 0; }
+    .step { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; position: relative; }
+    .step::after { content: ''; position: absolute; top: 15px; left: 50%; width: 100%; height: 2px; background: var(--beige2); z-index: 0; }
+    .step:last-child::after { display: none; }
+    .step.done::after  { background: var(--green); }
+    .step.active::after{ background: var(--beige2); }
+    .step-circle { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; z-index: 1; transition: all .3s var(--ease); }
+    .step.done   .step-circle { background: var(--green);  color: var(--white); }
+    .step.active .step-circle { background: var(--orange); color: var(--white); box-shadow: 0 0 0 4px rgba(212,88,10,.18); }
+    .step.pending .step-circle{ background: var(--beige2); color: var(--text-light); }
+    .step-label { font-size: 11px; font-weight: 700; white-space: nowrap; }
+    .step.done   .step-label { color: var(--green); }
+    .step.active .step-label { color: var(--orange); }
+    .step.pending .step-label { color: var(--text-light); }
+
+    /* ============================================
+       PAGE LAYOUT
+    ============================================ */
+    .page { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; display: grid; grid-template-columns: 1fr 340px; gap: 28px; align-items: start; }
+
+    /* ============================================
+       LEFT — PAYMENT FORM
+    ============================================ */
+    .pay-title { font-family: var(--font-d); font-size: clamp(22px,4vw,30px); color: var(--brown); margin-bottom: 22px; display: flex; align-items: center; gap: 10px; }
+
+    /* ---- Method selector ---- */
+    .methods-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(130px,1fr)); gap: 12px; margin-bottom: 24px; }
+    .method-card {
+      background: var(--white); border-radius: var(--r-md);
+      border: 2px solid var(--beige2);
+      padding: 16px 12px; text-align: center;
+      cursor: pointer; transition: all .25s var(--ease);
+      position: relative; overflow: hidden;
+    }
+    .method-card::before { content: ''; position: absolute; inset: 0; background: var(--orange-pale); opacity: 0; transition: opacity .2s; }
+    .method-card.active { border-color: var(--orange); }
+    .method-card.active::before { opacity: 1; }
+    .method-card:hover { border-color: var(--orange); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+    .method-card.active .method-tick { display: flex; }
+    .method-tick { position: absolute; top: 7px; right: 8px; width: 18px; height: 18px; border-radius: 50%; background: var(--orange); color: var(--white); font-size: 10px; font-weight: 900; display: none; align-items: center; justify-content: center; z-index: 2; }
+    .method-ico { font-size: 28px; margin-bottom: 7px; position: relative; z-index: 1; }
+    .method-name { font-size: 12px; font-weight: 800; color: var(--text-mid); position: relative; z-index: 1; }
+    .method-sub { font-size: 10px; color: var(--text-light); margin-top: 2px; position: relative; z-index: 1; }
+
+    /* ---- Form panels ---- */
+    .form-panel { background: var(--white); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 18px; display: none; animation: panelIn .4s var(--ease); }
+    .form-panel.active { display: block; }
+    @keyframes panelIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    /* Kente top strip on panel */
+    .form-panel::before { content: ''; display: block; height: 4px; background: repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 14px,var(--green) 14px,var(--green) 28px,var(--gold) 28px,var(--gold) 42px,var(--brown2) 42px,var(--brown2) 56px); }
+    .panel-head { padding: 18px 22px 0; display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .panel-head-ico { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .panel-head h3 { font-family: var(--font-d); font-size: 18px; color: var(--brown); }
+    .panel-head p  { font-size: 12px; color: var(--text-light); }
+    .panel-body { padding: 0 22px 22px; }
+
+    /* ---- Input groups ---- */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .form-row.single { grid-template-columns: 1fr; }
+    .form-group { display: flex; flex-direction: column; }
+    .form-label { font-size: 12px; font-weight: 700; color: var(--text-mid); margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
+    .form-label .req { color: var(--orange); }
+    .input-wrap { position: relative; }
+    .input-ico { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-light); pointer-events: none; font-size: 15px; transition: color .2s; }
+    .form-input {
+      width: 100%; padding: 11px 14px 11px 38px;
+      border: 2px solid var(--beige2); border-radius: var(--r-sm);
+      font-family: var(--font-u); font-size: 14px; color: var(--text-dark);
+      background: var(--cream); outline: none;
+      transition: all .22s var(--ease);
+    }
+    .form-input::placeholder { color: var(--text-light); }
+    .form-input:hover { border-color: var(--beige); background: var(--white); }
+    .form-input:focus { border-color: var(--orange); background: var(--white); box-shadow: 0 0 0 3px rgba(212,88,10,.10); }
+    .form-input.valid   { border-color: var(--green); }
+    .form-input.invalid { border-color: var(--error); }
+    .input-wrap:focus-within .input-ico { color: var(--orange); }
+    .field-err { font-size: 11px; color: var(--error); margin-top: 4px; display: none; }
+
+    /* Phone input with country code */
+    .phone-wrap { display: flex; gap: 8px; }
+    .country-code {
+      padding: 11px 10px; border: 2px solid var(--beige2); border-radius: var(--r-sm);
+      background: var(--cream); color: var(--text-mid);
+      font-size: 13px; font-weight: 700; outline: none;
+      cursor: pointer; transition: all .22s; flex-shrink: 0;
+    }
+    .country-code:focus { border-color: var(--orange); background: var(--white); box-shadow: 0 0 0 3px rgba(212,88,10,.10); }
+
+    /* Orange Money specific */
+    .om-banner {
+      background: linear-gradient(135deg, #FF6600, #CC4400);
+      border-radius: var(--r-sm); padding: 14px 16px;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 18px; position: relative; overflow: hidden;
+    }
+    .om-banner::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='15,2 28,15 15,28 2,15' fill='%23FFFFFF' fill-opacity='0.10'/%3E%3C/svg%3E"); }
+    .om-logo { font-size: 28px; flex-shrink: 0; position: relative; z-index: 1; }
+    .om-text { position: relative; z-index: 1; }
+    .om-text strong { display: block; color: var(--white); font-size: 14px; font-weight: 800; }
+    .om-text span { color: rgba(255,255,255,.80); font-size: 12px; }
+
+    /* Wave specific */
+    .wave-banner {
+      background: linear-gradient(135deg, #1E88E5, #0D47A1);
+      border-radius: var(--r-sm); padding: 14px 16px;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 18px; position: relative; overflow: hidden;
+    }
+    .wave-banner::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='15,2 28,15 15,28 2,15' fill='%23FFFFFF' fill-opacity='0.10'/%3E%3C/svg%3E"); }
+    .wave-logo { font-size: 28px; position: relative; z-index: 1; }
+    .wave-text { position: relative; z-index: 1; }
+    .wave-text strong { display: block; color: var(--white); font-size: 14px; font-weight: 800; }
+    .wave-text span { color: rgba(255,255,255,.80); font-size: 12px; }
+
+    /* Card input specific */
+    .card-preview {
+      background: linear-gradient(135deg, var(--brown) 0%, #3A1800 100%);
+      border-radius: var(--r-md); padding: 20px 22px;
+      margin-bottom: 18px; position: relative; overflow: hidden;
+      min-height: 130px;
+    }
+    .card-preview::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='20,3 37,20 20,37 3,20' fill='%23FFFFFF' fill-opacity='0.06'/%3E%3C/svg%3E"); }
+    .card-chip { width: 30px; height: 22px; background: var(--gold2); border-radius: 4px; margin-bottom: 14px; position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; }
+    .card-chip::after { content: ''; position: absolute; inset: 3px; border: 1px solid rgba(0,0,0,.2); border-radius: 2px; }
+    .card-number-display { font-size: 16px; font-weight: 700; color: var(--white); letter-spacing: .18em; margin-bottom: 12px; position: relative; z-index: 1; }
+    .card-bottom { display: flex; justify-content: space-between; align-items: flex-end; position: relative; z-index: 1; }
+    .card-holder { font-size: 11px; color: rgba(255,255,255,.60); text-transform: uppercase; letter-spacing: .08em; }
+    .card-holder-name { font-size: 13px; color: var(--white); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+    .card-expiry-label { font-size: 10px; color: rgba(255,255,255,.55); letter-spacing: .06em; text-align: right; }
+    .card-expiry-val { font-size: 13px; color: var(--white); font-weight: 700; text-align: right; }
+    .card-brand { position: absolute; top: 16px; right: 18px; font-size: 22px; z-index: 1; }
+
+    /* OTP / Confirmation code */
+    .otp-section { text-align: center; padding: 8px 0 4px; }
+    .otp-title { font-family: var(--font-d); font-size: 18px; color: var(--brown); margin-bottom: 6px; }
+    .otp-sub { font-size: 13px; color: var(--text-light); margin-bottom: 20px; line-height: 1.6; }
+    .otp-inputs { display: flex; gap: 10px; justify-content: center; margin-bottom: 18px; }
+    .otp-input {
+      width: 48px; height: 56px; text-align: center;
+      border: 2px solid var(--beige2); border-radius: var(--r-sm);
+      font-family: var(--font-d); font-size: 22px; font-weight: 700; color: var(--brown);
+      background: var(--cream); outline: none;
+      transition: all .22s var(--ease);
+    }
+    .otp-input:focus { border-color: var(--orange); background: var(--white); box-shadow: 0 0 0 3px rgba(212,88,10,.12); transform: scale(1.05); }
+    .otp-input.filled { border-color: var(--green); background: var(--green-pale); }
+    .otp-resend { font-size: 13px; color: var(--text-light); }
+    .otp-resend button { background: transparent; color: var(--orange); font-weight: 700; font-size: 13px; padding: 0; transition: color .2s; }
+    .otp-resend button:hover { color: var(--orange2); }
+
+    /* Livraison form */
+    .livraison-ico-wrap { width: 42px; height: 42px; border-radius: 50%; background: var(--orange-pale); }
+
+    /* ---- Pay button ---- */
+    .btn-pay {
+      width: 100%; padding: 15px;
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      color: var(--white); border-radius: var(--r-xl);
+      font-size: 16px; font-weight: 800; letter-spacing: .03em;
+      box-shadow: 0 4px 18px rgba(42,107,53,.35);
+      display: flex; align-items: center; justify-content: center; gap: 9px;
+      transition: all .28s var(--spring);
+      position: relative; overflow: hidden;
+    }
+    .btn-pay::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: rgba(255,255,255,.15); border-radius: 50%; transform: translate(-50%,-50%); transition: width .5s, height .5s; }
+    .btn-pay:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(42,107,53,.48); }
+    .btn-pay:hover::before { width: 350px; height: 350px; }
+    .btn-pay:disabled { opacity: .55; pointer-events: none; }
+    .btn-pay .spinner { display: none; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.4); border-top-color: var(--white); border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn-back { width: 100%; padding: 11px; border: 2px solid var(--beige2); color: var(--text-mid); background: transparent; border-radius: var(--r-xl); font-size: 13px; font-weight: 700; margin-top: 10px; transition: all .22s; }
+    .btn-back:hover { border-color: var(--orange); color: var(--orange); background: var(--orange-pale); }
+
+    /* ---- Security badges ---- */
+    .security-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+    .sec-badge { background: var(--beige); color: var(--text-mid); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+
+    /* ============================================
+       RIGHT — ORDER RECAP
+    ============================================ */
+    .recap-card { background: var(--white); border-radius: var(--r-lg); box-shadow: var(--shadow-md); overflow: hidden; position: sticky; top: 24px; }
+    .recap-card::before { content: ''; display: block; height: 5px; background: repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 14px,var(--green) 14px,var(--green) 28px,var(--gold) 28px,var(--gold) 42px,var(--brown2) 42px,var(--brown2) 56px); }
+    .recap-head { padding: 18px 20px 0; }
+    .recap-title { font-family: var(--font-d); font-size: 18px; color: var(--brown); margin-bottom: 16px; }
+    .recap-body { padding: 0 20px 16px; }
+
+    /* Items list */
+    .recap-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--beige); }
+    .recap-item:last-of-type { border-bottom: none; }
+    .recap-item-img { width: 48px; height: 56px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; position: relative; overflow: hidden; }
+    .recap-item-img::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='9,2 16,9 9,16 2,9' fill='%23FFFFFF' fill-opacity='0.10'/%3E%3C/svg%3E"); }
+    .recap-item-img .qty-badge { position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; border-radius: 50%; background: var(--orange); color: var(--white); font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 2px solid var(--white); z-index: 2; }
+    .recap-item-name { font-size: 13px; font-weight: 700; color: var(--text-dark); flex: 1; }
+    .recap-item-seller { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+    .recap-item-price { font-family: var(--font-d); font-size: 14px; font-weight: 700; color: var(--orange); flex-shrink: 0; }
+
+    .recap-divider { height: 1px; background: var(--beige2); margin: 8px 0; }
+    .recap-line { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; }
+    .recap-line .lbl { color: var(--text-light); }
+    .recap-line .val { font-weight: 700; color: var(--text-dark); }
+    .recap-line .val.green { color: var(--green); }
+    .recap-total { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: linear-gradient(135deg, var(--orange-pale), var(--beige)); border-top: 2px solid var(--beige2); }
+    .recap-total-lbl { font-size: 14px; font-weight: 700; color: var(--brown); }
+    .recap-total-val { font-family: var(--font-d); font-size: 22px; font-weight: 900; color: var(--orange); }
+
+    /* Seller trust box */
+    .seller-trust { padding: 14px 20px; background: var(--beige); display: flex; align-items: flex-start; gap: 9px; }
+    .seller-trust .sti { font-size: 20px; flex-shrink: 0; }
+    .seller-trust p { font-size: 12px; color: var(--text-mid); line-height: 1.6; }
+    .seller-trust strong { color: var(--green); }
+
+    /* ============================================
+       SUCCESS SCREEN
+    ============================================ */
+    .success-screen {
+      display: none; position: fixed; inset: 0; z-index: 3000;
+      background: var(--cream);
+      flex-direction: column; align-items: center; justify-content: center;
+      padding: 32px 20px;
+      animation: successIn .5s var(--spring);
+    }
+    .success-screen.on { display: flex; }
+    @keyframes successIn { from { opacity:0; transform:scale(.95); } to { opacity:1; transform:scale(1); } }
+    .success-circle {
+      width: 100px; height: 100px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--green2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 46px; margin-bottom: 24px;
+      box-shadow: 0 8px 30px rgba(42,107,53,.35);
+      animation: popIn .6s var(--spring) .2s both;
+    }
+    @keyframes popIn { from { transform:scale(0); } to { transform:scale(1); } }
+    .success-kente { height: 6px; width: 100%; max-width: 400px; background: repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 18px,var(--green) 18px,var(--green) 36px,var(--gold) 36px,var(--gold) 54px,var(--brown2) 54px,var(--brown2) 72px); border-radius: 3px; margin-bottom: 28px; }
+    .success-screen h2 { font-family: var(--font-d); font-size: 32px; color: var(--brown); margin-bottom: 10px; text-align: center; }
+    .success-screen p { color: var(--text-light); font-size: 15px; text-align: center; margin-bottom: 28px; line-height: 1.7; max-width: 400px; }
+    .success-ref { background: var(--white); border: 2px dashed var(--beige2); border-radius: var(--r-md); padding: 14px 24px; text-align: center; margin-bottom: 28px; }
+    .success-ref .ref-lbl { font-size: 12px; color: var(--text-light); margin-bottom: 4px; }
+    .success-ref .ref-num { font-family: var(--font-d); font-size: 22px; font-weight: 900; color: var(--orange); letter-spacing: .08em; }
+    .success-steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 28px; width: 100%; max-width: 400px; }
+    .success-step { background: var(--white); border-radius: var(--r-md); padding: 14px 10px; text-align: center; box-shadow: var(--shadow-sm); }
+    .success-step .ss-ico { font-size: 24px; margin-bottom: 6px; }
+    .success-step .ss-txt { font-size: 11px; font-weight: 700; color: var(--text-mid); }
+    .btn-home { background: var(--orange); color: var(--white); padding: 13px 32px; border-radius: var(--r-xl); font-size: 15px; font-weight: 800; box-shadow: 0 4px 16px rgba(212,88,10,.30); transition: all .22s var(--spring); }
+    .btn-home:hover { background: var(--orange2); transform: translateY(-2px); }
+
+    /* ============================================
+       TOAST
+    ============================================ */
+    .toast { position: fixed; bottom: 22px; right: 22px; z-index: 9999; background: var(--brown); color: var(--white); border-radius: var(--r-md); padding: 12px 16px; display: flex; align-items: center; gap: 9px; box-shadow: var(--shadow-lg); transform: translateY(60px); opacity: 0; transition: all .32s var(--ease); max-width: 280px; }
+    .toast::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 9px,var(--green) 9px,var(--green) 18px,var(--gold) 18px,var(--gold) 27px); border-radius: var(--r-md) var(--r-md) 0 0; }
+    .toast.on { transform: translateY(0); opacity: 1; }
+    .toast strong { display: block; font-size: 13px; }
+    .toast span { font-size: 11px; opacity: .78; }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 860px) {
+      .page { grid-template-columns: 1fr; }
+      .recap-card { position: static; }
+    }
+    @media (max-width: 560px) {
+      .methods-grid { grid-template-columns: repeat(2,1fr); }
+      .form-row { grid-template-columns: 1fr; }
+      .otp-input { width: 42px; height: 50px; font-size: 20px; }
+      .page { padding: 18px 14px 48px; }
+      .steps-inner { gap: 0; }
+      .step-label { font-size: 10px; }
+    }
+  </style>
+</head>
+<body class="wax-cream">
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="kente-thin"></div>
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-ico">🌺</div>
+      <div class="logo-txt">Mama<em>Market</em></div>
+    </a>
+    <div class="secure-pill">
+      <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      Paiement 100% sécurisé
+    </div>
+  </nav>
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="index.html">Accueil</a>
+    <span>›</span>
+    <a href="panier.html">Mon Panier</a>
+    <span>›</span>
+    <span style="color:var(--text-mid);font-weight:600">Paiement</span>
+  </div>
+</header>
+
+<!-- ===== STEPS BAR ===== -->
+<div class="steps-bar">
+  <div class="steps-inner">
+    <div class="step done" id="step1">
+      <div class="step-circle">✓</div>
+      <div class="step-label">Panier</div>
+    </div>
+    <div class="step active" id="step2">
+      <div class="step-circle">2</div>
+      <div class="step-label">Livraison</div>
+    </div>
+    <div class="step pending" id="step3">
+      <div class="step-circle">3</div>
+      <div class="step-label">Paiement</div>
+    </div>
+    <div class="step pending" id="step4">
+      <div class="step-circle">4</div>
+      <div class="step-label">Confirmation</div>
+    </div>
+  </div>
+</div>
+
+<div class="kente"></div>
+
+<!-- ===== PAGE ===== -->
+<div class="page">
+
+  <!-- ===== LEFT — FORM ===== -->
+  <div>
+
+    <!-- STEP 2 : LIVRAISON -->
+    <div id="stepLivraison">
+      <div class="pay-title">
+        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="var(--brown)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Adresse de livraison
+      </div>
+
+      <div class="form-panel active">
+        <div class="panel-head">
+          <div class="panel-head-ico" style="background:var(--orange-pale)">📦</div>
+          <div>
+            <h3>Où livrer votre commande ?</h3>
+            <p>Livraison disponible partout en Côte d'Ivoire</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Prénom <span class="req">*</span></label>
+              <div class="input-wrap">
+                <span class="input-ico">👤</span>
+                <input type="text" class="form-input" id="prenom" placeholder="Aminata" autocomplete="given-name"/>
+              </div>
+              <span class="field-err" id="errPrenom">Champ requis</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nom <span class="req">*</span></label>
+              <div class="input-wrap">
+                <span class="input-ico">👤</span>
+                <input type="text" class="form-input" id="nom" placeholder="Koné" autocomplete="family-name"/>
+              </div>
+              <span class="field-err" id="errNom">Champ requis</span>
+            </div>
+          </div>
+          <div class="form-row single">
+            <div class="form-group">
+              <label class="form-label">Téléphone <span class="req">*</span></label>
+              <div class="phone-wrap">
+                <select class="country-code">
+                  <option value="+225">🇨🇮 +225</option>
+                  <option value="+33">🇫🇷 +33</option>
+                  <option value="+221">🇸🇳 +221</option>
+                  <option value="+229">🇧🇯 +229</option>
+                  <option value="+226">🇧🇫 +226</option>
+                </select>
+                <div class="input-wrap" style="flex:1">
+                  <span class="input-ico">📱</span>
+                  <input type="tel" class="form-input" id="tel" placeholder="07 00 00 00 00" inputmode="tel"/>
+                </div>
+              </div>
+              <span class="field-err" id="errTel">Numéro invalide</span>
+            </div>
+          </div>
+          <div class="form-row single">
+            <div class="form-group">
+              <label class="form-label">Ville / Commune <span class="req">*</span></label>
+              <div class="input-wrap">
+                <span class="input-ico">🏙️</span>
+                <select class="form-input" id="ville" style="padding-left:38px;cursor:pointer">
+                  <option value="">-- Choisir votre ville --</option>
+                  <option>Abidjan – Cocody</option>
+                  <option>Abidjan – Plateau</option>
+                  <option>Abidjan – Yopougon</option>
+                  <option>Abidjan – Marcory</option>
+                  <option>Abidjan – Abobo</option>
+                  <option>Abidjan – Treichville</option>
+                  <option>Abidjan – Adjamé</option>
+                  <option>Bouaké</option>
+                  <option>Yamoussoukro</option>
+                  <option>San-Pédro</option>
+                  <option>Korhogo</option>
+                  <option>Daloa</option>
+                  <option>Man</option>
+                  <option>Abengourou</option>
+                </select>
+              </div>
+              <span class="field-err" id="errVille">Veuillez choisir une ville</span>
+            </div>
+          </div>
+          <div class="form-row single">
+            <div class="form-group">
+              <label class="form-label">Adresse complète <span class="req">*</span></label>
+              <div class="input-wrap">
+                <span class="input-ico">🏠</span>
+                <input type="text" class="form-input" id="adresse" placeholder="Ex: Rue des jardins, Cocody, près du carrefour…"/>
+              </div>
+              <span class="field-err" id="errAdresse">Champ requis</span>
+            </div>
+          </div>
+          <div class="form-row single">
+            <div class="form-group">
+              <label class="form-label">Instructions de livraison (optionnel)</label>
+              <div class="input-wrap">
+                <span class="input-ico" style="top:14px;transform:none">📝</span>
+                <textarea class="form-input" id="instructions" placeholder="Ex: Appeler avant d'arriver, code portail 1234…" style="padding-top:11px;padding-bottom:11px;resize:vertical;min-height:72px;padding-left:38px"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Livraison options -->
+          <div style="margin-top:6px">
+            <div class="form-label" style="margin-bottom:10px">Mode de livraison <span class="req">*</span></div>
+            <div style="display:flex;flex-direction:column;gap:10px" id="livraisonOptions">
+              <label style="display:flex;align-items:center;gap:12px;background:var(--green-pale);border:2px solid var(--green);border-radius:10px;padding:12px 16px;cursor:pointer">
+                <input type="radio" name="livraison" value="standard" checked style="accent-color:var(--green);width:16px;height:16px"/>
+                <div style="flex:1">
+                  <div style="font-size:13px;font-weight:700;color:var(--green)">🚚 Livraison Standard — Gratuite</div>
+                  <div style="font-size:11px;color:var(--text-light)">Délai 24-48h · Disponible à Abidjan et grandes villes</div>
+                </div>
+                <div style="font-family:var(--font-d);font-size:15px;font-weight:700;color:var(--green)">0 FCFA</div>
+              </label>
+              <label style="display:flex;align-items:center;gap:12px;background:var(--white);border:2px solid var(--beige2);border-radius:10px;padding:12px 16px;cursor:pointer">
+                <input type="radio" name="livraison" value="express" style="accent-color:var(--orange);width:16px;height:16px"/>
+                <div style="flex:1">
+                  <div style="font-size:13px;font-weight:700;color:var(--orange)">⚡ Livraison Express — Même jour</div>
+                  <div style="font-size:11px;color:var(--text-light)">Délai 2-4h · Abidjan uniquement · Commande avant 14h</div>
+                </div>
+                <div style="font-family:var(--font-d);font-size:15px;font-weight:700;color:var(--orange)">2 500 FCFA</div>
+              </label>
+            </div>
+          </div>
+
+          <button class="btn-pay" style="margin-top:22px" onclick="goToPayment()">
+            <span id="livBtnLabel">Continuer vers le paiement →</span>
+          </button>
+          <a href="panier.html"><button class="btn-back">← Retour au panier</button></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 : PAIEMENT -->
+    <div id="stepPaiement" style="display:none">
+      <div class="pay-title">
+        <svg width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="var(--brown)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+        Choisir le paiement
+      </div>
+
+      <!-- Payment method selector -->
+      <div class="methods-grid">
+        <div class="method-card active" onclick="selectMethod('om')" id="method-om">
+          <div class="method-tick">✓</div>
+          <div class="method-ico">🟠</div>
+          <div class="method-name">Orange Money</div>
+          <div class="method-sub">Paiement mobile</div>
+        </div>
+        <div class="method-card" onclick="selectMethod('wave')" id="method-wave">
+          <div class="method-tick">✓</div>
+          <div class="method-ico">🌊</div>
+          <div class="method-name">Wave</div>
+          <div class="method-sub">Transfert rapide</div>
+        </div>
+        <div class="method-card" onclick="selectMethod('card')" id="method-card">
+          <div class="method-tick">✓</div>
+          <div class="method-ico">💳</div>
+          <div class="method-name">Carte Bancaire</div>
+          <div class="method-sub">Visa / Mastercard</div>
+        </div>
+        <div class="method-card" onclick="selectMethod('cash')" id="method-cash">
+          <div class="method-tick">✓</div>
+          <div class="method-ico">💵</div>
+          <div class="method-name">Cash à la livraison</div>
+          <div class="method-sub">Payer en mains</div>
+        </div>
+      </div>
+
+      <!-- ORANGE MONEY PANEL -->
+      <div class="form-panel active" id="panel-om">
+        <div class="panel-head">
+          <div class="om-banner" style="flex:1;margin:0">
+            <div class="om-logo">🟠</div>
+            <div class="om-text">
+              <strong>Orange Money CI</strong>
+              <span>Saisissez votre numéro Orange pour payer</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-row single">
+            <div class="form-group">
+              <label class="form-label">Numéro Orange Money <span class="req">*</span></label>
+              <div class="phone-wrap">
+                <select class="country-code">
+                  <option>🇨🇮 +225</option>
+                </select>
+                <div class="input-wrap" style="flex:1">
+                  <span class="input-ico">📱</span>
+                  <input type="tel" class="form-input" id="omNumber" placeholder="07 XX XX XX XX" inputmode="tel" maxlength="14"/>
+                </div>
+              </div>
+              <span class="field-err" id="errOM">Numéro invalide (format: 07 XX XX XX XX)</span>
+            </div>
+          </div>
+          <div style="background:var(--orange-pale);border:1.5px solid rgba(212,88,10,.20);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--text-mid);line-height:1.7;margin-top:4px">
+            📲 <strong>Comment ça marche :</strong><br/>
+            1. Entrez votre numéro Orange Money<br/>
+            2. Vous recevrez un SMS de confirmation<br/>
+            3. Composez <strong style="color:var(--orange)">#144#</strong> pour valider
+          </div>
+          <button class="btn-pay" style="margin-top:20px" onclick="processPayment('Orange Money')">
+            <span id="omBtnLabel">🔒 Payer avec Orange Money</span>
+            <div class="spinner" id="omSpinner"></div>
+          </button>
+          <button class="btn-back" onclick="backToLivraison()">← Modifier la livraison</button>
+        </div>
+      </div>
+
+      <!-- WAVE PANEL -->
+      <div class="form-panel" id="panel-wave">
+        <div class="panel-head">
+          <div class="wave-banner" style="flex:1;margin:0">
+            <div class="wave-logo">🌊</div>
+            <div class="wave-text">
+              <strong>Wave Mobile Money</strong>
+              <span>Paiement instantané et sans frais</span>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-row single">
+            <div class="form-group">
+              <label class="form-label">Numéro Wave <span class="req">*</span></label>
+              <div class="phone-wrap">
+                <select class="country-code">
+                  <option>🇨🇮 +225</option>
+                </select>
+                <div class="input-wrap" style="flex:1">
+                  <span class="input-ico">📱</span>
+                  <input type="tel" class="form-input" id="waveNumber" placeholder="05 XX XX XX XX" inputmode="tel" maxlength="14"/>
+                </div>
+              </div>
+              <span class="field-err" id="errWave">Numéro Wave invalide</span>
+            </div>
+          </div>
+          <div style="background:#E3F2FD;border:1.5px solid rgba(30,136,229,.20);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--text-mid);line-height:1.7;margin-top:4px">
+            📲 <strong>Comment ça marche :</strong><br/>
+            1. Entrez votre numéro Wave<br/>
+            2. Ouvrez l'app Wave sur votre téléphone<br/>
+            3. Validez la demande de paiement dans l'app
+          </div>
+          <button class="btn-pay" style="margin-top:20px;background:linear-gradient(135deg,#1E88E5,#0D47A1);box-shadow:0 4px 18px rgba(30,136,229,.35)" onclick="processPayment('Wave')">
+            <span>🔒 Payer avec Wave</span>
+            <div class="spinner" id="waveSpinner"></div>
+          </button>
+          <button class="btn-back" onclick="backToLivraison()">← Modifier la livraison</button>
+        </div>
+      </div>
+
+      <!-- CARTE BANCAIRE PANEL -->
+      <div class="form-panel" id="panel-card">
+        <div class="panel-head">
+          <div style="flex:1">
+            <!-- Visual card preview -->
+            <div class="card-preview" id="cardPreview">
+              <div class="card-chip"></div>
+              <div class="card-number-display" id="cardNumDisplay">•••• •••• •••• ••••</div>
+              <div class="card-bottom">
+                <div>
+                  <div class="card-holder">Titulaire</div>
+                  <div class="card-holder-name" id="cardNameDisplay">VOTRE NOM</div>
+                </div>
+                <div>
+                  <div class="card-expiry-label">EXPIRE</div>
+                  <div class="card-expiry-val" id="cardExpDisplay">MM/AA</div>
+                </div>
+              </div>
+              <div class="card-brand" id="cardBrand">💳</div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-row single">
+            <div class="form-group">
+              <label class="form-label">Numéro de carte <span class="req">*</span></label>
+              <div class="input-wrap">
+                <span class="input-ico">💳</span>
+                <input type="text" class="form-input" id="cardNum" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric" oninput="formatCard(this)" onblur="validateCardField('cardNum','errCardNum')"/>
+              </div>
+              <span class="field-err" id="errCardNum">Numéro de carte invalide (16 chiffres)</span>
+            </div>
+          </div>
+          <div class="form-row single">
+            <div class="form-group">
+              <label class="form-label">Nom sur la carte <span class="req">*</span></label>
+              <div class="input-wrap">
+                <span class="input-ico">👤</span>
+                <input type="text" class="form-input" id="cardName" placeholder="AMINATA KONÉ" style="text-transform:uppercase" oninput="document.getElementById('cardNameDisplay').textContent=this.value.toUpperCase()||'VOTRE NOM'" autocomplete="cc-name"/>
+              </div>
+              <span class="field-err" id="errCardName">Nom requis</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Date d'expiration <span class="req">*</span></label>
+              <div class="input-wrap">
+                <span class="input-ico">📅</span>
+                <input type="text" class="form-input" id="cardExp" placeholder="MM/AA" maxlength="5" inputmode="numeric" oninput="formatExpiry(this)" onblur="validateExpiry()"/>
+              </div>
+              <span class="field-err" id="errCardExp">Date invalide</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">CVV <span class="req">*</span></label>
+              <div class="input-wrap">
+                <span class="input-ico">🔒</span>
+                <input type="password" class="form-input" id="cardCvv" placeholder="•••" maxlength="4" inputmode="numeric"/>
+              </div>
+              <span class="field-err" id="errCardCvv">CVV invalide</span>
+            </div>
+          </div>
+          <div style="background:var(--beige);border-radius:10px;padding:10px 13px;font-size:12px;color:var(--text-light);display:flex;align-items:center;gap:8px;margin-bottom:16px">
+            <span>🔒</span> Vos données sont chiffrées SSL 256-bit. MamaMarket ne stocke jamais vos informations bancaires.
+          </div>
+          <button class="btn-pay" onclick="processPayment('Carte Bancaire')">
+            <span>🔒 Payer par Carte</span>
+            <div class="spinner" id="cardSpinner"></div>
+          </button>
+          <button class="btn-back" onclick="backToLivraison()">← Modifier la livraison</button>
+        </div>
+      </div>
+
+      <!-- CASH PANEL -->
+      <div class="form-panel" id="panel-cash">
+        <div class="panel-head">
+          <div class="panel-head-ico" style="background:var(--green-pale)">💵</div>
+          <div>
+            <h3>Paiement à la livraison</h3>
+            <p>Payez en espèces à la réception de votre colis</p>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div style="background:var(--green-pale);border:1.5px solid rgba(42,107,53,.20);border-radius:10px;padding:16px;margin-bottom:18px">
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-mid)"><span>✅</span> Payez en espèces à la livraison</div>
+              <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-mid)"><span>✅</span> Préparez le montant exact si possible</div>
+              <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-mid)"><span>✅</span> Le livreur remet un reçu signé</div>
+              <div style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--text-mid)"><span>⚠️</span> Disponible uniquement à Abidjan</div>
+            </div>
+          </div>
+          <div style="background:var(--orange-pale);border-radius:10px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+            <span style="font-size:14px;font-weight:700;color:var(--text-mid)">Montant à préparer :</span>
+            <span style="font-family:var(--font-d);font-size:22px;font-weight:900;color:var(--orange)" id="cashAmount">65 200 FCFA</span>
+          </div>
+          <button class="btn-pay" onclick="processPayment('Cash à la livraison')">
+            <span>✅ Confirmer la commande</span>
+            <div class="spinner" id="cashSpinner"></div>
+          </button>
+          <button class="btn-back" onclick="backToLivraison()">← Modifier la livraison</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 : OTP CONFIRMATION -->
+    <div id="stepOTP" style="display:none">
+      <div class="pay-title">
+        <span style="font-size:24px">📲</span>
+        Confirmation SMS
+      </div>
+      <div class="form-panel active">
+        <div class="panel-body" style="padding-top:22px">
+          <div class="otp-section">
+            <div style="font-size:44px;margin-bottom:12px" id="otpMethodIco">🟠</div>
+            <div class="otp-title">Code de confirmation</div>
+            <div class="otp-sub" id="otpSubText">Un code à 4 chiffres a été envoyé au<br/><strong style="color:var(--brown)">+225 07 XX XX XX XX</strong></div>
+            <div class="otp-inputs">
+              <input class="otp-input" type="text" maxlength="1" inputmode="numeric" id="otp1" oninput="otpMove(this,'otp2')"/>
+              <input class="otp-input" type="text" maxlength="1" inputmode="numeric" id="otp2" oninput="otpMove(this,'otp3')"/>
+              <input class="otp-input" type="text" maxlength="1" inputmode="numeric" id="otp3" oninput="otpMove(this,'otp4')"/>
+              <input class="otp-input" type="text" maxlength="1" inputmode="numeric" id="otp4" oninput="otpMove(this,null)"/>
+            </div>
+            <div class="otp-resend">
+              Pas reçu le code ? <button onclick="resendOTP()">Renvoyer</button>
+            </div>
+          </div>
+          <button class="btn-pay" style="margin-top:22px" onclick="validateOTP()" id="otpBtn">
+            <span id="otpBtnLabel">✓ Valider et payer</span>
+            <div class="spinner" id="otpSpinner"></div>
+          </button>
+          <button class="btn-back" onclick="backToPayment()">← Changer de méthode</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /left -->
+
+  <!-- ===== RIGHT — RECAP ===== -->
+  <div>
+    <div class="recap-card">
+      <div class="recap-head">
+        <div class="recap-title">Récapitulatif commande</div>
+      </div>
+      <div class="recap-body">
+        <!-- Items -->
+        <div class="recap-item">
+          <div class="recap-item-img" style="background:linear-gradient(135deg,#C87840,#8B4513)">
+            <span style="position:relative;z-index:1">👗</span>
+            <div class="qty-badge">1</div>
+          </div>
+          <div>
+            <div class="recap-item-name">Robe Kente Royale</div>
+            <div class="recap-item-seller">Mama Fatou ✓</div>
+          </div>
+          <div class="recap-item-price">24 500 FCFA</div>
+        </div>
+        <div class="recap-item">
+          <div class="recap-item-img" style="background:linear-gradient(135deg,#7AB87A,#2A6B35)">
+            <span style="position:relative;z-index:1">🧴</span>
+            <div class="qty-badge">2</div>
+          </div>
+          <div>
+            <div class="recap-item-name">Beurre Karité Bio</div>
+            <div class="recap-item-seller">Mama Adjoa ✓</div>
+          </div>
+          <div class="recap-item-price">10 400 FCFA</div>
+        </div>
+        <div class="recap-item">
+          <div class="recap-item-img" style="background:linear-gradient(135deg,#C8901A,#7A4808)">
+            <span style="position:relative;z-index:1">🧺</span>
+            <div class="qty-badge">1</div>
+          </div>
+          <div>
+            <div class="recap-item-name">Panier Tressé Artisanal</div>
+            <div class="recap-item-seller">Mama Koné ✓</div>
+          </div>
+          <div class="recap-item-price">12 800 FCFA</div>
+        </div>
+
+        <div class="recap-divider"></div>
+        <div class="recap-line"><span class="lbl">Sous-total</span><span class="val">47 700 FCFA</span></div>
+        <div class="recap-line"><span class="lbl">Économies</span><span class="val green">-6 000 FCFA</span></div>
+        <div class="recap-line"><span class="lbl">Livraison</span><span class="val green" id="livraisonRecap">Gratuite 🎉</span></div>
+      </div>
+      <div class="recap-total">
+        <div class="recap-total-lbl">Total</div>
+        <div class="recap-total-val" id="totalRecap">65 200 FCFA</div>
+      </div>
+      <div class="seller-trust">
+        <div class="sti">🌺</div>
+        <p>Vendeuses <strong>vérifiées par MamaMarket</strong>. Paiement bloqué jusqu'à réception confirmée.</p>
+      </div>
+    </div>
+
+    <!-- Security block -->
+    <div style="background:var(--white);border-radius:var(--r-md);padding:16px 18px;margin-top:14px;box-shadow:var(--shadow-sm)">
+      <div style="font-size:13px;font-weight:700;color:var(--text-mid);margin-bottom:11px;display:flex;align-items:center;gap:6px">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="color:var(--green)"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        Garanti par MamaMarket
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-mid)"><span>🔒</span> Chiffrement SSL 256-bit</div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-mid)"><span>💰</span> Remboursement sous 7 jours</div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-mid)"><span>✅</span> Vendeuses vérifiées</div>
+        <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-mid)"><span>📞</span> Support 7j/7 · 8h-22h</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- ===== SUCCESS SCREEN ===== -->
+<div class="success-screen" id="successScreen">
+  <div class="success-kente"></div>
+  <div class="success-circle">✓</div>
+  <h2>Paiement réussi !</h2>
+  <p>Votre commande a été confirmée. Les vendeuses MamaMarket préparent déjà vos articles avec soin.</p>
+  <div class="success-ref">
+    <div class="ref-lbl">Numéro de commande</div>
+    <div class="ref-num" id="refNum">MM-2025-XXXX</div>
+  </div>
+  <div class="success-steps">
+    <div class="success-step"><div class="ss-ico">📦</div><div class="ss-txt">Préparation en cours</div></div>
+    <div class="success-step"><div class="ss-ico">🚚</div><div class="ss-txt">Livraison sous 24h</div></div>
+    <div class="success-step"><div class="ss-ico">📱</div><div class="ss-txt">SMS de suivi</div></div>
+  </div>
+  <button class="btn-home" onclick="window.location.href='index.html'">🏠 Retour à l'accueil</button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span style="font-size:18px;flex-shrink:0" id="toastIco">✓</span>
+  <div><strong id="toastT">Action</strong><span id="toastS"></span></div>
+</div>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+  /* ---- Current step ---- */
+  let currentMethod = 'om';
+  let currentPayMethod = '';
+
+  /* ============================================
+     STEP 1 → STEP 2 : Livraison → Paiement
+  ============================================ */
+  function goToPayment() {
+    const prenom   = document.getElementById('prenom').value.trim();
+    const nom      = document.getElementById('nom').value.trim();
+    const tel      = document.getElementById('tel').value.trim();
+    const ville    = document.getElementById('ville').value;
+    const adresse  = document.getElementById('adresse').value.trim();
+    let valid = true;
+
+    /* Validate */
+    const setErr = (id, errId, condition) => {
+      const inp = document.getElementById(id);
+      const err = document.getElementById(errId);
+      if (condition) { inp.classList.add('invalid'); err.style.display='block'; valid=false; }
+      else           { inp.classList.remove('invalid'); inp.classList.add('valid'); err.style.display='none'; }
+    };
+    setErr('prenom',  'errPrenom',  prenom.length < 2);
+    setErr('nom',     'errNom',     nom.length < 2);
+    setErr('tel',     'errTel',     tel.replace(/\s/g,'').length < 8);
+    setErr('ville',   'errVille',   !ville);
+    setErr('adresse', 'errAdresse', adresse.length < 5);
+
+    if (!valid) { showToast('⚠️','Informations incomplètes','Veuillez remplir tous les champs'); return; }
+
+    /* Go to payment step */
+    document.getElementById('stepLivraison').style.display = 'none';
+    document.getElementById('stepPaiement').style.display  = 'block';
+
+    /* Update steps bar */
+    document.getElementById('step2').className = 'step done';
+    document.getElementById('step2').querySelector('.step-circle').textContent = '✓';
+    document.getElementById('step3').className = 'step active';
+
+    /* Update recap livraison */
+    const express = document.querySelector('input[name="livraison"]:checked').value === 'express';
+    document.getElementById('livraisonRecap').textContent = express ? '2 500 FCFA' : 'Gratuite 🎉';
+    document.getElementById('totalRecap').textContent = express ? '67 700 FCFA' : '65 200 FCFA';
+    document.getElementById('cashAmount').textContent = express ? '67 700 FCFA' : '65 200 FCFA';
+
+    window.scrollTo({top:0, behavior:'smooth'});
+    showToast('✅','Adresse enregistrée','Choisissez maintenant votre mode de paiement');
+  }
+
+  function backToLivraison() {
+    document.getElementById('stepPaiement').style.display  = 'none';
+    document.getElementById('stepLivraison').style.display = 'block';
+    document.getElementById('step2').className = 'step active';
+    document.getElementById('step2').querySelector('.step-circle').textContent = '2';
+    document.getElementById('step3').className = 'step pending';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  /* ---- Select payment method ---- */
+  function selectMethod(method) {
+    currentMethod = method;
+    /* Update cards */
+    ['om','wave','card','cash'].forEach(m => {
+      document.getElementById('method-' + m).classList.toggle('active', m === method);
+    });
+    /* Show correct panel */
+    ['om','wave','card','cash'].forEach(m => {
+      const p = document.getElementById('panel-' + m);
+      p.classList.toggle('active', m === method);
+    });
+  }
+
+  /* ---- Process payment → go to OTP or direct confirm ---- */
+  function processPayment(method) {
+    currentPayMethod = method;
+    let valid = true;
+
+    /* Validate based on method */
+    if (method === 'Orange Money') {
+      const num = document.getElementById('omNumber').value.replace(/\s/g,'');
+      if (num.length < 8) { document.getElementById('omNumber').classList.add('invalid'); document.getElementById('errOM').style.display='block'; valid=false; }
+      else { document.getElementById('omNumber').classList.remove('invalid'); document.getElementById('errOM').style.display='none'; }
+    }
+    if (method === 'Wave') {
+      const num = document.getElementById('waveNumber').value.replace(/\s/g,'');
+      if (num.length < 8) { document.getElementById('waveNumber').classList.add('invalid'); document.getElementById('errWave').style.display='block'; valid=false; }
+      else { document.getElementById('waveNumber').classList.remove('invalid'); document.getElementById('errWave').style.display='none'; }
+    }
+    if (method === 'Carte Bancaire') {
+      const num  = document.getElementById('cardNum').value.replace(/\s/g,'');
+      const name = document.getElementById('cardName').value.trim();
+      const exp  = document.getElementById('cardExp').value;
+      const cvv  = document.getElementById('cardCvv').value;
+      if (num.length !== 16)  { document.getElementById('cardNum').classList.add('invalid');  document.getElementById('errCardNum').style.display='block';  valid=false; }
+      if (name.length < 3)    { document.getElementById('cardName').classList.add('invalid'); document.getElementById('errCardName').style.display='block'; valid=false; }
+      if (exp.length !== 5)   { document.getElementById('cardExp').classList.add('invalid');  document.getElementById('errCardExp').style.display='block';  valid=false; }
+      if (cvv.length < 3)     { document.getElementById('cardCvv').classList.add('invalid');  document.getElementById('errCardCvv').style.display='block';  valid=false; }
+    }
+    if (!valid) { showToast('⚠️','Informations incorrectes','Veuillez vérifier les champs'); return; }
+
+    /* For cash, confirm directly */
+    if (method === 'Cash à la livraison') {
+      setLoadingBtn('cashSpinner', true);
+      setTimeout(() => { setLoadingBtn('cashSpinner', false); showSuccess(); }, 1800);
+      return;
+    }
+
+    /* For others, show OTP */
+    setLoadingBtn(method === 'Orange Money' ? 'omSpinner' : method === 'Wave' ? 'waveSpinner' : 'cardSpinner', true);
+    setTimeout(() => {
+      setLoadingBtn(method === 'Orange Money' ? 'omSpinner' : method === 'Wave' ? 'waveSpinner' : 'cardSpinner', false);
+      goToOTP(method);
+    }, 1200);
+  }
+
+  function goToOTP(method) {
+    document.getElementById('stepPaiement').style.display = 'none';
+    document.getElementById('stepOTP').style.display      = 'block';
+
+    /* Update icons */
+    const ico = method === 'Orange Money' ? '🟠' : method === 'Wave' ? '🐧' : '💳';
+    document.getElementById('otpMethodIco').textContent = ico;
+    const numEl = method === 'Orange Money' ? document.getElementById('omNumber') : method === 'Wave' ? document.getElementById('waveNumber') : null;
+    const num = numEl ? '+225 ' + numEl.value : 'votre téléphone';
+    document.getElementById('otpSubText').innerHTML = `Un code à 4 chiffres a été envoyé au<br/><strong style="color:var(--brown)">${num}</strong>`;
+
+    document.getElementById('step3').className = 'step done';
+    document.getElementById('step3').querySelector('.step-circle').textContent = '✓';
+    document.getElementById('step4').className = 'step active';
+
+    /* Focus first OTP input */
+    setTimeout(() => document.getElementById('otp1').focus(), 200);
+    window.scrollTo({top:0, behavior:'smooth'});
+    showToast('📲','Code SMS envoyé','Vérifiez vos SMS et entrez le code');
+  }
+
+    function backToPayment() {
+        document.getElementById('stepOTP').style.display      = 'none';
+        document.getElementById('stepPaiement').style.display = 'block';
+        document.getElementById('step3').className = 'step active';
+        document.getElementById('step3').querySelector('.step-circle').textContent = '3';
+        document.getElementById('step4').className = 'step pending';
+        /* Clear OTP */
+        ['otp1','otp2','otp3','otp4'].forEach(id => { document.getElementById(id).value=''; document.getElementById(id).classList.remove('filled'); });
+        window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    /* ---- OTP movement ---- */
+    function otpMove(current, nextId) {
+        current.classList.toggle('filled', current.value !== '');
+        if (current.value && nextId) {
+        document.getElementById(nextId).focus();
+    }
+    /* Auto-validate when all 4 filled */
+    const all = ['otp1','otp2','otp3','otp4'].every(id => document.getElementById(id).value !== '');
+    if (all) setTimeout(validateOTP, 400);
+    }
+
+    function validateOTP() {
+        const code = ['otp1','otp2','otp3','otp4'].map(id => document.getElementById(id).value).join('');
+        if (code.length < 4) { showToast('⚠️','Code incomplet','Entrez les 4 chiffres'); return; }
+        setLoadingBtn('otpSpinner', true);
+        document.getElementById('otpBtnLabel').style.display = 'none';
+        setTimeout(() => { setLoadingBtn('otpSpinner', false); showSuccess(); }, 2000);
+    }
+
+    function resendOTP() {
+        ['otp1','otp2','otp3','otp4'].forEach(id => { document.getElementById(id).value=''; document.getElementById(id).classList.remove('filled'); });
+        document.getElementById('otp1').focus();
+        showToast('📲','Code renvoyé','Vérifiez vos SMS');
+    }
+
+    /* ---- Show success screen ---- */
+    function showSuccess() {
+        const ref = 'MM-2025-' + Math.random().toString(36).substr(2,4).toUpperCase();
+        document.getElementById('refNum').textContent = ref;
+        document.getElementById('successScreen').classList.add('on');
+        document.getElementById('step4').className = 'step done';
+        document.getElementById('step4').querySelector('.step-circle').textContent = '✓';
+    }
+
+  /* ---- Card number live formatting ---- */
+    function formatCard(input) {
+        let val = input.value.replace(/\D/g,'').substr(0,16);
+        input.value = val.match(/.{1,4}/g)?.join(' ') || val;
+        /* Update preview */
+        const display = val.padEnd(16,'•').match(/.{1,4}/g).join(' ');
+        document.getElementById('cardNumDisplay').textContent = display;
+        /* Detect brand */
+        const brand = val[0]==='4' ? '💳 VISA' : val[0]==='5' ? '💳 MC' : val[0]==='3' ? '💳 AMEX' : '💳';
+        document.getElementById('cardBrand').textContent = brand;
+    }
+    function validateCardField(inputId, errId) {
+        const inp = document.getElementById(inputId);
+        const num = inp.value.replace(/\s/g,'');
+        const ok = num.length === 16;
+        inp.classList.toggle('invalid', !ok);
+        inp.classList.toggle('valid', ok);
+        document.getElementById(errId).style.display = ok ? 'none' : 'block';
+    }
+    function formatExpiry(input) {
+        let val = input.value.replace(/\D/g,'').substr(0,4);
+        if (val.length >= 3) val = val.substr(0,2) + '/' + val.substr(2);
+        input.value = val;
+        document.getElementById('cardExpDisplay').textContent = val || 'MM/AA';
+    }
+    function validateExpiry() {
+        const val = document.getElementById('cardExp').value;
+        const ok = /^\d{2}\/\d{2}$/.test(val);
+        document.getElementById('cardExp').classList.toggle('invalid', !ok);
+        document.getElementById('cardExp').classList.toggle('valid', ok);
+        document.getElementById('errCardExp').style.display = ok ? 'none' : 'block';
+    }
+
+    /* ---- Spinner helper ---- */
+    function setLoadingBtn(spinnerId, on) {
+        const sp = document.getElementById(spinnerId);
+        sp.style.display = on ? 'block' : 'none';
+    }
+
+  /* ---- Toast ---- */
+    let toastTimer;
+    function showToast(ico, title, sub) {
+        document.getElementById('toastIco').textContent = ico;
+        document.getElementById('toastT').textContent   = title;
+        document.getElementById('toastS').textContent   = sub;
+        const t = document.getElementById('toast');
+        t.classList.add('on');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove('on'), 3200);
+    }
+
+    /* ---- Update livraison radio UI ---- */
+    document.querySelectorAll('input[name="livraison"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+        document.querySelectorAll('#livraisonOptions label').forEach(lbl => {
+            lbl.style.borderColor = 'var(--beige2)';
+            lbl.style.background  = 'var(--white)';
+        });
+        const checked = document.querySelector('input[name="livraison"]:checked');
+        if (checked) {
+            const lbl = checked.closest('label');
+            if (checked.value === 'standard') { lbl.style.borderColor='var(--green)'; lbl.style.background='var(--green-pale)'; }
+            else { lbl.style.borderColor='var(--orange)'; lbl.style.background='var(--orange-pale)'; }
+        }
+        });
+    });
+</script>
+</body>
+</html>
