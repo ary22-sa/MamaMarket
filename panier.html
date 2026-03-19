@@ -314,7 +314,7 @@
       <h3>💡 Vous aimerez aussi</h3>
       <div class="suggestions-grid">
 
-        <div class="sug-card" onclick="addSuggestion('Huile Argan','photo/huile.jpeg',4800)">
+        <div class="sug-card" onclick="addSuggestion('Huile Argan','photo/huile.jpeg',4800,'Adjamé')">
           <div class="sug-img">
             <img src="photo/huile.jpeg" alt="Huile d'Argan"
                  onerror="this.src='https://picsum.photos/seed/sug1/200/200'"/>
@@ -322,11 +322,12 @@
           <div class="sug-info">
             <div class="sug-name">Huile d'Argan Pure</div>
             <div class="sug-price">4 800 FCFA</div>
+            <div style="font-size:10px;color:var(--orange);font-weight:700;margin-top:2px">📍 Marché Adjamé</div>
             <button class="sug-add">+ Ajouter</button>
           </div>
         </div>
 
-        <div class="sug-card" onclick="addSuggestion('Collier Perles','photo/colier perle.jpeg',6500)">
+        <div class="sug-card" onclick="addSuggestion('Collier Perles','photo/colier perle.jpeg',6500,'Adjamé')">
           <div class="sug-img">
             <img src="photo/colier perle.jpeg" alt="Collier Perles"
                  onerror="this.src='https://picsum.photos/seed/sug2/200/200'"/>
@@ -334,11 +335,12 @@
           <div class="sug-info">
             <div class="sug-name">Collier Perles Wax</div>
             <div class="sug-price">6 500 FCFA</div>
+            <div style="font-size:10px;color:var(--orange);font-weight:700;margin-top:2px">📍 Marché Adjamé</div>
             <button class="sug-add">+ Ajouter</button>
           </div>
         </div>
 
-        <div class="sug-card" onclick="addSuggestion('Savon Noir','photo/savon noir.jpeg',2200)">
+        <div class="sug-card" onclick="addSuggestion('Savon Noir','photo/savon noir.jpeg',2200,'Yopougon')">
           <div class="sug-img">
             <img src="photo/savon noir.jpeg" alt="Savon Noir"
                  onerror="this.src='https://picsum.photos/seed/sug3/200/200'"/>
@@ -346,11 +348,12 @@
           <div class="sug-info">
             <div class="sug-name">Savon Noir Naturel</div>
             <div class="sug-price">2 200 FCFA</div>
+            <div style="font-size:10px;color:var(--text-light);font-weight:700;margin-top:2px">📍 Marché Yopougon ⚠️</div>
             <button class="sug-add">+ Ajouter</button>
           </div>
         </div>
 
-        <div class="sug-card" onclick="addSuggestion('Foulard Kente','photo/foulard.jpeg',8900)">
+        <div class="sug-card" onclick="addSuggestion('Foulard Kente','photo/foulard.jpeg',8900,'Adjamé')">
           <div class="sug-img">
             <img src="photo/foulard.jpeg" alt="Foulard Kente"
                  onerror="this.src='https://picsum.photos/seed/sug4/200/200'"/>
@@ -358,6 +361,7 @@
           <div class="sug-info">
             <div class="sug-name">Foulard Kente Soie</div>
             <div class="sug-price">8 900 FCFA</div>
+            <div style="font-size:10px;color:var(--orange);font-weight:700;margin-top:2px">📍 Marché Adjamé</div>
             <button class="sug-add">+ Ajouter</button>
           </div>
         </div>
@@ -392,6 +396,11 @@
         <div class="summary-line">
           <span class="label">Vendeurs vérifiés</span>
           <span class="val green">✓ Oui</span>
+        </div>
+        <!-- ✅ Marché unique affiché dans le récapitulatif -->
+        <div class="summary-line" id="marcheLineResume">
+          <span class="label">🧺 Marché de collecte</span>
+          <span class="val" id="marcheNomResume" style="color:var(--orange);font-weight:800">Adjamé</span>
         </div>
       </div>
       <div class="summary-total">
@@ -451,7 +460,8 @@
       id: 1,
       name: 'Robe Kente Royale',
       seller: 'Mama Fatou',
-      img: 'photo/robe royal.jpeg',       /* ← ton fichier photo */
+      marche: 'Adjamé',               /* ✅ marché de la vendeuse */
+      img: 'photo/robe royal.jpeg',
       price: 24500,
       oldPrice: 30500,
       qty: 1,
@@ -463,7 +473,8 @@
       id: 2,
       name: 'Beurre de Karité Bio 250g',
       seller: 'Mama Adjoa',
-      img: 'photo/beurre de karité.jpg',  /* ← ton fichier photo */
+      marche: 'Adjamé',               /* ✅ même marché → OK */
+      img: 'photo/beurre de karité.jpg',
       price: 5200,
       oldPrice: null,
       qty: 2,
@@ -475,7 +486,8 @@
       id: 3,
       name: 'Panier Tressé Artisanal',
       seller: 'Mama Koné',
-      img: 'photo/panier.jpeg',            /* ← ton fichier photo */
+      marche: 'Adjamé',               /* ✅ même marché → OK */
+      img: 'photo/panier.jpeg',
       price: 12800,
       oldPrice: null,
       qty: 1,
@@ -532,6 +544,7 @@
         <div class="item-details">
           <div class="item-seller">Vendu par
             <a href="boutique.html">${item.seller} ✓</a>
+            · <span style="color:var(--orange);font-size:10px;font-weight:700">📍 Marché ${item.marche}</span>
           </div>
           <div class="item-name">${item.name}</div>
           <div class="item-variant">
@@ -660,26 +673,35 @@
     document.getElementById('summaryLivraison').textContent = livraison === 0 ? 'Gratuite 🎉' : livraison.toLocaleString('fr-FR') + ' FCFA';
     document.getElementById('summaryTotal').textContent     = Math.max(0, total).toLocaleString('fr-FR') + ' FCFA';
 
+    /* ✅ Affiche le marché du 1er article dans le récapitulatif */
+    if (cart.length > 0) {
+      document.getElementById('marcheNomResume').textContent = '📍 ' + cart[0].marche;
+    }
+
     if (promoDiscount > 0) {
       document.getElementById('promoLine').style.display = 'flex';
       document.getElementById('summaryPromo').textContent = '-' + promoDiscount.toLocaleString('fr-FR') + ' FCFA';
     }
   }
 
-  /* ---- Ajouter depuis les suggestions ---- */
-  function addSuggestion(name, img, price) {
+  /* ---- Ajouter depuis les suggestions avec vérification marché ---- */
+  function addSuggestion(name, img, price, marche) {
+    /* ✅ Vérifie si le marché est compatible avec le panier actuel */
+    if (cart.length > 0) {
+      const marcheActuel = cart[0].marche;
+      if (marche !== marcheActuel) {
+        showToast('⚠️',
+          'Marchés différents !',
+          `Ton panier est du Marché ${marcheActuel}. ${name} vient du Marché ${marche}. Une commande = un seul marché.`
+        );
+        return; /* Bloqué */
+      }
+    }
     const newId = Date.now();
     cart.push({
-      id: newId,
-      name,
-      seller: 'Mama Market',
-      img,
-      price,
-      oldPrice: null,
-      qty: 1,
-      variant: 'Standard',
-      checked: true,
-      badge: 'Nouveau'
+      id: newId, name, seller: 'Mama Market', marche,
+      img, price, oldPrice: null, qty: 1,
+      variant: 'Standard', checked: true, badge: 'Nouveau'
     });
     renderCart();
     showToast('🛒', name + ' ajouté !', 'Article ajouté à votre panier');

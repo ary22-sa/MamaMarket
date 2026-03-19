@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MamaMarket – Ma Boutique</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+        --orange:      #D4580A;
+        --orange2:     #E8761A;
+        --orange-pale: #FDF0E3;
+        --green:       #2A6B35;
+        --green2:      #3A8B47;
+        --green-pale:  #E8F5EB;
+        --brown:       #5C2D0A;
+        --brown2:      #8B4513;
+        --gold:        #C8901A;
+        --gold2:       #E8B020;
+        --cream:       #FBF5E8;
+        --beige:       #F0E4C8;
+        --beige2:      #E2D0A8;
+        --white:       #FFFFFF;
+        --text-dark:   #2A1205;
+        --text-mid:    #5A3218;
+        --text-light:  #8A6040;
+        --shadow-sm:   0 2px 8px rgba(92,45,10,.10);
+        --shadow-md:   0 6px 24px rgba(92,45,10,.16);
+        --shadow-lg:   0 16px 48px rgba(92,45,10,.22);
+        --r-sm: 10px; --r-md: 16px; --r-lg: 24px; --r-xl: 40px;
+        --font-d: 'Playfair Display', Georgia, serif;
+        --font-u: 'Nunito', sans-serif;
+        --ease: cubic-bezier(.4,0,.2,1);
+        --spring: cubic-bezier(.34,1.56,.64,1);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-u); background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        button { border: none; cursor: pointer; font-family: var(--font-u); }
+
+        .kente { height: 7px; background: repeating-linear-gradient(90deg,#D4580A 0,#D4580A 18px,#2A6B35 18px,#2A6B35 36px,#C8901A 36px,#C8901A 54px,#8B4513 54px,#8B4513 72px,#E8761A 72px,#E8761A 90px,#3A8B47 90px,#3A8B47 108px); }
+        .kente-thin { height: 4px; background: repeating-linear-gradient(90deg,#D4580A 0,#D4580A 14px,#2A6B35 14px,#2A6B35 28px,#C8901A 28px,#C8901A 42px,#8B4513 42px,#8B4513 56px); }
+
+        /* ============================================
+        HEADER
+        ============================================ */
+        .header { position: sticky; top: 0; z-index: 1000; background: var(--white); box-shadow: var(--shadow-sm); }
+        .navbar { max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; gap: 14px; }
+        .logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .logo-ico { width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg,var(--orange),var(--brown)); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .logo-txt { font-family: var(--font-d); font-size: 22px; font-weight: 900; color: var(--brown); }
+        .logo-txt em { color: var(--orange); font-style: normal; }
+        .role-badge { background: var(--orange-pale); color: var(--orange); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 800; border: 1.5px solid rgba(212,88,10,.25); }
+        .nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+        .nav-icon { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--brown); background: transparent; transition: all .2s; cursor: pointer; text-decoration: none; position: relative; }
+        .nav-icon:hover { background: var(--beige); color: var(--orange); }
+        .notif-dot { position: absolute; top: 2px; right: 2px; width: 10px; height: 10px; border-radius: 50%; background: var(--orange); border: 2px solid var(--white); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(212,88,10,.4)} 50%{box-shadow:0 0 0 5px rgba(212,88,10,0)} }
+        .btn-voir-boutique { display: flex; align-items: center; gap: 6px; padding: 8px 16px; background: var(--orange); color: var(--white); border-radius: var(--r-xl); font-size: 12px; font-weight: 700; transition: all .22s; }
+        .btn-voir-boutique:hover { background: var(--orange2); transform: translateY(-1px); }
+
+        /* ============================================
+        HERO VENDEUSE
+        ============================================ */
+        .hero {
+        background: linear-gradient(135deg, #5C1A00 0%, #3A0E00 50%, #1A0500 100%);
+        position: relative; overflow: hidden; padding: 36px 20px;
+        }
+        .hero::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cpolygon points='40,5 75,40 40,75 5,40' stroke='%23E8761A' stroke-width='1.2' stroke-opacity='0.20'/%3E%3Ccircle cx='40' cy='40' r='11' stroke='%23E8761A' stroke-width='.8' stroke-opacity='0.14'/%3E%3C/g%3E%3C/svg%3E"); pointer-events: none; }
+        .hero::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: repeating-linear-gradient(180deg,#D4580A 0,#D4580A 10px,#2A6B35 10px,#2A6B35 20px,#C8901A 20px,#C8901A 30px,#8B4513 30px,#8B4513 40px); }
+        .hero-right-band { position: absolute; right: 0; top: 0; bottom: 0; width: 7px; background: repeating-linear-gradient(180deg,#3A8B47 0,#3A8B47 10px,#E8761A 10px,#E8761A 20px,#8B4513 20px,#8B4513 30px,#C8901A 30px,#C8901A 40px); }
+        .hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 0 14px; flex-wrap: wrap; }
+        .hero-left { color: var(--white); }
+        .hero-greet { font-size: 13px; color: rgba(255,255,255,.60); margin-bottom: 4px; }
+        .hero-name { font-family: var(--font-d); font-size: clamp(22px,4vw,36px); font-weight: 900; margin-bottom: 6px; }
+        .hero-name em { color: var(--gold2); font-style: normal; }
+        .hero-sub { font-size: 13px; color: rgba(255,255,255,.65); line-height: 1.6; max-width: 400px; }
+        .hero-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+        .hero-bdg { display: flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+        .hero-bdg.green { background: var(--green); color: var(--white); }
+        .hero-bdg.gold  { background: linear-gradient(135deg,var(--gold),#A06810); color: var(--white); }
+        .hero-bdg.glass { background: rgba(255,255,255,.12); color: var(--white); border: 1px solid rgba(255,255,255,.20); }
+
+        /* Stats rapides */
+        .hero-stats { display: flex; gap: 12px; flex-wrap: wrap; }
+        .hstat { background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.16); border-radius: var(--r-md); padding: 14px 18px; text-align: center; min-width: 90px; }
+        .hstat-n { font-family: var(--font-d); font-size: 22px; font-weight: 900; color: var(--gold2); }
+        .hstat-l { font-size: 11px; color: rgba(255,255,255,.55); margin-top: 2px; }
+
+        /* ============================================
+        MAIN LAYOUT
+        ============================================ */
+        .main { max-width: 1200px; margin: 0 auto; padding: 28px 20px 60px; display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
+
+        /* ============================================
+        CARDS
+        ============================================ */
+        .card { background: var(--white); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 20px; }
+        .card::before { content: ''; display: block; height: 4px; background: repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 12px,var(--green) 12px,var(--green) 24px,var(--gold) 24px,var(--gold) 36px,var(--brown2) 36px,var(--brown2) 48px); }
+        .card-head { padding: 18px 20px 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .card-title { font-family: var(--font-d); font-size: 18px; color: var(--brown); }
+        .card-body { padding: 16px 20px 20px; }
+
+        /* ============================================
+        BOUTON AJOUTER PRODUIT
+        ============================================ */
+        .btn-add-produit {
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        width: 100%; padding: 14px;
+        background: linear-gradient(135deg,var(--orange),var(--orange2));
+        color: var(--white); border-radius: var(--r-md);
+        font-size: 14px; font-weight: 800;
+        box-shadow: 0 4px 16px rgba(212,88,10,.35);
+        transition: all .28s var(--spring);
+        margin-bottom: 20px;
+        }
+        .btn-add-produit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,88,10,.45); }
+
+        /* ============================================
+        PRODUITS EN VENTE
+        ============================================ */
+        .produits-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+        .prod-card { border: 2px solid var(--beige2); border-radius: var(--r-md); overflow: hidden; transition: all .25s var(--ease); }
+        .prod-card:hover { border-color: var(--orange); box-shadow: var(--shadow-sm); transform: translateY(-3px); }
+        .prod-img { aspect-ratio: 3/4; position: relative; overflow: hidden; }
+        .prod-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+        .prod-card:hover .prod-img img { transform: scale(1.06); }
+        .prod-status { position: absolute; top: 8px; left: 8px; padding: 3px 9px; border-radius: 20px; font-size: 10px; font-weight: 800; }
+        .prod-status.actif  { background: var(--green-pale);  color: var(--green); }
+        .prod-status.pause  { background: var(--beige);       color: var(--text-light); }
+        .prod-status.rupture{ background: #FDECEA;            color: #C0392B; }
+        .prod-ventes { position: absolute; bottom: 8px; right: 8px; background: rgba(42,18,5,.70); color: var(--gold2); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+        .prod-info { padding: 10px 10px 12px; }
+        .prod-name { font-size: 12px; font-weight: 700; color: var(--text-dark); margin-bottom: 5px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .prod-price { font-family: var(--font-d); font-size: 14px; font-weight: 700; color: var(--orange); }
+        .prod-rating { font-size: 10px; color: var(--text-light); margin-top: 2px; }
+        .prod-actions { display: flex; gap: 5px; margin-top: 8px; }
+        .pa-btn { flex: 1; padding: 6px; border-radius: var(--r-sm); font-size: 11px; font-weight: 700; transition: all .2s; text-align: center; }
+        .pa-btn.edit { background: var(--beige); color: var(--text-mid); }
+        .pa-btn.edit:hover { background: var(--orange-pale); color: var(--orange); }
+        .pa-btn.pause { background: var(--beige); color: var(--text-mid); }
+        .pa-btn.pause:hover { background: #FEF3D0; color: var(--gold); }
+        .pa-btn.del { background: #FDECEA; color: #C0392B; }
+        .pa-btn.del:hover { background: #FBBFC0; }
+
+        /* ============================================
+        COMMANDES EN COURS
+        ============================================ */
+        .commande-item { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--beige); }
+        .commande-item:last-child { border-bottom: none; }
+        .cmd-img { width: 52px; height: 52px; border-radius: var(--r-sm); overflow: hidden; flex-shrink: 0; }
+        .cmd-img img { width: 100%; height: 100%; object-fit: cover; }
+        .cmd-info { flex: 1; min-width: 0; }
+        .cmd-id { font-size: 11px; color: var(--text-light); margin-bottom: 2px; }
+        .cmd-name { font-size: 13px; font-weight: 700; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cmd-client { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+        .cmd-right { text-align: right; flex-shrink: 0; }
+        .cmd-price { font-family: var(--font-d); font-size: 14px; font-weight: 700; color: var(--orange); }
+        .cmd-status { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; margin-top: 4px; display: inline-block; }
+        .cmd-status.attente { background: #FEF3D0; color: var(--gold); }
+        .cmd-status.collecte { background: #EDE0FF; color: #7B3F9E; }
+        .cmd-status.livraison { background: var(--orange-pale); color: var(--orange); }
+        .cmd-status.livree { background: var(--green-pale); color: var(--green); }
+
+        /* ============================================
+        AJOUTER PRODUIT MODAL
+        ============================================ */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(42,18,5,.55); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .3s; padding: 20px; }
+        .modal-overlay.on { opacity: 1; pointer-events: all; }
+        .modal { background: var(--white); border-radius: var(--r-lg); width: 100%; max-width: 500px; box-shadow: var(--shadow-lg); transform: scale(.94) translateY(20px); transition: all .32s var(--spring); overflow: hidden; max-height: 90vh; overflow-y: auto; }
+        .modal-overlay.on .modal { transform: scale(1) translateY(0); }
+        .modal::before { content: ''; display: block; height: 5px; background: repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 14px,var(--green) 14px,var(--green) 28px,var(--gold) 28px,var(--gold) 42px,var(--brown2) 42px,var(--brown2) 56px); }
+        .modal-head { padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--beige2); }
+        .modal-head h3 { font-family: var(--font-d); font-size: 20px; color: var(--brown); }
+        .modal-close { width: 30px; height: 30px; border-radius: 50%; background: var(--beige); display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; color: var(--text-mid); transition: all .2s; }
+        .modal-close:hover { background: var(--orange-pale); color: var(--orange); }
+        .modal-body { padding: 20px 24px 24px; }
+        .form-group { margin-bottom: 14px; }
+        .form-label { font-size: 11px; font-weight: 700; color: var(--text-mid); margin-bottom: 5px; display: block; }
+        .form-input { width: 100%; padding: 10px 14px; border: 2px solid var(--beige2); border-radius: var(--r-sm); font-family: var(--font-u); font-size: 13px; color: var(--text-dark); background: var(--cream); outline: none; transition: all .22s; }
+        .form-input:focus { border-color: var(--orange); background: var(--white); box-shadow: 0 0 0 3px rgba(212,88,10,.10); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-select { width: 100%; padding: 10px 14px; border: 2px solid var(--beige2); border-radius: var(--r-sm); font-family: var(--font-u); font-size: 13px; color: var(--text-dark); background: var(--cream); outline: none; transition: all .22s; }
+        .form-select:focus { border-color: var(--orange); }
+        .photo-upload { border: 2px dashed var(--beige2); border-radius: var(--r-md); padding: 24px; text-align: center; cursor: pointer; transition: all .22s; }
+        .photo-upload:hover { border-color: var(--orange); background: var(--orange-pale); }
+        .photo-upload input { display: none; }
+        .photo-upload-ico { font-size: 32px; margin-bottom: 8px; }
+        .photo-upload-txt { font-size: 13px; color: var(--text-light); }
+        .photo-upload-txt strong { color: var(--orange); }
+        .photo-preview { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+        .photo-thumb { width: 64px; height: 64px; border-radius: var(--r-sm); overflow: hidden; position: relative; }
+        .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-thumb-del { position: absolute; top: 2px; right: 2px; width: 16px; height: 16px; border-radius: 50%; background: rgba(192,57,43,.85); color: var(--white); font-size: 9px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .btn-publier { width: 100%; padding: 13px; background: linear-gradient(135deg,var(--orange),var(--orange2)); color: var(--white); border-radius: var(--r-xl); font-size: 14px; font-weight: 800; transition: all .22s; margin-top: 6px; box-shadow: 0 4px 14px rgba(212,88,10,.30); }
+        .btn-publier:hover { opacity: .9; transform: translateY(-1px); }
+
+        /* ============================================
+        PANNEAU DROIT
+        ============================================ */
+        .right-panel {}
+
+        /* MamaPay */
+        .mamapay-card { background: linear-gradient(135deg,var(--orange),#8B3005); border-radius: var(--r-lg); padding: 22px; color: var(--white); margin-bottom: 20px; position: relative; overflow: hidden; }
+        .mamapay-card::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='25,3 47,25 25,47 3,25' stroke='%23FFFFFF' stroke-width='.8' stroke-opacity='0.12' fill='none'/%3E%3C/svg%3E"); pointer-events: none; }
+        .mamapay-card::after { content: ''; display: block; height: 3px; position: absolute; top: 0; left: 0; right: 0; background: repeating-linear-gradient(90deg,rgba(255,255,255,.3) 0,rgba(255,255,255,.3) 10px,transparent 10px,transparent 20px); }
+        .mp-label { font-size: 12px; color: rgba(255,255,255,.65); margin-bottom: 4px; position: relative; z-index: 1; }
+        .mp-amount { font-family: var(--font-d); font-size: 32px; font-weight: 900; position: relative; z-index: 1; margin-bottom: 16px; }
+        .mp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; position: relative; z-index: 1; }
+        .mp-item { background: rgba(255,255,255,.12); border-radius: var(--r-sm); padding: 10px 12px; }
+        .mp-item-n { font-family: var(--font-d); font-size: 17px; font-weight: 700; }
+        .mp-item-l { font-size: 10px; color: rgba(255,255,255,.60); margin-top: 2px; }
+        .btn-retirer { width: 100%; margin-top: 14px; padding: 11px; background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.28); color: var(--white); border-radius: var(--r-xl); font-size: 13px; font-weight: 700; transition: all .22s; position: relative; z-index: 1; }
+        .btn-retirer:hover { background: rgba(255,255,255,.25); }
+
+        /* HerScore */
+        .herscore-card { background: var(--white); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 20px; }
+        .herscore-card::before { content: ''; display: block; height: 4px; background: linear-gradient(90deg,var(--gold),var(--orange)); }
+        .hsc-body { padding: 16px 18px; }
+        .hsc-title { font-size: 13px; font-weight: 800; color: var(--text-mid); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .hsc-score { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .hsc-badge { background: linear-gradient(135deg,var(--gold),#A06810); color: var(--white); padding: 8px 16px; border-radius: 20px; font-family: var(--font-d); font-size: 20px; font-weight: 900; box-shadow: 0 3px 10px rgba(200,144,26,.30); }
+        .hsc-stars { font-size: 18px; color: var(--gold2); }
+        .hsc-label { font-size: 11px; color: var(--text-light); }
+        .hsc-bars { display: flex; flex-direction: column; gap: 6px; }
+        .hsc-bar-row { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-light); }
+        .hsc-bar-label { width: 70px; flex-shrink: 0; }
+        .hsc-bar-track { flex: 1; height: 6px; background: var(--beige2); border-radius: 3px; overflow: hidden; }
+        .hsc-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg,var(--gold),var(--orange)); transition: width .5s var(--ease); }
+        .hsc-bar-pct { width: 28px; text-align: right; flex-shrink: 0; font-weight: 700; color: var(--text-mid); }
+
+        /* Notifications */
+        .notif-card { background: var(--white); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); overflow: hidden; }
+        .notif-card::before { content: ''; display: block; height: 4px; background: linear-gradient(90deg,var(--green),var(--green2)); }
+        .nc-body { padding: 16px 18px; }
+        .nc-title { font-size: 13px; font-weight: 800; color: var(--text-mid); margin-bottom: 12px; }
+        .notif-item { display: flex; gap: 10px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--beige); font-size: 12px; color: var(--text-mid); }
+        .notif-item:last-child { border-bottom: none; }
+        .notif-ico { font-size: 18px; flex-shrink: 0; }
+        .notif-txt strong { display: block; font-size: 12px; color: var(--text-dark); margin-bottom: 2px; }
+        .notif-time { font-size: 10px; color: var(--text-light); margin-top: 2px; }
+
+        /* TOAST */
+        .toast { position: fixed; bottom: 22px; right: 22px; z-index: 9999; background: var(--brown); color: var(--white); border-radius: var(--r-md); padding: 12px 16px; display: flex; align-items: center; gap: 9px; box-shadow: var(--shadow-lg); transform: translateY(60px); opacity: 0; transition: all .32s var(--ease); max-width: 280px; }
+        .toast::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: repeating-linear-gradient(90deg,var(--orange) 0,var(--orange) 9px,var(--green) 9px,var(--green) 18px,var(--gold) 18px,var(--gold) 27px); border-radius: var(--r-md) var(--r-md) 0 0; }
+        .toast.on { transform: translateY(0); opacity: 1; }
+        .toast strong { display: block; font-size: 13px; }
+        .toast span { font-size: 11px; opacity: .78; }
+
+        /* RESPONSIVE */
+        @media(max-width:900px) { .main { grid-template-columns: 1fr; } .right-panel { order: -1; } }
+        @media(max-width:640px) { .produits-grid { grid-template-columns: repeat(2,1fr); } .main { padding: 16px 14px 48px; } .hero-stats { gap: 8px; } }
+    </style>
+    </head>
+    <body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+    <div class="kente-thin"></div>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+        <div class="logo-ico">🌺</div>
+        <div class="logo-txt">Mama<em>Market</em></div>
+        </a>
+        <span class="role-badge">🏪 Vendeuse</span>
+        <div class="nav-right">
+        <div class="nav-icon" onclick="showToast('🔔','3 nouvelles commandes !','Vérifiez vos commandes en attente')">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            <div class="notif-dot"></div>
+        </div>
+        <a href="boutique.html" class="btn-voir-boutique">👁 Voir ma boutique</a>
+        <a href="login.html" class="nav-icon">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        </a>
+        </div>
+    </nav>
+    </header>
+
+    <div class="kente"></div>
+
+    <!-- ===== HERO ===== -->
+    <div class="hero">
+    <div class="hero-right-band"></div>
+    <div class="hero-inner">
+        <div class="hero-left">
+        <div class="hero-greet">Bienvenue dans ton espace vendeuse 🌺</div>
+        <div class="hero-name">Mama <em>Awa Boutique</em></div>
+        <div class="hero-sub">Gère ta boutique, tes produits et tes commandes. Tout est centralisé ici.</div>
+        <div class="hero-badges">
+            <span class="hero-bdg green">✓ Vendeuse Vérifiée</span>
+            <span class="hero-bdg gold">⭐ HerScore 4.8</span>
+            <span class="hero-bdg glass">📍 Marché Adjamé</span>
+            <span class="hero-bdg glass">🗓️ Membre depuis 2022</span>
+        </div>
+        </div>
+        <div class="hero-stats">
+        <div class="hstat"><div class="hstat-n">18</div><div class="hstat-l">Produits actifs</div></div>
+        <div class="hstat"><div class="hstat-n">1 240</div><div class="hstat-l">Ventes totales</div></div>
+        <div class="hstat"><div class="hstat-n" id="statRevenu">184K</div><div class="hstat-l">FCFA ce mois</div></div>
+        <div class="hstat"><div class="hstat-n">98%</div><div class="hstat-l">Satisfaction</div></div>
+        </div>
+    </div>
+    </div>
+
+    <!-- ===== MAIN ===== -->
+    <div class="main">
+
+    <!-- ===== COLONNE GAUCHE ===== -->
+    <div>
+
+        <!-- Bouton ajouter produit -->
+        <button class="btn-add-produit" onclick="openModal()">
+        ➕ Ajouter un nouveau produit
+        </button>
+
+        <!-- Mes produits -->
+        <div class="card">
+        <div class="card-head">
+            <div class="card-title">🛍️ Mes Produits</div>
+            <span style="font-size:12px;color:var(--text-light)">18 produits · <span style="color:var(--green);font-weight:700">16 actifs</span></span>
+        </div>
+        <div class="card-body">
+            <div class="produits-grid" id="prodGrid">
+
+            <div class="prod-card">
+                <div class="prod-img">
+                <img src="photo/robe royal.jpeg" alt="Robe Kente" onerror="this.parentNode.style.background='linear-gradient(135deg,#C87840,#8B4513)'"/>
+                <span class="prod-status actif">● Actif</span>
+                <span class="prod-ventes">520 vendus</span>
+                </div>
+                <div class="prod-info">
+                <div class="prod-name">Robe Kente Royale Collection Printemps</div>
+                <div class="prod-price">24 500 FCFA</div>
+                <div class="prod-rating">⭐ 4.9 · 128 avis</div>
+                <div class="prod-actions">
+                    <button class="pa-btn edit" onclick="showToast('✏️','Modification en cours','Redirection vers l\'éditeur...')">✏️ Modifier</button>
+                    <button class="pa-btn pause" onclick="showToast('⏸️','Produit mis en pause','Il n\'apparaît plus dans les résultats')">⏸️</button>
+                    <button class="pa-btn del" onclick="showToast('🗑️','Produit supprimé','Le produit a été retiré de ta boutique')">🗑️</button>
+                </div>
+                </div>
+            </div>
+
+            <div class="prod-card">
+                <div class="prod-img">
+                <img src="photo/beurre de karité.jpg" alt="Karité" onerror="this.parentNode.style.background='linear-gradient(135deg,#7AB87A,#2A6B35)'"/>
+                <span class="prod-status actif">● Actif</span>
+                <span class="prod-ventes">310 vendus</span>
+                </div>
+                <div class="prod-info">
+                <div class="prod-name">Beurre de Karité Pur Bio 250g</div>
+                <div class="prod-price">5 200 FCFA</div>
+                <div class="prod-rating">⭐ 4.8 · 247 avis</div>
+                <div class="prod-actions">
+                    <button class="pa-btn edit" onclick="showToast('✏️','Modification en cours','Redirection vers l\'éditeur...')">✏️ Modifier</button>
+                    <button class="pa-btn pause" onclick="showToast('⏸️','Produit mis en pause','Il n\'apparaît plus dans les résultats')">⏸️</button>
+                    <button class="pa-btn del" onclick="showToast('🗑️','Produit supprimé','Le produit a été retiré de ta boutique')">🗑️</button>
+                </div>
+                </div>
+            </div>
+
+            <div class="prod-card">
+                <div class="prod-img">
+                <img src="photo/panier.jpeg" alt="Panier" onerror="this.parentNode.style.background='linear-gradient(135deg,#C8901A,#7A4808)'"/>
+                <span class="prod-status actif">● Actif</span>
+                <span class="prod-ventes">180 vendus</span>
+                </div>
+                <div class="prod-info">
+                <div class="prod-name">Panier Tressé Artisanal Grand Format</div>
+                <div class="prod-price">12 800 FCFA</div>
+                <div class="prod-rating">⭐ 4.7 · 89 avis</div>
+                <div class="prod-actions">
+                    <button class="pa-btn edit" onclick="showToast('✏️','Modification en cours','Redirection vers l\'éditeur...')">✏️ Modifier</button>
+                    <button class="pa-btn pause" onclick="showToast('⏸️','Produit mis en pause','Il n\'apparaît plus dans les résultats')">⏸️</button>
+                    <button class="pa-btn del" onclick="showToast('🗑️','Produit supprimé','Le produit a été retiré de ta boutique')">🗑️</button>
+                </div>
+                </div>
+            </div>
+
+            <div class="prod-card">
+                <div class="prod-img">
+                <img src="photo/colier perle.jpeg" alt="Collier" onerror="this.parentNode.style.background='linear-gradient(135deg,#9070B8,#4A1A7A)'"/>
+                <span class="prod-status pause">⏸ En pause</span>
+                <span class="prod-ventes">96 vendus</span>
+                </div>
+                <div class="prod-info">
+                <div class="prod-name">Collier Perles Africaines Fait Main</div>
+                <div class="prod-price">8 500 FCFA</div>
+                <div class="prod-rating">⭐ 4.6 · 54 avis</div>
+                <div class="prod-actions">
+                    <button class="pa-btn edit" onclick="showToast('✏️','Modification en cours','Redirection vers l\'éditeur...')">✏️ Modifier</button>
+                    <button class="pa-btn pause" onclick="showToast('▶️','Produit réactivé','Il apparaît à nouveau dans les résultats')">▶️</button>
+                    <button class="pa-btn del" onclick="showToast('🗑️','Produit supprimé','Le produit a été retiré de ta boutique')">🗑️</button>
+                </div>
+                </div>
+            </div>
+
+            <div class="prod-card">
+                <div class="prod-img">
+                <img src="photo/savon noir.jpeg" alt="Savon" onerror="this.parentNode.style.background='linear-gradient(135deg,#507080,#1A3040)'"/>
+                <span class="prod-status actif">● Actif</span>
+                <span class="prod-ventes">430 vendus</span>
+                </div>
+                <div class="prod-info">
+                <div class="prod-name">Savon Noir Africain x3</div>
+                <div class="prod-price">4 200 FCFA</div>
+                <div class="prod-rating">⭐ 4.7 · 198 avis</div>
+                <div class="prod-actions">
+                    <button class="pa-btn edit" onclick="showToast('✏️','Modification en cours','Redirection vers l\'éditeur...')">✏️ Modifier</button>
+                    <button class="pa-btn pause" onclick="showToast('⏸️','Produit mis en pause','Il n\'apparaît plus dans les résultats')">⏸️</button>
+                    <button class="pa-btn del" onclick="showToast('🗑️','Produit supprimé','Le produit a été retiré de ta boutique')">🗑️</button>
+                </div>
+                </div>
+            </div>
+
+            <div class="prod-card">
+                <div class="prod-img">
+                <img src="photo/aloevera.jpeg" alt="Crème" onerror="this.parentNode.style.background='linear-gradient(135deg,#E0C880,#A08030)'"/>
+                <span class="prod-status rupture">✕ Rupture</span>
+                <span class="prod-ventes">380 vendus</span>
+                </div>
+                <div class="prod-info">
+                <div class="prod-name">Crème Visage Karité & Aloe Vera</div>
+                <div class="prod-price">5 800 FCFA</div>
+                <div class="prod-rating">⭐ 4.8 · 142 avis</div>
+                <div class="prod-actions">
+                    <button class="pa-btn edit" onclick="showToast('✏️','Modification en cours','Redirection vers l\'éditeur...')">✏️ Modifier</button>
+                    <button class="pa-btn pause" onclick="showToast('▶️','Stock mis à jour','Produit remis en ligne')">🔄 Restoc.</button>
+                    <button class="pa-btn del" onclick="showToast('🗑️','Produit supprimé','Le produit a été retiré de ta boutique')">🗑️</button>
+                </div>
+                </div>
+            </div>
+
+            </div>
+        </div>
+        </div>
+
+        <!-- Commandes en cours -->
+        <div class="card">
+        <div class="card-head">
+            <div class="card-title">📦 Commandes en cours</div>
+            <span style="font-size:12px;background:var(--orange-pale);color:var(--orange);padding:3px 10px;border-radius:20px;font-weight:700">3 nouvelles</span>
+        </div>
+        <div class="card-body">
+
+            <div class="commande-item">
+            <div class="cmd-img">
+                <img src="photo/robe royal.jpeg" alt="Robe" onerror="this.parentNode.style.background='linear-gradient(135deg,#C87840,#8B4513)'"/>
+            </div>
+            <div class="cmd-info">
+                <div class="cmd-id">Commande #MM-2847</div>
+                <div class="cmd-name">Robe Kente Royale</div>
+                <div class="cmd-client">👤 Koné Fatoumata · Faiseuse : Mama Aminata</div>
+            </div>
+            <div class="cmd-right">
+                <div class="cmd-price">24 500 FCFA</div>
+                <span class="cmd-status collecte">🧺 En collecte</span>
+            </div>
+            </div>
+
+            <div class="commande-item">
+            <div class="cmd-img">
+                <img src="photo/beurre de karité.jpg" alt="Karité" onerror="this.parentNode.style.background='linear-gradient(135deg,#7AB87A,#2A6B35)'"/>
+            </div>
+            <div class="cmd-info">
+                <div class="cmd-id">Commande #MM-2844</div>
+                <div class="cmd-name">Beurre de Karité × 2</div>
+                <div class="cmd-client">👤 Diallo Mariama · Faiseuse : Mama Koné</div>
+            </div>
+            <div class="cmd-right">
+                <div class="cmd-price">10 400 FCFA</div>
+                <span class="cmd-status livraison">🚚 En livraison</span>
+            </div>
+            </div>
+
+            <div class="commande-item">
+            <div class="cmd-img">
+                <img src="photo/savon noir.jpeg" alt="Savon" onerror="this.parentNode.style.background='linear-gradient(135deg,#507080,#1A3040)'"/>
+            </div>
+            <div class="cmd-info">
+                <div class="cmd-id">Commande #MM-2840</div>
+                <div class="cmd-name">Savon Noir × 3</div>
+                <div class="cmd-client">👤 Touré Aminata</div>
+            </div>
+            <div class="cmd-right">
+                <div class="cmd-price">4 200 FCFA</div>
+                <span class="cmd-status attente">⏳ En attente</span>
+            </div>
+            </div>
+
+            <div class="commande-item">
+            <div class="cmd-img">
+                <img src="photo/panier.jpeg" alt="Panier" onerror="this.parentNode.style.background='linear-gradient(135deg,#C8901A,#7A4808)'"/>
+            </div>
+            <div class="cmd-info">
+                <div class="cmd-id">Commande #MM-2836</div>
+                <div class="cmd-name">Panier Tressé Grand Format</div>
+                <div class="cmd-client">👤 Bamba Seynabou</div>
+            </div>
+            <div class="cmd-right">
+                <div class="cmd-price">12 800 FCFA</div>
+                <span class="cmd-status livree">✅ Livrée</span>
+            </div>
+            </div>
+
+        </div>
+        </div>
+
+    </div>
+
+    <!-- ===== COLONNE DROITE ===== -->
+    <div class="right-panel">
+
+        <!-- MamaPay -->
+        <div class="mamapay-card">
+        <div class="mp-label">💰 Mon solde MamaPay</div>
+        <div class="mp-amount">184 500 FCFA</div>
+        <div class="mp-grid">
+            <div class="mp-item"><div class="mp-item-n">1 240</div><div class="mp-item-l">Ventes totales</div></div>
+            <div class="mp-item"><div class="mp-item-n">32 400</div><div class="mp-item-l">FCFA cette semaine</div></div>
+            <div class="mp-item"><div class="mp-item-n">4.8 ⭐</div><div class="mp-item-l">HerScore</div></div>
+            <div class="mp-item"><div class="mp-item-n">98%</div><div class="mp-item-l">Satisfaction</div></div>
+        </div>
+        <button class="btn-retirer" onclick="showToast('💳','Retrait initié !','Virement Orange Money sous 5 minutes')">
+            📱 Retirer sur Orange Money
+        </button>
+        </div>
+
+        <!-- HerScore -->
+        <div class="herscore-card">
+        <div class="hsc-body">
+            <div class="hsc-title">⭐ Mon HerScore</div>
+            <div class="hsc-score">
+            <div class="hsc-badge">4.8</div>
+            <div>
+                <div class="hsc-stars">⭐⭐⭐⭐⭐</div>
+                <div class="hsc-label">326 avis clients vérifiés</div>
+            </div>
+            </div>
+            <div class="hsc-bars">
+            <div class="hsc-bar-row">
+                <span class="hsc-bar-label">Qualité</span>
+                <div class="hsc-bar-track"><div class="hsc-bar-fill" style="width:96%"></div></div>
+                <span class="hsc-bar-pct">96%</span>
+            </div>
+            <div class="hsc-bar-row">
+                <span class="hsc-bar-label">Rapidité</span>
+                <div class="hsc-bar-track"><div class="hsc-bar-fill" style="width:92%"></div></div>
+                <span class="hsc-bar-pct">92%</span>
+            </div>
+            <div class="hsc-bar-row">
+                <span class="hsc-bar-label">Communication</span>
+                <div class="hsc-bar-track"><div class="hsc-bar-fill" style="width:98%"></div></div>
+                <span class="hsc-bar-pct">98%</span>
+            </div>
+            <div class="hsc-bar-row">
+                <span class="hsc-bar-label">Conformité</span>
+                <div class="hsc-bar-track"><div class="hsc-bar-fill" style="width:95%"></div></div>
+                <span class="hsc-bar-pct">95%</span>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="notif-card">
+        <div class="nc-body">
+            <div class="nc-title">🔔 Notifications</div>
+            <div class="notif-item">
+            <div class="notif-ico">🧺</div>
+            <div class="notif-txt">
+                <strong>Faiseuse en route</strong>
+                Mama Aminata récupère ta Robe Kente (Stand B12)
+                <div class="notif-time">Il y a 12 min</div>
+            </div>
+            </div>
+            <div class="notif-item">
+            <div class="notif-ico">⭐</div>
+            <div class="notif-txt">
+                <strong>Nouvel avis 5 étoiles !</strong>
+                "Qualité parfaite, emballage soigné 🌺"
+                <div class="notif-time">Il y a 1h</div>
+            </div>
+            </div>
+            <div class="notif-item">
+            <div class="notif-ico">💰</div>
+            <div class="notif-txt">
+                <strong>Paiement reçu</strong>
+                +10 400 FCFA · Commande #MM-2844
+                <div class="notif-time">Il y a 2h</div>
+            </div>
+            </div>
+            <div class="notif-item">
+            <div class="notif-ico">📦</div>
+            <div class="notif-txt">
+                <strong>Stock faible</strong>
+                Crème Karité Aloe — plus que 2 unités
+                <div class="notif-time">Hier</div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+    </div>
+
+    <!-- ===== MODAL AJOUTER PRODUIT ===== -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal">
+        <div class="modal-head">
+        <h3>➕ Ajouter un produit</h3>
+        <div class="modal-close" onclick="closeModal()">✕</div>
+        </div>
+        <div class="modal-body">
+
+        <div class="form-group">
+            <label class="form-label">📝 Nom du produit</label>
+            <input class="form-input" type="text" id="pNom" placeholder="Ex: Robe Wax Royale Collection été"/>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+            <label class="form-label">💰 Prix (FCFA)</label>
+            <input class="form-input" type="number" id="pPrix" placeholder="Ex: 15000"/>
+            </div>
+            <div class="form-group">
+            <label class="form-label">🏷️ Prix barré (facultatif)</label>
+            <input class="form-input" type="number" id="pAncienPrix" placeholder="Ex: 20000"/>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+            <label class="form-label">🗂️ Catégorie</label>
+            <select class="form-select" id="pCat">
+                <option value="">-- Choisir --</option>
+                <option>Mode</option>
+                <option>Beauté</option>
+                <option>Nourriture</option>
+                <option>Artisanat</option>
+                <option>Bijoux</option>
+                <option>Fruits</option>
+                <option>Légumes</option>
+            </select>
+            </div>
+            <div class="form-group">
+            <label class="form-label">📦 Stock disponible</label>
+            <input class="form-input" type="number" id="pStock" placeholder="Ex: 10"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">📝 Description</label>
+            <textarea class="form-input" id="pDesc" rows="3" placeholder="Décrivez votre produit : matière, taille, utilisation..." style="resize:vertical"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">📸 Photos du produit</label>
+            <div class="photo-upload" onclick="document.getElementById('photoInput').click()">
+            <input type="file" id="photoInput" accept="image/*" multiple onchange="previewPhotos(this)"/>
+            <div class="photo-upload-ico">📷</div>
+            <div class="photo-upload-txt">Clique pour ajouter tes photos<br/><strong>ou glisse-les ici</strong></div>
+            </div>
+            <div class="photo-preview" id="photoPreview"></div>
+        </div>
+
+        <button class="btn-publier" onclick="publierProduit()">
+            🌺 Publier le produit
+        </button>
+        </div>
+    </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+    <span style="font-size:18px;flex-shrink:0" id="toastIco">✓</span>
+    <div><strong id="toastT">Action effectuée</strong><span id="toastS"></span></div>
+    </div>
+
+    <script>
+    /* ---- Modal ---- */
+    function openModal() {
+        document.getElementById('modalOverlay').classList.add('on');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal(e) {
+        if (e && e.target !== document.getElementById('modalOverlay')) return;
+        document.getElementById('modalOverlay').classList.remove('on');
+        document.body.style.overflow = '';
+    }
+
+    /* ---- Prévisualisation photos ---- */
+    function previewPhotos(input) {
+        const preview = document.getElementById('photoPreview');
+        Array.from(input.files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const div = document.createElement('div');
+            div.className = 'photo-thumb';
+            div.innerHTML = `<img src="${e.target.result}" alt="photo"/><div class="photo-thumb-del" onclick="this.parentNode.remove()">✕</div>`;
+            preview.appendChild(div);
+        };
+        reader.readAsDataURL(file);
+        });
+    }
+
+    /* ---- Publier produit ---- */
+    function publierProduit() {
+        const nom   = document.getElementById('pNom').value.trim();
+        const prix  = document.getElementById('pPrix').value;
+        const cat   = document.getElementById('pCat').value;
+        if (!nom)  { showToast('⚠️','Nom manquant','Entre le nom du produit'); return; }
+        if (!prix) { showToast('⚠️','Prix manquant','Entre le prix de vente'); return; }
+        if (!cat)  { showToast('⚠️','Catégorie manquante','Choisis une catégorie'); return; }
+
+        closeModal();
+        showToast('🌺','Produit publié !',nom + ' est maintenant visible dans ta boutique');
+
+        /* Réinitialiser le formulaire */
+        ['pNom','pPrix','pAncienPrix','pStock','pDesc'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('pCat').value = '';
+        document.getElementById('photoPreview').innerHTML = '';
+    }
+
+    /* ---- Toast ---- */
+    let toastTimer;
+    function showToast(ico, title, sub) {
+        document.getElementById('toastIco').textContent = ico;
+        document.getElementById('toastT').textContent   = title;
+        document.getElementById('toastS').textContent   = sub;
+        const t = document.getElementById('toast');
+        t.classList.add('on');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove('on'), 3500);
+    }
+</script>
+</body>
+</html>
