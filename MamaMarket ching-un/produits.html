@@ -495,61 +495,59 @@
 </div>
 
 <script>
-  /* ================================================
-     DONNÉES PRODUITS — 34 produits
-     tes photos locales dans le dossier photo/
-  ================================================ */
+
+  /*DONNÉES PRODUITS — 34 produits*/
   const ALL_PRODUCTS = [
 
     /* ---- MODE (7) ---- */
-    { id:1,  name:'Robe Kente Royale Collection Printemps', cat:'Mode',       marche:'Adjamé',      img:'photo/robe royal.jpeg',        price:24500, oldPrice:30500, rating:4.9, reviews:128, seller:'Mama Fatou',    badge:'-20%',     badgeType:'bdg-o',    sales:'520 vendus',  isNew:false },
-    { id:7,  name:'Tenue Wax Enfant 2-8 ans Brodée',        cat:'Mode',       marche:'Adjamé',      img:'photo/wax enafant.jpeg',       price:9900,  oldPrice:null,  rating:4.8, reviews:76,  seller:'Mama Bamba',    badge:null,       badgeType:'',         sales:'145 vendus',  isNew:false },
-    { id:9,  name:'Pagne Wax Imprimé 6 yards',              cat:'Mode',       marche:'Treichville', img:'photo/pagne wax.jpeg',         price:18000, oldPrice:22000, rating:4.8, reviews:156, seller:'Mama Ouattara', badge:'-18%',     badgeType:'bdg-o',    sales:'890 vendus',  isNew:false },
-    { id:16, name:'Boubou Homme Brodé Grand Bazin',          cat:'Mode',       marche:'Cocody',      img:'photo/boubou homme.jpeg',      price:35000, oldPrice:42000, rating:4.8, reviews:61,  seller:'Mama Doumbia',  badge:'-17%',     badgeType:'bdg-o',    sales:'120 vendus',  isNew:false },
-    { id:18, name:'Foulard Soie Kente Dégradé',              cat:'Mode',       marche:'Yopougon',    img:'photo/foulard.jpeg',           price:8900,  oldPrice:null,  rating:4.5, reviews:47,  seller:'Mama Gbané',    badge:null,       badgeType:'',         sales:'89 vendus',   isNew:false },
-    { id:21, name:'Robe Ankara Femme Cérémonie',             cat:'Mode',       marche:'Adjamé',      img:'photo/robe kente.jpg',         price:28000, oldPrice:null,  rating:4.7, reviews:83,  seller:'Mama Fofana',   badge:'Premium',  badgeType:'bdg-gold', sales:'210 vendus',  isNew:false },
+      { id:1,  name:'Robe Kente Royale Collection Printemps', cat:'Mode',       marche:'Adjamé',      img:'photo/robe royal.jpeg',        price:24500, oldPrice:30500, rating:4.9, reviews:128, seller:'Mama Fatou',    badge:'-20%',     badgeType:'bdg-o',    sales:'520 vendus',  isNew:false },
+      { id:7,  name:'Tenue Wax Enfant 2-8 ans Brodée',        cat:'Mode',       marche:'Adjamé',      img:'photo/wax enafant.jpeg',       price:9900,  oldPrice:null,  rating:4.8, reviews:76,  seller:'Mama Bamba',    badge:null,       badgeType:'',         sales:'145 vendus',  isNew:false },
+      { id:9,  name:'Pagne Wax Imprimé 6 yards',              cat:'Mode',       marche:'Treichville', img:'photo/pagne wax.jpeg',         price:18000, oldPrice:22000, rating:4.8, reviews:156, seller:'Mama Ouattara', badge:'-18%',     badgeType:'bdg-o',    sales:'890 vendus',  isNew:false },
+      { id:16, name:'Boubou Homme Brodé Grand Bazin',          cat:'Mode',       marche:'Cocody',      img:'photo/boubou homme.jpeg',      price:35000, oldPrice:42000, rating:4.8, reviews:61,  seller:'Mama Doumbia',  badge:'-17%',     badgeType:'bdg-o',    sales:'120 vendus',  isNew:false },
+      { id:18, name:'Foulard Soie Kente Dégradé',              cat:'Mode',       marche:'Yopougon',    img:'photo/foulard.jpeg',           price:8900,  oldPrice:null,  rating:4.5, reviews:47,  seller:'Mama Gbané',    badge:null,       badgeType:'',         sales:'89 vendus',   isNew:false },
+      { id:21, name:'Robe Ankara Femme Cérémonie',             cat:'Mode',       marche:'Adjamé',      img:'photo/robe kente.jpg',         price:28000, oldPrice:null,  rating:4.7, reviews:83,  seller:'Mama Fofana',   badge:'Premium',  badgeType:'bdg-gold', sales:'210 vendus',  isNew:false },
 
-    /* ---- BEAUTÉ (5) ---- */
-    { id:2,  name:'Beurre de Karité Pur Bio 250g',          cat:'Beauté',     marche:'Adjamé',      img:'photo/beurre de karité.jpg',   price:5200,  oldPrice:null,  rating:4.8, reviews:247, seller:'Mama Adjoa',    badge:'Nouveau',  badgeType:'bdg-g',    sales:'310 vendus',  isNew:true  },
-    { id:4,  name:'Huile de Coco Pressée à Froid 200ml',    cat:'Beauté',     marche:'Cocody',      img:'photo/huile.jpeg',             price:3500,  oldPrice:null,  rating:5.0, reviews:312, seller:'Mama Aminata',  badge:null,       badgeType:'',         sales:'780 vendus',  isNew:false },
-    { id:8,  name:'Savon Noir Africain Traditionnel x3',    cat:'Beauté',     marche:'Yopougon',    img:'photo/savon noir.jpeg',        price:4200,  oldPrice:null,  rating:4.7, reviews:198, seller:'Mama Sanogo',   badge:'Pack ×3',  badgeType:'bdg-o',    sales:'430 vendus',  isNew:false },
-    { id:13, name:"Huile d'Argan Pure Naturelle 100ml",     cat:'Beauté',     marche:'Adjamé',      img:'photo/huile.jpeg',             price:6800,  oldPrice:8500,  rating:4.7, reviews:167, seller:'Mama Yao',      badge:'-20%',     badgeType:'bdg-o',    sales:'290 vendus',  isNew:false },
-    { id:23, name:'Crème Visage Karité & Aloe Vera',         cat:'Beauté',     marche:'Treichville', img:'photo/aloevera.jpeg',          price:5800,  oldPrice:7200,  rating:4.8, reviews:142, seller:'Mama Yéboué',   badge:'-19%',     badgeType:'bdg-o',    sales:'380 vendus',  isNew:false },
+      /* ---- BEAUTÉ (5) ---- */
+      { id:2,  name:'Beurre de Karité Pur Bio 250g',          cat:'Beauté',     marche:'Adjamé',      img:'photo/beurre de karité.jpg',   price:5200,  oldPrice:null,  rating:4.8, reviews:247, seller:'Mama Adjoa',    badge:'Nouveau',  badgeType:'bdg-g',    sales:'310 vendus',  isNew:true  },
+      { id:4,  name:'Huile de Coco Pressée à Froid 200ml',    cat:'Beauté',     marche:'Cocody',      img:'photo/huile.jpeg',             price:3500,  oldPrice:null,  rating:5.0, reviews:312, seller:'Mama Aminata',  badge:null,       badgeType:'',         sales:'780 vendus',  isNew:false },
+      { id:8,  name:'Savon Noir Africain Traditionnel x3',    cat:'Beauté',     marche:'Yopougon',    img:'photo/savon noir.jpeg',        price:4200,  oldPrice:null,  rating:4.7, reviews:198, seller:'Mama Sanogo',   badge:'Pack ×3',  badgeType:'bdg-o',    sales:'430 vendus',  isNew:false },
+      { id:13, name:"Huile d'Argan Pure Naturelle 100ml",     cat:'Beauté',     marche:'Adjamé',      img:'photo/huile.jpeg',             price:6800,  oldPrice:8500,  rating:4.7, reviews:167, seller:'Mama Yao',      badge:'-20%',     badgeType:'bdg-o',    sales:'290 vendus',  isNew:false },
+      { id:23, name:'Crème Visage Karité & Aloe Vera',         cat:'Beauté',     marche:'Treichville', img:'photo/aloevera.jpeg',          price:5800,  oldPrice:7200,  rating:4.8, reviews:142, seller:'Mama Yéboué',   badge:'-19%',     badgeType:'bdg-o',    sales:'380 vendus',  isNew:false },
 
-    /* ---- NOURRITURE (4) ---- */
-    { id:6,  name:'Attiéké Premium Garba – 1kg',            cat:'Nourriture', marche:'Adjamé',      img:'photo/garba.jpeg',             price:2800,  oldPrice:null,  rating:4.9, reviews:430, seller:'Mama Touré',    badge:'Bio',      badgeType:'bdg-g',    sales:'1.2k vendus', isNew:false },
-    { id:10, name:'Sauce Graine Piment Ivoirien',            cat:'Nourriture', marche:'Abobo',       img:'photo/graine.jpeg',            price:3200,  oldPrice:null,  rating:4.6, reviews:88,  seller:'Mama Coulibaly',badge:'Artisanal',badgeType:'bdg-gold', sales:'340 vendus',  isNew:false },
-    { id:12, name:'Poulet Braisé Sauce Kedjenou',            cat:'Nourriture', marche:'Yopougon',    img:'photo/sauce kedjenou.jpeg',    price:7500,  oldPrice:null,  rating:4.9, reviews:203, seller:'Mama Koffi',    badge:'⭐ Hit',   badgeType:'bdg-hot',  sales:'560 vendus',  isNew:false },
-    { id:24, name:'Coffret Épices Ivoiriennes Premium',      cat:'Nourriture', marche:'Cocody',      img:'photo/epice.jpeg',             price:6500,  oldPrice:null,  rating:4.9, reviews:96,  seller:'Mama Séry',     badge:'⭐ Hit',   badgeType:'bdg-hot',  sales:'520 vendus',  isNew:false },
+      /* ---- NOURRITURE (4) ---- */
+      { id:6,  name:'Attiéké Premium Garba – 1kg',            cat:'Nourriture', marche:'Adjamé',      img:'photo/garba.jpeg',             price:2800,  oldPrice:null,  rating:4.9, reviews:430, seller:'Mama Touré',    badge:'Bio',      badgeType:'bdg-g',    sales:'1.2k vendus', isNew:false },
+      { id:10, name:'Sauce Graine Piment Ivoirien',            cat:'Nourriture', marche:'Abobo',       img:'photo/graine.jpeg',            price:3200,  oldPrice:null,  rating:4.6, reviews:88,  seller:'Mama Coulibaly',badge:'Artisanal',badgeType:'bdg-gold', sales:'340 vendus',  isNew:false },
+      { id:12, name:'Poulet Braisé Sauce Kedjenou',            cat:'Nourriture', marche:'Yopougon',    img:'photo/sauce kedjenou.jpeg',    price:7500,  oldPrice:null,  rating:4.9, reviews:203, seller:'Mama Koffi',    badge:'⭐ Hit',   badgeType:'bdg-hot',  sales:'560 vendus',  isNew:false },
+      { id:24, name:'Coffret Épices Ivoiriennes Premium',      cat:'Nourriture', marche:'Cocody',      img:'photo/epice.jpeg',             price:6500,  oldPrice:null,  rating:4.9, reviews:96,  seller:'Mama Séry',     badge:'⭐ Hit',   badgeType:'bdg-hot',  sales:'520 vendus',  isNew:false },
 
-    /* ---- ARTISANAT (5) ---- */
-    { id:3,  name:'Panier Tressé Artisanal Grand Format',   cat:'Artisanat',  marche:'Adjamé',      img:'photo/panier.jpeg',            price:12800, oldPrice:null,  rating:4.7, reviews:89,  seller:'Mama Koné',     badge:'Top',      badgeType:'bdg-hot',  sales:'180 vendus',  isNew:false },
-    { id:14, name:'Sculpture Bois Africain Masque',          cat:'Artisanat',  marche:'Treichville', img:'photo/sculpture.jpeg',         price:22000, oldPrice:null,  rating:4.9, reviews:34,  seller:'Mama Gbagbo',   badge:'Unique',   badgeType:'bdg-gold', sales:'48 vendus',   isNew:false },
-    { id:17, name:'Tapisserie Murale Batik Ivoirien',        cat:'Artisanat',  marche:'Cocody',      img:'photo/tapisseri.jpeg',         price:15500, oldPrice:null,  rating:4.7, reviews:28,  seller:'Mama Soro',     badge:'Nouveau',  badgeType:'bdg-g',    sales:'54 vendus',   isNew:true  },
-    { id:22, name:'Mortier Bois Traditionnel Grand',         cat:'Artisanat',  marche:'Abobo',       img:'photo/mortier.jpeg',           price:7500,  oldPrice:null,  rating:4.6, reviews:57,  seller:'Mama Konaté',   badge:null,       badgeType:'',         sales:'143 vendus',  isNew:false },
+      /* ---- ARTISANAT (5) ---- */
+      { id:3,  name:'Panier Tressé Artisanal Grand Format',   cat:'Artisanat',  marche:'Adjamé',      img:'photo/panier.jpeg',            price:12800, oldPrice:null,  rating:4.7, reviews:89,  seller:'Mama Koné',     badge:'Top',      badgeType:'bdg-hot',  sales:'180 vendus',  isNew:false },
+      { id:14, name:'Sculpture Bois Africain Masque',          cat:'Artisanat',  marche:'Treichville', img:'photo/sculpture.jpeg',         price:22000, oldPrice:null,  rating:4.9, reviews:34,  seller:'Mama Gbagbo',   badge:'Unique',   badgeType:'bdg-gold', sales:'48 vendus',   isNew:false },
+      { id:17, name:'Tapisserie Murale Batik Ivoirien',        cat:'Artisanat',  marche:'Cocody',      img:'photo/tapisseri.jpeg',         price:15500, oldPrice:null,  rating:4.7, reviews:28,  seller:'Mama Soro',     badge:'Nouveau',  badgeType:'bdg-g',    sales:'54 vendus',   isNew:true  },
+      { id:22, name:'Mortier Bois Traditionnel Grand',         cat:'Artisanat',  marche:'Abobo',       img:'photo/mortier.jpeg',           price:7500,  oldPrice:null,  rating:4.6, reviews:57,  seller:'Mama Konaté',   badge:null,       badgeType:'',         sales:'143 vendus',  isNew:false },
 
-    /* ---- BIJOUX (3) ---- */
-    { id:5,  name:'Collier Perles Africaines Fait Main',    cat:'Bijoux',     marche:'Adjamé',      img:'photo/colier perle.jpeg',      price:8500,  oldPrice:10000, rating:4.6, reviews:54,  seller:'Mama Diallo',   badge:'-15%',     badgeType:'bdg-o',    sales:'96 vendus',   isNew:false },
-    { id:11, name:'Bracelet Perles Wax Coloré',              cat:'Bijoux',     marche:'Yopougon',    img:'photo/bracellet.jpeg',         price:2500,  oldPrice:null,  rating:4.5, reviews:43,  seller:'Mama Traoré',   badge:'Nouveau',  badgeType:'bdg-g',    sales:'67 vendus',   isNew:true  },
-    { id:20, name:'Bague Argent Massif Ethnique',            cat:'Bijoux',     marche:'Treichville', img:'photo/bague.jpeg',             price:12000, oldPrice:15000, rating:4.9, reviews:38,  seller:'Mama Guéi',     badge:'-20%',     badgeType:'bdg-o',    sales:'76 vendus',   isNew:false },
+      /* ---- BIJOUX (3) ---- */
+      { id:5,  name:'Collier Perles Africaines Fait Main',    cat:'Bijoux',     marche:'Adjamé',      img:'photo/colier perle.jpeg',      price:8500,  oldPrice:10000, rating:4.6, reviews:54,  seller:'Mama Diallo',   badge:'-15%',     badgeType:'bdg-o',    sales:'96 vendus',   isNew:false },
+      { id:11, name:'Bracelet Perles Wax Coloré',              cat:'Bijoux',     marche:'Yopougon',    img:'photo/bracellet.jpeg',         price:2500,  oldPrice:null,  rating:4.5, reviews:43,  seller:'Mama Traoré',   badge:'Nouveau',  badgeType:'bdg-g',    sales:'67 vendus',   isNew:true  },
+      { id:20, name:'Bague Argent Massif Ethnique',            cat:'Bijoux',     marche:'Treichville', img:'photo/bague.jpeg',             price:12000, oldPrice:15000, rating:4.9, reviews:38,  seller:'Mama Guéi',     badge:'-20%',     badgeType:'bdg-o',    sales:'76 vendus',   isNew:false },
 
-    /* ---- BEAUTÉ suite ---- */
-    { id:15, name:'Teinture Indigo Bio Pour Cheveux',        cat:'Beauté',     marche:'Koumassi',    img:'photo/teinture.jpeg',          price:4500,  oldPrice:null,  rating:4.6, reviews:92,  seller:'Mama Assi',     badge:'Bio',      badgeType:'bdg-g',    sales:'178 vendus',  isNew:false },
-    { id:19, name:'Poudre Gingembre Bio 200g',               cat:'Nourriture', marche:'Abobo',       img:'photo/gingimbre.jpeg',         price:2200,  oldPrice:null,  rating:4.8, reviews:115, seller:'Mama Coulibaly',badge:'Bio',      badgeType:'bdg-g',    sales:'420 vendus',  isNew:false },
+      /* ---- BEAUTÉ suite ---- */
+      { id:15, name:'Teinture Indigo Bio Pour Cheveux',        cat:'Beauté',     marche:'Koumassi',    img:'photo/teinture.jpeg',          price:4500,  oldPrice:null,  rating:4.6, reviews:92,  seller:'Mama Assi',     badge:'Bio',      badgeType:'bdg-g',    sales:'178 vendus',  isNew:false },
+      { id:19, name:'Poudre Gingembre Bio 200g',               cat:'Nourriture', marche:'Abobo',       img:'photo/gingimbre.jpeg',         price:2200,  oldPrice:null,  rating:4.8, reviews:115, seller:'Mama Coulibaly',badge:'Bio',      badgeType:'bdg-g',    sales:'420 vendus',  isNew:false },
 
-    /* ✅ FRUITS (5) */
-    { id:25, name:'Bananes Plantain Fraîches – 1kg',         cat:'Fruits',     marche:'Adjamé',      img:'photo/banane.jpeg',            price:800,   oldPrice:null,  rating:4.8, reviews:312, seller:'Mama Adjoua',   badge:'Frais',    badgeType:'bdg-g',    sales:'1.4k vendus', isNew:false },
-    { id:26, name:'Ananas Victoria Sucré – Pièce',           cat:'Fruits',     marche:'Yopougon',    img:'photo/ananas.jpeg',            price:600,   oldPrice:null,  rating:4.9, reviews:520, seller:'Mama Koné',     badge:'Bio',      badgeType:'bdg-g',    sales:'2.1k vendus', isNew:false },
-    { id:27, name:'Mangues Alphonso Mûres – 1kg',            cat:'Fruits',     marche:'Abobo',       img:'photo/mangue.jpeg',            price:1200,  oldPrice:1500,  rating:4.7, reviews:189, seller:'Mama Touré',    badge:'-20%',     badgeType:'bdg-o',    sales:'890 vendus',  isNew:false },
-    { id:28, name:'Papayes Fraîches – Pièce',                cat:'Fruits',     marche:'Cocody',      img:'photo/papaye.jpeg',            price:700,   oldPrice:null,  rating:4.6, reviews:143, seller:'Mama Soro',     badge:'Frais',    badgeType:'bdg-g',    sales:'640 vendus',  isNew:true  },
-    { id:29, name:'Avocat Hass Frais – 3 pièces',            cat:'Fruits',     marche:'Adjamé',      img:'photo/avocat.jpeg',            price:900,   oldPrice:null,  rating:5.0, reviews:410, seller:'Mama Bamba',    badge:'⭐ Hit',   badgeType:'bdg-hot',  sales:'1.8k vendus', isNew:false },
+      /* ✅ FRUITS (5) */
+      { id:25, name:'Bananes Plantain Fraîches – 1kg',         cat:'Fruits',     marche:'Adjamé',      img:'photo/banane.jpeg',            price:800,   oldPrice:null,  rating:4.8, reviews:312, seller:'Mama Adjoua',   badge:'Frais',    badgeType:'bdg-g',    sales:'1.4k vendus', isNew:false },
+      { id:26, name:'Ananas Victoria Sucré – Pièce',           cat:'Fruits',     marche:'Yopougon',    img:'photo/anana.jpeg',            price:600,   oldPrice:null,  rating:4.9, reviews:520, seller:'Mama Koné',     badge:'Bio',      badgeType:'bdg-g',    sales:'2.1k vendus', isNew:false },
+      { id:27, name:'Mangues Alphonso Mûres – 1kg',            cat:'Fruits',     marche:'Abobo',       img:'photo/mangue.jpeg',            price:1200,  oldPrice:1500,  rating:4.7, reviews:189, seller:'Mama Touré',    badge:'-20%',     badgeType:'bdg-o',    sales:'890 vendus',  isNew:false },
+      { id:28, name:'Papayes Fraîches – Pièce',                cat:'Fruits',     marche:'Cocody',      img:'photo/papaye.jpeg',            price:700,   oldPrice:null,  rating:4.6, reviews:143, seller:'Mama Soro',     badge:'Frais',    badgeType:'bdg-g',    sales:'640 vendus',  isNew:true  },
+      { id:29, name:'Avocat Hass Frais – 3 pièces',            cat:'Fruits',     marche:'Adjamé',      img:'photo/avocat.jpeg',            price:900,   oldPrice:null,  rating:5.0, reviews:410, seller:'Mama Bamba',    badge:'⭐ Hit',   badgeType:'bdg-hot',  sales:'1.8k vendus', isNew:false },
 
-    /* ✅ LÉGUMES (5) */
-    { id:30, name:'Tomates Roma Fraîches – 1kg',             cat:'Légumes',    marche:'Adjamé',      img:'photo/tomate.jpeg',            price:700,   oldPrice:null,  rating:4.8, reviews:287, seller:'Mama Coulibaly',badge:'Frais',    badgeType:'bdg-g',    sales:'1.1k vendus', isNew:false },
-    { id:31, name:'Gombo Frais – 500g',                      cat:'Légumes',    marche:'Yopougon',    img:'photo/gombo.jpeg',             price:500,   oldPrice:null,  rating:4.7, reviews:198, seller:'Mama Diallo',   badge:'Local',    badgeType:'bdg-gold', sales:'760 vendus',  isNew:false },
-    { id:32, name:'Aubergines Africaines – 1kg',             cat:'Légumes',    marche:'Abobo',       img:'photo/aubergine.jpeg',         price:600,   oldPrice:null,  rating:4.6, reviews:134, seller:'Mama Yao',      badge:'Frais',    badgeType:'bdg-g',    sales:'420 vendus',  isNew:true  },
-    { id:33, name:'Piments Wiri-Wiri – 250g',                cat:'Légumes',    marche:'Treichville', img:'photo/piment.jpeg',            price:400,   oldPrice:null,  rating:4.9, reviews:356, seller:'Mama Séry',     badge:'🌶️ Fort',  badgeType:'bdg-hot',  sales:'930 vendus',  isNew:false },
-    { id:34, name:'Ignames Locales – 2kg',                   cat:'Légumes',    marche:'Koumassi',    img:'photo/igname.jpeg',            price:1500,  oldPrice:2000,  rating:4.7, reviews:221, seller:'Mama Gbagbo',   badge:'-25%',     badgeType:'bdg-o',    sales:'580 vendus',  isNew:false },
+      /* ✅ LÉGUMES (5) */
+      { id:30, name:'Tomates Roma Fraîches – 1kg',             cat:'Légumes',    marche:'Adjamé',      img:'photo/tomate.jpeg',            price:700,   oldPrice:null,  rating:4.8, reviews:287, seller:'Mama Coulibaly',badge:'Frais',    badgeType:'bdg-g',    sales:'1.1k vendus', isNew:false },
+      { id:31, name:'Gombo Frais – 500g',                      cat:'Légumes',    marche:'Yopougon',    img:'photo/gombo.jpeg',             price:500,   oldPrice:null,  rating:4.7, reviews:198, seller:'Mama Diallo',   badge:'Local',    badgeType:'bdg-gold', sales:'760 vendus',  isNew:false },
+      { id:32, name:'Aubergines Africaines – 1kg',             cat:'Légumes',    marche:'Abobo',       img:'photo/aubergine.jpeg',         price:600,   oldPrice:null,  rating:4.6, reviews:134, seller:'Mama Yao',      badge:'Frais',    badgeType:'bdg-g',    sales:'420 vendus',  isNew:true  },
+      { id:33, name:'Piments Wiri-Wiri – 250g',                cat:'Légumes',    marche:'Treichville', img:'photo/piment.jpeg',            price:400,   oldPrice:null,  rating:4.9, reviews:356, seller:'Mama Séry',     badge:'🌶️ Fort',  badgeType:'bdg-hot',  sales:'930 vendus',  isNew:false },
+      { id:34, name:'Ignames Locales – 2kg',                   cat:'Légumes',    marche:'Koumassi',    img:'photo/igname.jpeg',            price:1500,  oldPrice:2000,  rating:4.7, reviews:221, seller:'Mama Gbagbo',   badge:'-25%',     badgeType:'bdg-o',    sales:'580 vendus',  isNew:false },
   ];
 
   let state = { cat:'Tout', search:'', maxPrice:100000, minRating:0, sort:'popular', page:1, pageSize:8, cartCount:3 };
