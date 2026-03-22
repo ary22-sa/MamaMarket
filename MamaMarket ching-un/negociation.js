@@ -1,17 +1,11 @@
-    /* =====================================================
-    MAMAMARKET — SYSTÈME DE NÉGOCIATION COMPLET
-    negociation.js — partagé par produits.html,
-    boutique.html et dashboard-vendeuse.html
-    ===================================================== */
+/* MAMAMARKET — SYSTÈME DE NÉGOCIATION COMPLET*/
 
-    /* ── CSS injecté dynamiquement ─────────────────────── */
+/* ── CSS */
     (function injectCSS() {
     const style = document.createElement('style');
     style.textContent = `
 
-    /* ================================================
-        MODAL NÉGOCIATION — CLIENTE
-    ================================================ */
+/* MODAL NÉGOCIATION — CLIENTE */
     .nego-overlay {
         position:fixed;inset:0;background:rgba(42,18,5,.58);
         z-index:3000;display:flex;align-items:center;justify-content:center;
@@ -191,9 +185,8 @@
     .nego-timer.show { display:block; }
     .nego-timer span { color:#D4580A; }
 
-    /* ================================================
-        BOUTON NÉGOCIER sur les cartes produits
-    ================================================ */
+
+/* BOUTON NÉGOCIER sur les cartes produits*/
     .btn-nego {
         display:flex;align-items:center;justify-content:center;gap:5px;
         padding:6px 10px;
@@ -204,9 +197,8 @@
     }
     .btn-nego:hover { background:#FEF3D0;transform:translateY(-1px); }
 
-    /* ================================================
-        DASHBOARD VENDEUSE — Panneau négociations
-    ================================================ */
+
+/*DASHBOARD VENDEUSE — Panneau négociations*/
     .nego-vendeuse-panel {
         background:#fff;border-radius:16px;
         box-shadow:0 2px 8px rgba(92,45,10,.10);
@@ -271,7 +263,8 @@
         font-style:italic;
     }
 
-    /* Boutons réponse vendeuse */
+
+/* Boutons réponse vendeuse */
     .nr-actions { display:flex;gap:7px;flex-wrap:wrap; }
     .nr-btn {
         padding:7px 14px;border-radius:40px;
@@ -285,7 +278,8 @@
     .nr-btn.counter { background:#FEF3D0;color:#C8901A;border:1.5px solid #C8901A; }
     .nr-btn.counter:hover { background:#C8901A;color:#fff; }
 
-    /* Contre-offre input inline */
+
+/* Contre-offre input inline */
     .nr-counter-form {
         display:none;margin-top:8px;
         background:#FEF3D0;border-radius:10px;padding:10px 12px;
@@ -307,29 +301,27 @@
     document.head.appendChild(style);
     })();
 
-    /* =====================================================
-    ÉTAT GLOBAL DES NÉGOCIATIONS
-    ===================================================== */
+/*ÉTAT GLOBAL DES NÉGOCIATIONS*/
     const NegoSystem = {
 
-    /* Produit en cours de négociation */
+/* Produit en cours de négociation */
     currentProduct: null,
 
-    /* Historique des échanges */
+/* Historique des échanges */
     history: [],
 
-    /* Statut : pending | accepted | refused | countered */
+/* Statut : pending | accepted | refused | countered */
     status: null,
 
-    /* Timer pour les offres avec limite de temps */
+/* Timer pour les offres avec limite de temps */
     timerInterval: null,
     timerSeconds: 0,
 
-    /* ── Limites de négociation ──────────────────── */
+/* ── Limites de négociation  */
     MIN_PCT: 0.60,   // minimum 60% du prix affiché
     MAX_PCT: 0.98,   // maximum 98% (pas gratuit !)
 
-    /* ── Ouvrir la modal de négociation ─────────── */
+/* ── Ouvrir la modal de négociation  */
     open(product) {
         this.currentProduct = product;
         this.history = [];
@@ -344,7 +336,7 @@
         document.body.style.overflow = 'hidden';
     },
 
-    /* ── Fermer ─────────────────────────────────── */
+    /* ── Fermer  */
     close() {
         const overlay = document.getElementById('negoOverlay');
         if (overlay) overlay.classList.remove('on');
@@ -353,7 +345,7 @@
         this.timerSeconds = 0;
     },
 
-    /* ── Construire la modal HTML ─────────────────── */
+/* ── Construire la modal HTML  */
     buildModal() {
         const existing = document.getElementById('negoOverlay');
         if (existing) existing.remove();
@@ -438,7 +430,7 @@
         </div>
         `;
 
-        // Fermer en cliquant sur le fond
+// Fermer en cliquant sur le fond
         el.addEventListener('click', (e) => {
         if (e.target === el) this.close();
         });
@@ -447,7 +439,7 @@
         this.updateSlider(initOffer);
     },
 
-    /* ── Message d'ouverture de la vendeuse ─────── */
+/* ── Message d'ouverture de la vendeuse ─────── */
     addSellerOpening() {
         const p = this.currentProduct;
         const openings = [
@@ -458,7 +450,7 @@
         this.addMessage('vendeuse', openings[Math.floor(Math.random() * openings.length)], null);
     },
 
-    /* ── Mettre à jour le slider ─────────────────── */
+/* ── Mettre à jour le slider  */
     updateSlider(value) {
         const p = this.currentProduct;
         const v = parseInt(value);
@@ -481,7 +473,7 @@
         }
     },
 
-    /* ── Envoyer une offre ───────────────────────── */
+/* ── Envoyer une offre  */
     sendOffer() {
         const slider  = document.getElementById('negoSlider');
         const msgEl   = document.getElementById('negoMessage');
@@ -491,11 +483,11 @@
         const message    = msgEl.value.trim();
         const p          = this.currentProduct;
 
-        // Ajouter le message de la cliente
+// Ajouter le message de la cliente
         const clientMsg = message || `Je vous propose ${offerPrice.toLocaleString('fr-FR')} FCFA pour ce produit.`;
         this.addMessage('cliente', clientMsg, offerPrice);
 
-        // Désactiver le formulaire pendant la réponse
+// Désactiver le formulaire pendant la réponse
         document.getElementById('negoBtnSend').disabled = true;
         document.getElementById('negoSlider').disabled  = true;
         document.getElementById('negoMessage').disabled = true;
@@ -518,12 +510,7 @@
         }
     },
 
-    /* ── Simuler la réponse de la vendeuse ────────
-        Logique :
-        ≥ 85% du prix  → Accepte directement
-        75–85%         → Contre-propose à mi-chemin
-        < 75%          → Refuse poliment
-    ─────────────────────────────────────────────── */
+    /* ── Simuler la réponse de la vendeuse  */
     simulateSellerResponse(offerPrice) {
         clearInterval(this.timerInterval);
         const timerEl = document.getElementById('negoTimer');
@@ -533,7 +520,7 @@
         const pct = offerPrice / p.price;
 
         if (pct >= 0.85) {
-        /* ✅ ACCEPTE */
+/* ✅ ACCEPTE */
         this.status = 'accepted';
         const accepts = [
             `D'accord chère cliente ! J'accepte votre offre de ${offerPrice.toLocaleString('fr-FR')} FCFA 🌺 Merci pour votre confiance !`,
@@ -569,7 +556,7 @@
         }
     },
 
-    /* ── Offre acceptée ──────────────────────────── */
+/*  Offre acceptée  */
     onAccepted(finalPrice) {
         this.currentProduct.negotiatedPrice = finalPrice;
 
@@ -579,7 +566,7 @@
         statusEl.className   = 'nego-status accepte';
         }
 
-        // Afficher bouton panier, cacher bouton envoyer
+// Afficher bouton panier, cacher bouton envoyer
         const btnSend   = document.getElementById('negoBtnSend');
         const btnPanier = document.getElementById('negoBtnPanier');
         if (btnSend)   btnSend.style.display   = 'none';
@@ -592,7 +579,7 @@
         if (msg)    msg.style.display = 'none';
     },
 
-    /* ── Contre-offre ────────────────────────────── */
+/* ── Contre-offre ────────────────────────────── */
     onCountered(counterPrice) {
         const p = this.currentProduct;
         const slider = document.getElementById('negoSlider');
@@ -621,13 +608,13 @@
         }
     },
 
-    /* ── Offre refusée ───────────────────────────── */
+/* ── Offre refusée  */
     onRefused() {
         const p = this.currentProduct;
         const slider  = document.getElementById('negoSlider');
         const btnSend = document.getElementById('negoBtnSend');
 
-        // Remonter le slider au minimum acceptable
+// Remonter le slider au minimum acceptable
         const minAccept = Math.round(p.price * 0.80);
         if (slider) {
         slider.value    = minAccept;
@@ -653,7 +640,7 @@
         }
     },
 
-    /* ── Ajouter au panier au prix négocié ──────── */
+    /* ── Ajouter au panier au prix négocié  */
     addNegotiatedToCart() {
         const p = this.currentProduct;
         const finalPrice = p.negotiatedPrice || p.price;
@@ -668,7 +655,7 @@
         );
         }
 
-        // Mettre à jour le badge panier si disponible
+// Mettre à jour le badge panier si disponible
         if (typeof cartCount !== 'undefined') {
         cartCount++;
         const badge = document.getElementById('cartBadge') || document.getElementById('cartDot');
@@ -676,13 +663,13 @@
         }
     },
 
-    /* ── Ajouter un message dans l'historique ────── */
+/*  Ajouter un message dans l'historique  */
     addMessage(role, text, price) {
         this.history.push({ role, text, price, time: new Date() });
         this.render();
     },
 
-    /* ── Rendre l'historique ─────────────────────── */
+/*  Rendre l'historique  */
     render() {
         const container = document.getElementById('negoHistory');
         if (!container) return;
@@ -708,7 +695,7 @@
         container.scrollTop = container.scrollHeight;
     },
 
-    /* ── Timer 5 minutes ─────────────────────────── */
+/*  Timer 5 minutes  */
     startTimer() {
         this.timerSeconds = 5 * 60;
         const timerEl    = document.getElementById('negoTimer');
@@ -730,15 +717,12 @@
     },
     };
 
-    /* =====================================================
-    PANNEAU NÉGOCIATIONS — DASHBOARD VENDEUSE
-    Injecté automatiquement si #dashNegoPanel existe
-    ===================================================== */
-    function buildVendeuseNegoPanel() {
-    const container = document.getElementById('dashNegoPanel');
-    if (!container) return;
+/*PANNEAU NÉGOCIATIONS — DASHBOARD VENDEUSE*/
+        function buildVendeuseNegoPanel() {
+        const container = document.getElementById('dashNegoPanel');
+        if (!container) return;
 
-    /* Données de démonstration */
+/* Données de démonstration */
     const demandes = [
         {
         id: 1, urgent: true,
@@ -829,59 +813,57 @@
     `;
     }
 
-    /* Vendeuse — Accepter */
-    function vendeuseAccepte(id, prix) {
-    const el = document.getElementById('negoReq' + id);
-    if (!el) return;
-    el.classList.add('accepte');
-    el.querySelector('.nr-actions').innerHTML =
-        `<span style="color:#2A6B35;font-size:12px;font-weight:700">✅ Offre acceptée — ${prix.toLocaleString('fr-FR')} FCFA · MamaPay notifié</span>`;
-    if (typeof showToast === 'function')
-        showToast('✅', 'Offre acceptée !', 'La cliente sera notifiée par SMS');
-    }
+/* Vendeuse — Accepter */
+        function vendeuseAccepte(id, prix) {
+        const el = document.getElementById('negoReq' + id);
+        if (!el) return;
+        el.classList.add('accepte');
+        el.querySelector('.nr-actions').innerHTML =
+            `<span style="color:#2A6B35;font-size:12px;font-weight:700">✅ Offre acceptée — ${prix.toLocaleString('fr-FR')} FCFA · MamaPay notifié</span>`;
+        if (typeof showToast === 'function')
+            showToast('✅', 'Offre acceptée !', 'La cliente sera notifiée par SMS');
+        }
 
-    /* Vendeuse — Refuser */
-    function vendeuseRefuse(id) {
-    const el = document.getElementById('negoReq' + id);
-    if (!el) return;
-    el.classList.add('refuse');
-    el.querySelector('.nr-actions').innerHTML =
-        `<span style="color:#C0392B;font-size:12px;font-weight:700">❌ Offre refusée — La cliente a été informée</span>`;
-    if (typeof showToast === 'function')
-        showToast('❌', 'Offre refusée', 'La cliente pourra faire une nouvelle offre');
-    }
+/* Vendeuse — Refuser */
+        function vendeuseRefuse(id) {
+        const el = document.getElementById('negoReq' + id);
+        if (!el) return;
+        el.classList.add('refuse');
+        el.querySelector('.nr-actions').innerHTML =
+            `<span style="color:#C0392B;font-size:12px;font-weight:700">❌ Offre refusée — La cliente a été informée</span>`;
+        if (typeof showToast === 'function')
+            showToast('❌', 'Offre refusée', 'La cliente pourra faire une nouvelle offre');
+        }
 
-    /* Vendeuse — Afficher formulaire contre-offre */
-    function vendeuseContrePropose(id) {
-    const form = document.getElementById('counterForm' + id);
-    if (form) form.classList.toggle('show');
-    }
+/* Vendeuse — Afficher formulaire contre-offre */
+        function vendeuseContrePropose(id) {
+        const form = document.getElementById('counterForm' + id);
+        if (form) form.classList.toggle('show');
+        }
 
-    /* Vendeuse — Envoyer contre-offre */
-    function vendeuseSendCounter(id, prixOriginal) {
-    const input = document.getElementById('counterInput' + id);
-    if (!input) return;
-    const counterPrix = parseInt(input.value);
-    if (isNaN(counterPrix) || counterPrix <= 0) return;
+/* Vendeuse — Envoyer contre-offre */
+        function vendeuseSendCounter(id, prixOriginal) {
+        const input = document.getElementById('counterInput' + id);
+        if (!input) return;
+        const counterPrix = parseInt(input.value);
+        if (isNaN(counterPrix) || counterPrix <= 0) return;
 
-    const el = document.getElementById('negoReq' + id);
-    if (!el) return;
+        const el = document.getElementById('negoReq' + id);
+        if (!el) return;
 
-    const reduction = Math.round((1 - counterPrix / prixOriginal) * 100);
-    el.classList.remove('refuse');
-    el.querySelector('.nr-actions').innerHTML =
-        `<span style="color:#C8901A;font-size:12px;font-weight:700">
-        🔄 Contre-offre envoyée : ${counterPrix.toLocaleString('fr-FR')} FCFA (-${reduction}%) · En attente de la cliente
-        </span>`;
-    const form = document.getElementById('counterForm' + id);
-    if (form) form.classList.remove('show');
-    if (typeof showToast === 'function')
-        showToast('🔄', 'Contre-offre envoyée !', 'La cliente a été notifiée — ' + counterPrix.toLocaleString('fr-FR') + ' FCFA');
-    }
+        const reduction = Math.round((1 - counterPrix / prixOriginal) * 100);
+        el.classList.remove('refuse');
+        el.querySelector('.nr-actions').innerHTML =
+            `<span style="color:#C8901A;font-size:12px;font-weight:700">
+            🔄 Contre-offre envoyée : ${counterPrix.toLocaleString('fr-FR')} FCFA (-${reduction}%) · En attente de la cliente
+            </span>`;
+        const form = document.getElementById('counterForm' + id);
+        if (form) form.classList.remove('show');
+        if (typeof showToast === 'function')
+            showToast('🔄', 'Contre-offre envoyée !', 'La cliente a été notifiée — ' + counterPrix.toLocaleString('fr-FR') + ' FCFA');
+        }
 
-    /* =====================================================
-    INIT — au chargement de la page
-    ===================================================== */
+/* INIT — au chargement de la page */
     document.addEventListener('DOMContentLoaded', () => {
     buildVendeuseNegoPanel();
 });
