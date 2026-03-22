@@ -539,7 +539,7 @@
 
     /* ✅ FRUITS (5) */
     { id:25, name:'Bananes Plantain Fraîches – 1kg',         cat:'Fruits',     marche:'Adjamé',      img:'photo/banane.jpeg',            price:800,   oldPrice:null,  rating:4.8, reviews:312, seller:'Mama Adjoua',   badge:'Frais',    badgeType:'bdg-g',    sales:'1.4k vendus', isNew:false },
-    { id:26, name:'Ananas Victoria Sucré – Pièce',           cat:'Fruits',     marche:'Yopougon',    img:'photo/anana.jpeg',            price:600,   oldPrice:null,  rating:4.9, reviews:520, seller:'Mama Koné',     badge:'Bio',      badgeType:'bdg-g',    sales:'2.1k vendus', isNew:false },
+    { id:26, name:'Ananas Victoria Sucré – Pièce',           cat:'Fruits',     marche:'Yopougon',    img:'photo/ananas.jpeg',            price:600,   oldPrice:null,  rating:4.9, reviews:520, seller:'Mama Koné',     badge:'Bio',      badgeType:'bdg-g',    sales:'2.1k vendus', isNew:false },
     { id:27, name:'Mangues Alphonso Mûres – 1kg',            cat:'Fruits',     marche:'Abobo',       img:'photo/mangue.jpeg',            price:1200,  oldPrice:1500,  rating:4.7, reviews:189, seller:'Mama Touré',    badge:'-20%',     badgeType:'bdg-o',    sales:'890 vendus',  isNew:false },
     { id:28, name:'Papayes Fraîches – Pièce',                cat:'Fruits',     marche:'Cocody',      img:'photo/papaye.jpeg',            price:700,   oldPrice:null,  rating:4.6, reviews:143, seller:'Mama Soro',     badge:'Frais',    badgeType:'bdg-g',    sales:'640 vendus',  isNew:true  },
     { id:29, name:'Avocat Hass Frais – 3 pièces',            cat:'Fruits',     marche:'Adjamé',      img:'photo/avocat.jpeg',            price:900,   oldPrice:null,  rating:5.0, reviews:410, seller:'Mama Bamba',    badge:'⭐ Hit',   badgeType:'bdg-hot',  sales:'1.8k vendus', isNew:false },
@@ -626,7 +626,7 @@
     <div class="pcard" style="animation-delay:${delay}s">
       <div class="p-img">
         <img src="${p.img}" alt="${p.name}" loading="lazy"
-            onerror="this.src='https://picsum.photos/seed/${p.id}/400/530'"/>
+             onerror="this.src='https://picsum.photos/seed/${p.id}/400/530'"/>
         ${p.badge ? `<div class="p-badge"><span class="bdg ${p.badgeType}">${p.badge}</span></div>` : ''}
         <button class="p-fav" onclick="toggleFav(event,this)" title="Sauvegarder">♡</button>
         <div class="p-overlay">
@@ -647,7 +647,10 @@
           <div class="p-rating"><span class="s">⭐</span>${p.rating} (${p.reviews})</div>
         </div>
         <div class="p-sales">${p.sales}</div>
-        ${listExtra}
+        <!-- ✅ BOUTON NÉGOCIER -->
+        <button class="btn-nego" onclick="NegoSystem.open(ALL_PRODUCTS.find(x=>x.id===${p.id}));event.stopPropagation()">
+          🤝 Négocier le prix
+        </button>
       </div>
     </div>`;
   }
@@ -787,5 +790,7 @@
       window.scrollY > 10 ? '0 4px 20px rgba(92,45,10,.18)' : '0 2px 8px rgba(92,45,10,.10)';
   });
 </script>
+<!-- ✅ Système de négociation MamaMarket -->
+<script src="negociation.js"></script>
 </body>
 </html>
