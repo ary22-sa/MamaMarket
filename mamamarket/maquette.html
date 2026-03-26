@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MamaMarket — Maquette</title>
+    <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #1A0A00; color: #2A1205; }
+
+    .header-doc {
+        background: linear-gradient(135deg, #5C2D0A, #2A1205);
+        padding: 24px 40px;
+        display: flex; align-items: center; gap: 16px;
+    }
+    .header-doc h1 { font-family: Georgia, serif; font-size: 28px; color: #FBF5E8; }
+    .header-doc p  { font-size: 13px; color: rgba(255,255,255,.55); margin-top: 4px; }
+
+    .kente { height: 7px; background: repeating-linear-gradient(90deg,#D4580A 0,#D4580A 18px,#2A6B35 18px,#2A6B35 36px,#C8901A 36px,#C8901A 54px,#8B4513 54px,#8B4513 72px); }
+
+    .pages { display: flex; flex-wrap: wrap; gap: 24px; padding: 32px 40px; }
+    .page-label { font-size: 11px; font-weight: 700; color: #D4580A; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; }
+
+    /* Maquette frame */
+    .frame { background: #FBF5E8; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,.35); width: 320px; }
+    .frame-bar { background: #2A1205; padding: 6px 10px; display: flex; align-items: center; gap: 6px; }
+    .frame-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .frame-url { flex: 1; background: rgba(255,255,255,.12); border-radius: 20px; padding: 3px 10px; font-size: 9px; color: rgba(255,255,255,.55); text-align: center; }
+    .frame-body { padding: 0; }
+
+    /* Composants wireframe */
+    .wf-nav { background: white; padding: 8px 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #E2D0A8; }
+    .wf-logo { background: #D4580A; color: white; padding: 3px 8px; border-radius: 5px; font-size: 10px; font-weight: 700; }
+    .wf-search { flex: 1; background: #F0E4C8; border-radius: 20px; padding: 4px 10px; font-size: 9px; color: #8A6040; }
+    .wf-icons  { display: flex; gap: 6px; }
+    .wf-icon   { width: 22px; height: 22px; background: #F0E4C8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+
+    .wf-kente  { height: 4px; background: repeating-linear-gradient(90deg,#D4580A 0,#D4580A 12px,#2A6B35 12px,#2A6B35 24px,#C8901A 24px,#C8901A 36px); }
+
+    .wf-hero   { background: linear-gradient(135deg, #1C5228, #050E08); padding: 20px 12px; }
+    .wf-hero h2 { font-family: Georgia, serif; color: #E8B020; font-size: 16px; margin-bottom: 4px; }
+    .wf-hero p  { color: rgba(255,255,255,.6); font-size: 9px; margin-bottom: 12px; }
+    .wf-btn     { display: inline-block; padding: 5px 14px; border-radius: 20px; font-size: 9px; font-weight: 700; }
+    .wf-btn.orange { background: #D4580A; color: white; }
+    .wf-btn.green  { background: #2A6B35; color: white; }
+    .wf-btn.outline{ border: 1.5px solid #D4580A; color: #D4580A; background: transparent; }
+
+    .wf-section  { padding: 10px 12px; }
+    .wf-section-title { font-family: Georgia, serif; font-size: 12px; color: #5C2D0A; font-weight: 700; margin-bottom: 8px; }
+
+    .wf-grid-4   { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
+    .wf-grid-3   { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+    .wf-grid-2   { display: grid; grid-template-columns: repeat(2,1fr); gap: 6px; }
+
+    .wf-card     { background: white; border-radius: 6px; overflow: hidden; border: 1px solid #E2D0A8; }
+    .wf-card-img { height: 60px; background: linear-gradient(135deg, #C87840, #5C2D0A); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .wf-card-body{ padding: 5px 6px; }
+    .wf-card-name{ font-size: 8px; font-weight: 600; color: #2A1205; margin-bottom: 2px; line-height: 1.3; }
+    .wf-card-price{ font-size: 9px; font-weight: 700; color: #D4580A; }
+    .wf-card-nego { font-size: 7px; color: #C8901A; border: 1px solid #C8901A; border-radius: 10px; padding: 1px 5px; margin-top: 3px; display: inline-block; }
+
+    .wf-marche-bar { background: #1A4A22; padding: 6px 12px; display: flex; gap: 4px; overflow-x: auto; }
+    .wf-marche-pill { background: rgba(255,255,255,.15); color: white; font-size: 8px; padding: 3px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+    .wf-marche-pill.on { background: #C8901A; }
+
+    .wf-filter { background: white; padding: 6px 12px; display: flex; gap: 4px; border-bottom: 1px solid #F0E4C8; }
+    .wf-fpill  { background: #F0E4C8; color: #5A3218; font-size: 8px; padding: 2px 8px; border-radius: 20px; }
+    .wf-fpill.on { background: #D4580A; color: white; }
+
+    .wf-sidebar { display: flex; gap: 8px; }
+    .wf-sidebar-left { width: 80px; flex-shrink: 0; }
+    .wf-sidebar-filter { background: white; border-radius: 6px; padding: 6px; border: 1px solid #E2D0A8; }
+    .wf-sf-title { font-size: 8px; font-weight: 700; color: #5C2D0A; margin-bottom: 4px; }
+    .wf-sf-item  { font-size: 7px; color: #8A6040; padding: 2px 0; border-bottom: 1px solid #F0E4C8; }
+
+    .wf-panier-item { display: flex; gap: 8px; background: white; border-radius: 6px; padding: 6px; margin-bottom: 6px; border: 1px solid #E2D0A8; align-items: center; }
+    .wf-panier-img  { width: 36px; height: 44px; background: linear-gradient(135deg,#C87840,#5C2D0A); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .wf-panier-info { flex: 1; }
+    .wf-panier-name { font-size: 8px; font-weight: 600; color: #2A1205; }
+    .wf-panier-seller{ font-size: 7px; color: #2A6B35; margin-top: 1px; }
+    .wf-panier-price { font-size: 9px; font-weight: 700; color: #D4580A; }
+    .wf-qty  { display: flex; align-items: center; gap: 4px; margin-top: 3px; }
+    .wf-qty-btn { width: 16px; height: 16px; background: #F0E4C8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; }
+
+    .wf-summary { background: white; border-radius: 6px; padding: 8px; border: 1px solid #E2D0A8; }
+    .wf-sum-row { display: flex; justify-content: space-between; font-size: 8px; color: #5A3218; margin-bottom: 4px; }
+    .wf-sum-total { display: flex; justify-content: space-between; font-size: 10px; font-weight: 700; color: #D4580A; margin-top: 6px; border-top: 1px solid #F0E4C8; padding-top: 5px; }
+    .wf-marche-info { font-size: 7px; color: #D4580A; font-weight: 700; }
+
+    .wf-nego-modal { background: white; border-radius: 8px; margin: 8px; padding: 10px; border: 1.5px solid #C8901A; }
+    .wf-nego-title { font-family: Georgia, serif; font-size: 11px; color: #5C2D0A; margin-bottom: 6px; }
+    .wf-nego-product{ display: flex; gap: 6px; background: #FBF5E8; border-radius: 5px; padding: 5px; margin-bottom: 8px; }
+    .wf-nego-img   { width: 30px; height: 38px; border-radius: 4px; background: linear-gradient(135deg,#C87840,#5C2D0A); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .wf-nego-name  { font-size: 8px; font-weight: 600; color: #2A1205; }
+    .wf-nego-price { font-size: 9px; color: #D4580A; font-weight: 700; }
+    .wf-msg { background: #F0E4C8; border-radius: 0 8px 8px 8px; padding: 5px 8px; font-size: 8px; color: #5A3218; margin-bottom: 4px; max-width: 80%; }
+    .wf-msg.mine { background: #D4580A; color: white; border-radius: 8px 0 8px 8px; margin-left: auto; }
+    .wf-slider { width: 100%; height: 4px; background: linear-gradient(90deg, #D4580A 70%, #E2D0A8 70%); border-radius: 2px; margin: 6px 0; }
+    .wf-nego-offer { font-family: Georgia, serif; font-size: 14px; font-weight: 700; color: #D4580A; text-align: center; }
+
+    .wf-dashboard { padding: 8px 12px; }
+    .wf-stat-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 4px; margin-bottom: 8px; }
+    .wf-stat { background: white; border-radius: 5px; padding: 5px; text-align: center; border: 1px solid #E2D0A8; }
+    .wf-stat-n { font-family: Georgia, serif; font-size: 12px; color: #D4580A; font-weight: 700; }
+    .wf-stat-l { font-size: 7px; color: #8A6040; }
+
+    .wf-request { background: white; border-radius: 6px; padding: 7px; border-left: 3px solid #C8901A; margin-bottom: 5px; }
+    .wf-req-client { font-size: 8px; font-weight: 700; color: #2A1205; }
+    .wf-req-produit { font-size: 7px; color: #8A6040; }
+    .wf-req-prix { display: flex; align-items: center; gap: 5px; margin: 3px 0; }
+    .wf-prix-barre { font-size: 8px; color: #8A6040; text-decoration: line-through; }
+    .wf-prix-propose { font-size: 10px; font-weight: 700; color: #C8901A; font-family: Georgia, serif; }
+    .wf-req-btns { display: flex; gap: 4px; margin-top: 5px; }
+    .wf-req-btn { font-size: 7px; padding: 2px 7px; border-radius: 10px; font-weight: 700; }
+    .wf-req-btn.accept { background: #2A6B35; color: white; }
+    .wf-req-btn.counter { background: #FEF3D0; color: #C8901A; }
+    .wf-req-btn.refuse  { background: #FDECEA; color: #C0392B; }
+
+    .wf-mission { background: white; border-radius: 6px; padding: 7px; border-left: 3px solid #7B3F9E; margin-bottom: 5px; }
+    .wf-mission-id { font-size: 7px; color: #8A6040; }
+    .wf-mission-title { font-size: 9px; font-weight: 700; color: #2A1205; margin: 2px 0; }
+    .wf-mission-articles { display: flex; flex-direction: column; gap: 3px; margin: 5px 0; }
+    .wf-article { display: flex; align-items: center; gap: 5px; background: #FBF5E8; border-radius: 4px; padding: 3px 5px; font-size: 7px; color: #5A3218; }
+    .wf-chk { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+    .wf-chk.done { background: #2A6B35; display: flex; align-items: center; justify-content: center; color: white; font-size: 8px; }
+    .wf-chk.todo { border: 1.5px solid #E2D0A8; background: #FBF5E8; }
+    .wf-progress { height: 4px; background: #E2D0A8; border-radius: 2px; margin: 4px 0; }
+    .wf-progress-fill { height: 100%; background: #7B3F9E; border-radius: 2px; width: 67%; }
+    .wf-mission-btn { font-size: 8px; padding: 4px; border-radius: 15px; background: #7B3F9E; color: white; text-align: center; font-weight: 700; }
+
+    .wf-signup-types { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; margin: 6px 0; }
+    .wf-type { border: 1.5px solid #E2D0A8; border-radius: 6px; padding: 6px 4px; text-align: center; }
+    .wf-type.on { border-color: #D4580A; background: #FDF0E3; }
+    .wf-type-ico { font-size: 16px; margin-bottom: 3px; }
+    .wf-type-name { font-size: 7px; font-weight: 700; color: #5A3218; }
+    .wf-input { background: #FBF5E8; border: 1.5px solid #E2D0A8; border-radius: 5px; padding: 4px 8px; font-size: 8px; color: #8A6040; width: 100%; margin-bottom: 4px; }
+    .wf-submit { width: 100%; padding: 7px; background: linear-gradient(135deg,#D4580A,#E8761A); color: white; border-radius: 15px; font-size: 10px; font-weight: 700; text-align: center; margin-top: 6px; }
+
+    .wf-paiement-step { display: flex; gap: 3px; padding: 8px 12px; }
+    .wf-step { flex: 1; text-align: center; }
+    .wf-step-dot { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; margin: 0 auto 3px; }
+    .wf-step-dot.done { background: #2A6B35; color: white; }
+    .wf-step-dot.active { background: #D4580A; color: white; }
+    .wf-step-dot.todo { background: #E2D0A8; color: #8A6040; }
+    .wf-step-label { font-size: 7px; color: #8A6040; }
+    .wf-step-line { flex: 1; height: 2px; background: #E2D0A8; margin-top: 9px; }
+    .wf-step-line.done { background: #2A6B35; }
+
+    .wf-methods { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 0 12px 8px; }
+    .wf-method { background: white; border-radius: 6px; padding: 8px; border: 1.5px solid #E2D0A8; text-align: center; }
+    .wf-method.on { border-color: #D4580A; background: #FDF0E3; }
+    .wf-method-ico { font-size: 18px; margin-bottom: 3px; }
+    .wf-method-name { font-size: 8px; font-weight: 700; color: #5C2D0A; }
+
+    .label-page { color: rgba(255,255,255,.4); font-size: 10px; margin-bottom: 4px; text-align: center; letter-spacing: .05em; }
+    </style>
+    </head>
+    <body>
+
+    <!-- En-tête -->
+        <div class="kente"></div>
+        <div class="header-doc">
+        <div>🌺</div>
+        <div>
+            <h1>MamaMarket — Maquette UI</h1>
+            <p>7 écrans principaux · Design africain wax & kente · Responsive</p>
+        </div>
+        </div>
+        <div class="kente"></div>
+
+        <div class="pages">
+
+    <!-- Index / Accueil  -->
+        <div>
+            <div class="page-label">1 — Page d'accueil (index.html)</div>
+            <div class="frame" style="width:320px">
+            <div class="frame-bar">
+                <div class="frame-dot" style="background:#FF5F57"></div>
+                <div class="frame-dot" style="background:#FEBC2E"></div>
+                <div class="frame-dot" style="background:#28C840"></div>
+                <div class="frame-url">mamamarket.ci/index.html</div>
+            </div>
+            <div class="frame-body">
+
+    <!-- Nav -->
+            <div class="wf-nav">
+            <div class="wf-logo">🌺 MamaMarket</div>
+            <div class="wf-search">🔍 Rechercher...</div>
+            <div class="wf-icons">
+                <div class="wf-icon">👤</div>
+                <div class="wf-icon" style="background:#D4580A;color:white;position:relative">🛒<span style="position:absolute;top:-4px;right:-4px;background:#2A6B35;color:white;font-size:6px;width:10px;height:10px;border-radius:50%;display:flex;align-items:center;justify-content:center">3</span></div>
+            </div>
+            </div>
+            <div class="wf-kente"></div>
+            <!-- Hero -->
+            <div class="wf-hero">
+            <h2>Bienvenue sur<br/>MamaMarket 🌺</h2>
+            <p>La marketplace des femmes ivoiriennes</p>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <div class="wf-btn orange">🛍️ Découvrir</div>
+                <div class="wf-btn green">🏪 Vendre</div>
+            </div>
+            </div>
+            <!-- Catégories -->
+            <div class="wf-section">
+            <div class="wf-section-title">Nos Catégories</div>
+            <div class="wf-grid-4">
+                <div style="text-align:center;background:white;border-radius:6px;padding:5px;border:1px solid #E2D0A8">
+                <div style="font-size:16px">👗</div>
+                <div style="font-size:7px;color:#5A3218">Mode</div>
+                </div>
+                <div style="text-align:center;background:white;border-radius:6px;padding:5px;border:1px solid #E2D0A8">
+                <div style="font-size:16px">💄</div>
+                <div style="font-size:7px;color:#5A3218">Beauté</div>
+                </div>
+                <div style="text-align:center;background:white;border-radius:6px;padding:5px;border:1px solid #E2D0A8">
+                <div style="font-size:16px">🍍</div>
+                <div style="font-size:7px;color:#5A3218">Fruits</div>
+                </div>
+                <div style="text-align:center;background:white;border-radius:6px;padding:5px;border:1px solid #E2D0A8">
+                <div style="font-size:16px">🧺</div>
+                <div style="font-size:7px;color:#5A3218">Artisanat</div>
+                </div>
+            </div>
+            </div>
+            <!-- Produits -->
+            <div class="wf-section">
+            <div class="wf-section-title">Produits populaires</div>
+            <div class="wf-grid-2">
+                <div class="wf-card">
+                <div class="wf-card-img">👗</div>
+                <div class="wf-card-body">
+                    <div class="wf-card-name">Robe Kente Royale</div>
+                    <div class="wf-card-price">24 500 FCFA</div>
+                    <div class="wf-card-nego">🤝 Négocier</div>
+                </div>
+                </div>
+                <div class="wf-card">
+                <div class="wf-card-img" style="background:linear-gradient(135deg,#7AB87A,#2A6B35)">🧴</div>
+                <div class="wf-card-body">
+                    <div class="wf-card-name">Karité Bio 250g</div>
+                    <div class="wf-card-price">5 200 FCFA</div>
+                    <div class="wf-card-nego">🤝 Négocier</div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!--  Produits -->
+        <div>
+            <div class="page-label">2 — Catalogue produits (produits.html)</div>
+            <div class="frame">
+            <div class="frame-bar">
+                <div class="frame-dot" style="background:#FF5F57"></div>
+                <div class="frame-dot" style="background:#FEBC2E"></div>
+                <div class="frame-dot" style="background:#28C840"></div>
+                <div class="frame-url">mamamarket.ci/produits.html</div>
+            </div>
+            <div class="frame-body">
+                <div class="wf-nav">
+                <div class="wf-logo">🌺 MamaMarket</div>
+                <div class="wf-search">🔍 Rechercher...</div>
+                <div class="wf-icons"><div class="wf-icon">👤</div><div class="wf-icon">🛒</div></div>
+                </div>
+                <div class="wf-kente"></div>
+
+    <!-- Sélecteur marché -->
+            <div class="wf-marche-bar">
+                <div class="wf-marche-pill on">🛍️ Adjamé</div>
+                <div class="wf-marche-pill">Cocody</div>
+                <div class="wf-marche-pill">Yopougon</div>
+                <div class="wf-marche-pill">Treichville</div>
+            </div>
+    <!-- Filtre cats -->
+            <div class="wf-filter">
+                <div class="wf-fpill on">Tout</div>
+                <div class="wf-fpill">👗 Mode</div>
+                <div class="wf-fpill">💄 Beauté</div>
+                <div class="wf-fpill">🍍 Fruits</div>
+            </div>
+            <!-- Sidebar + grille -->
+            <div class="wf-section">
+            <div class="wf-sidebar">
+                <div class="wf-sidebar-left">
+                <div class="wf-sidebar-filter">
+                    <div class="wf-sf-title">Filtres</div>
+                    <div class="wf-sf-item">Prix max</div>
+                    <div class="wf-sf-item">Note min</div>
+                    <div class="wf-sf-item">Vendeuse</div>
+                    <div class="wf-sf-item">Marché ✓</div>
+                </div>
+                </div>
+                <div style="flex:1">
+                <div class="wf-grid-2">
+                    <div class="wf-card">
+                    <div class="wf-card-img">👗</div>
+                    <div class="wf-card-body">
+                        <div class="wf-card-name">Robe Kente</div>
+                        <div class="wf-card-price">24 500 F</div>
+                        <div style="font-size:7px;color:#D4580A">📍 Adjamé</div>
+                        <div class="wf-card-nego">🤝 Négocier</div>
+                    </div>
+                    </div>
+                    <div class="wf-card">
+                    <div class="wf-card-img" style="background:linear-gradient(135deg,#7AB87A,#2A6B35)">🧴</div>
+                    <div class="wf-card-body">
+                        <div class="wf-card-name">Karité Bio</div>
+                        <div class="wf-card-price">5 200 F</div>
+                        <div style="font-size:7px;color:#D4580A">📍 Adjamé</div>
+                        <div class="wf-card-nego">🤝 Négocier</div>
+                    </div>
+                    </div>
+                    <div class="wf-card">
+                    <div class="wf-card-img" style="background:linear-gradient(135deg,#C8901A,#7A4808)">🧺</div>
+                    <div class="wf-card-body">
+                        <div class="wf-card-name">Panier Tressé</div>
+                        <div class="wf-card-price">12 800 F</div>
+                        <div style="font-size:7px;color:#D4580A">📍 Adjamé</div>
+                        <div class="wf-card-nego">🤝 Négocier</div>
+                    </div>
+                    </div>
+                    <div class="wf-card">
+                    <div class="wf-card-img" style="background:linear-gradient(135deg,#507080,#1A3040)">🧼</div>
+                    <div class="wf-card-body">
+                        <div class="wf-card-name">Savon Noir x3</div>
+                        <div class="wf-card-price">4 200 F</div>
+                        <div style="font-size:7px;color:#D4580A">📍 Adjamé</div>
+                        <div class="wf-card-nego">🤝 Négocier</div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Négociation Modal -->
+    <div>
+        <div class="page-label">3 — Modal Négociation de Prix</div>
+        <div class="frame">
+        <div class="frame-bar">
+            <div class="frame-dot" style="background:#FF5F57"></div>
+            <div class="frame-dot" style="background:#FEBC2E"></div>
+            <div class="frame-dot" style="background:#28C840"></div>
+            <div class="frame-url">negociation.js — Modal</div>
+        </div>
+        <div class="frame-body" style="padding:8px">
+            <div class="wf-nego-modal">
+            <div class="wf-nego-title">💬 Négocier le prix</div>
+            <div class="wf-nego-product">
+                <div class="wf-nego-img">👗</div>
+                <div>
+                <div class="wf-nego-name">Robe Kente Royale</div>
+                <div style="font-size:7px;color:#2A6B35">Mama Fatou ✓ · 📍 Adjamé</div>
+                <div class="wf-nego-price">Prix : 24 500 FCFA</div>
+                </div>
+            </div>
+
+        <!-- Chat -->
+            <div style="margin-bottom:8px">
+                <div class="wf-msg">Bonjour ! Mon prix est 24 500 FCFA. Faites votre offre 🌺</div>
+                <div class="wf-msg mine">Je propose 20 000 FCFA 🙏</div>
+                <div class="wf-msg">Faisons 22 000 FCFA — c'est mon dernier prix 🤝</div>
+            </div>
+
+        <!-- Slider -->
+            <div class="wf-nego-offer">22 000 FCFA <span style="font-size:9px;color:#8A6040;font-family:Segoe UI">(-10%)</span></div>
+            <div class="wf-slider"></div>
+            <div style="display:flex;justify-content:space-between;font-size:8px;color:#8A6040;margin-bottom:8px">
+                <span>Min : 14 700 F</span><span>Max : 24 000 F</span>
+            </div>
+            <textarea style="width:100%;border:1.5px solid #E2D0A8;border-radius:6px;padding:5px;font-size:8px;color:#8A6040;resize:none;background:#FBF5E8" rows="2" placeholder="Votre message..."></textarea>
+            <div style="display:flex;gap:6px;margin-top:6px">
+                <div class="wf-btn orange" style="flex:1;text-align:center;padding:6px">🤝 Envoyer</div>
+                <div class="wf-btn green" style="flex:1;text-align:center;padding:6px;display:none">🛒 Panier</div>
+            </div>
+            <div style="text-align:center;font-size:8px;color:#C8901A;margin-top:5px">⏱ Expire dans 4:32</div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!--  Panier -->
+        <div>
+            <div class="page-label">4 — Panier (panier.html)</div>
+            <div class="frame">
+            <div class="frame-bar">
+                <div class="frame-dot" style="background:#FF5F57"></div>
+                <div class="frame-dot" style="background:#FEBC2E"></div>
+                <div class="frame-dot" style="background:#28C840"></div>
+                <div class="frame-url">mamamarket.ci/panier.html</div>
+            </div>
+            <div class="frame-body">
+                <div class="wf-nav">
+                <div class="wf-logo">🌺</div>
+                <div style="flex:1;font-family:Georgia;font-size:11px;color:#5C2D0A;font-weight:700">Mon Panier <span style="font-size:9px;background:#FDF0E3;color:#D4580A;padding:1px 6px;border-radius:10px">3 articles</span></div>
+                <div class="wf-icon">🛒</div>
+            </div>
+                <div class="wf-kente"></div>
+                <div class="wf-section">
+        <!-- Règle marché -->
+            <div style="background:#FDF0E3;border:1px solid rgba(212,88,10,.25);border-radius:6px;padding:5px 8px;font-size:8px;color:#D4580A;font-weight:700;margin-bottom:6px">
+                🧺 Marché de collecte : <strong>Adjamé</strong> — 1 seul marché par commande
+            </div>
+
+        <!-- Articles -->
+            <div class="wf-panier-item">
+                <div class="wf-panier-img">👗</div>
+                <div class="wf-panier-info">
+                <div class="wf-panier-name">Robe Kente Royale</div>
+                <div class="wf-panier-seller">Mama Fatou ✓ · 📍 Adjamé</div>
+                <div class="wf-qty">
+                    <div class="wf-qty-btn">−</div>
+                    <span style="font-size:9px;font-weight:700">1</span>
+                    <div class="wf-qty-btn">+</div>
+                </div>
+                </div>
+                <div class="wf-panier-price">24 500 F</div>
+            </div>
+            <div class="wf-panier-item">
+                <div class="wf-panier-img" style="background:linear-gradient(135deg,#7AB87A,#2A6B35)">🧴</div>
+                <div class="wf-panier-info">
+                <div class="wf-panier-name">Karité Bio 250g</div>
+                <div class="wf-panier-seller">Mama Adjoa ✓ · 📍 Adjamé</div>
+                <div class="wf-qty">
+                    <div class="wf-qty-btn">−</div>
+                    <span style="font-size:9px;font-weight:700">2</span>
+                    <div class="wf-qty-btn">+</div>
+                </div>
+                </div>
+                <div class="wf-panier-price">10 400 F</div>
+            </div>
+            <!-- Récapitulatif -->
+            <div class="wf-summary">
+                <div class="wf-sum-row"><span>Sous-total</span><span>34 900 F</span></div>
+                <div class="wf-sum-row"><span>Livraison</span><span style="color:#2A6B35">Gratuite 🎉</span></div>
+                <div class="wf-sum-row wf-marche-info"><span>🧺 Marché Adjamé</span><span>Faiseuse assignée</span></div>
+                <div class="wf-sum-total"><span>Total</span><span>34 900 FCFA</span></div>
+            </div>
+            <div class="wf-btn orange" style="width:100%;text-align:center;padding:8px;margin-top:6px;border-radius:20px">🔒 Payer avec MamaPay</div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Paiement  -->
+        <div>
+            <div class="page-label">5 — Paiement (paiement.html)</div>
+            <div class="frame">
+            <div class="frame-bar">
+                <div class="frame-dot" style="background:#FF5F57"></div>
+                <div class="frame-dot" style="background:#FEBC2E"></div>
+                <div class="frame-dot" style="background:#28C840"></div>
+                <div class="frame-url">mamamarket.ci/paiement.html</div>
+        </div>
+        <div class="frame-body">
+            <div class="wf-nav">
+            <div class="wf-logo">🌺</div>
+            <div style="flex:1;font-family:Georgia;font-size:11px;color:#5C2D0A;font-weight:700">Paiement MamaPay</div>
+        </div>
+            <div class="wf-kente"></div>
+            
+    <!-- Étapes -->
+            <div class="wf-paiement-step">
+            <div class="wf-step">
+                <div class="wf-step-dot done">✓</div>
+                <div class="wf-step-label">Livraison</div>
+            </div>
+            <div class="wf-step-line done"></div>
+            <div class="wf-step">
+                <div class="wf-step-dot active">2</div>
+                <div class="wf-step-label">Méthode</div>
+            </div>
+            <div class="wf-step-line"></div>
+            <div class="wf-step">
+                <div class="wf-step-dot todo">3</div>
+                <div class="wf-step-label">OTP</div>
+            </div>
+            <div class="wf-step-line"></div>
+            <div class="wf-step">
+                <div class="wf-step-dot todo">4</div>
+                <div class="wf-step-label">Succès</div>
+            </div>
+            </div>
+
+        <!-- Méthodes -->
+            <div class="wf-methods">
+            <div class="wf-method on">
+                <div class="wf-method-ico">📱</div>
+                <div class="wf-method-name">Orange Money</div>
+            </div>
+            <div class="wf-method">
+                <div class="wf-method-ico">💳</div>
+                <div class="wf-method-name">Wave</div>
+            </div>
+            <div class="wf-method">
+                <div class="wf-method-ico">🏦</div>
+                <div class="wf-method-name">Carte bancaire</div>
+            </div>
+            <div class="wf-method">
+                <div class="wf-method-ico">💵</div>
+                <div class="wf-method-name">Cash</div>
+            </div>
+            </div>
+            <div class="wf-section">
+            <div class="wf-input">📱 +225 07 00 00 00</div>
+            <div style="background:#FBF5E8;border-radius:6px;padding:8px;border:1px solid #E2D0A8;">
+                <div class="wf-sum-row"><span>Total à payer</span><span style="font-family:Georgia;font-size:12px;color:#D4580A;font-weight:700">34 900 FCFA</span></div>
+            </div>
+            <div class="wf-btn orange" style="width:100%;text-align:center;padding:8px;margin-top:6px;border-radius:20px">📱 Payer 34 900 FCFA</div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Inscription  -->
+    <div>
+        <div class="page-label">6 — Inscription (signup.html)</div>
+        <div class="frame">
+        <div class="frame-bar">
+            <div class="frame-dot" style="background:#FF5F57"></div>
+            <div class="frame-dot" style="background:#FEBC2E"></div>
+            <div class="frame-dot" style="background:#28C840"></div>
+            <div class="frame-url">mamamarket.ci/signup.html</div>
+        </div>
+        <div class="frame-body" style="padding:10px">
+            <div style="text-align:center;margin-bottom:8px">
+            <div style="font-family:Georgia;font-size:14px;color:#5C2D0A;font-weight:700">🌺 Créer un compte</div>
+            <div style="font-size:9px;color:#8A6040">Rejoignez MamaMarket CI</div>
+            </div>
+
+        <!-- Types -->
+            <div style="font-size:8px;font-weight:700;color:#5A3218;margin-bottom:4px">Je suis :</div>
+            <div class="wf-signup-types">
+            <div class="wf-type on">
+                <div class="wf-type-ico">🛍️</div>
+                <div class="wf-type-name">Acheteuse</div>
+            </div>
+            <div class="wf-type">
+                <div class="wf-type-ico">🏪</div>
+                <div class="wf-type-name">Vendeuse</div>
+            </div>
+            <div class="wf-type">
+                <div class="wf-type-ico">🧺</div>
+                <div class="wf-type-name">Faiseuse de Marché</div>
+            </div>
+            </div>
+            <div class="wf-input">👤 Nom complet</div>
+            <div class="wf-input">✉️ Email</div>
+            <div class="wf-input">📱 Téléphone</div>
+            <div class="wf-input">🔒 Mot de passe</div>
+            <div class="wf-submit">🌺 Créer mon compte</div>
+            <div style="text-align:center;font-size:8px;color:#8A6040;margin-top:8px">Déjà un compte ? <span style="color:#D4580A;font-weight:700">Se connecter</span></div>
+        </div>
+        </div>
+    </div>
+
+    <!--   Dashboard Vendeuse  -->
+    <div>
+        <div class="page-label">7 — Dashboard Vendeuse (dashboard-vendeuse.html)</div>
+        <div class="frame">
+        <div class="frame-bar">
+            <div class="frame-dot" style="background:#FF5F57"></div>
+            <div class="frame-dot" style="background:#FEBC2E"></div>
+            <div class="frame-dot" style="background:#28C840"></div>
+            <div class="frame-url">mamamarket.ci/dashboard-vendeuse.html</div>
+        </div>
+        <div class="frame-body">
+            <!-- Hero -->
+            <div style="background:linear-gradient(135deg,#5C1A00,#1A0500);padding:12px">
+            <div style="font-family:Georgia;color:#E8B020;font-size:13px;font-weight:700">🏪 Mama Awa Boutique</div>
+            <div style="color:rgba(255,255,255,.6);font-size:8px;margin-top:2px">Vendeuse Vérifiée ✓ · Adjamé</div>
+            </div>
+            <div class="wf-kente"></div>
+            <div class="wf-dashboard">
+            <!-- Stats -->
+            <div class="wf-stat-row">
+                <div class="wf-stat"><div class="wf-stat-n">18</div><div class="wf-stat-l">Produits</div></div>
+                <div class="wf-stat"><div class="wf-stat-n">1 240</div><div class="wf-stat-l">Ventes</div></div>
+                <div class="wf-stat"><div class="wf-stat-n">4.8⭐</div><div class="wf-stat-l">Score</div></div>
+                <div class="wf-stat"><div class="wf-stat-n">184K</div><div class="wf-stat-l">FCFA</div></div>
+            </div>
+            <!-- Négociations en attente -->
+            <div style="font-size:9px;font-weight:700;color:#5C2D0A;margin-bottom:5px">🤝 Négociations en attente</div>
+            <div class="wf-request">
+                <div class="wf-req-client">Koné Fatoumata 👩🏿</div>
+                <div class="wf-req-produit">📦 Robe Kente Royale · Il y a 5 min</div>
+                <div class="wf-req-prix">
+                <span class="wf-prix-barre">24 500 F</span>
+                <span>→</span>
+                <span class="wf-prix-propose">19 000 F</span>
+                <span style="font-size:7px;background:#FEF3D0;color:#C8901A;padding:1px 5px;border-radius:10px">-22%</span>
+                </div>
+                <div style="font-size:8px;color:#5A3218;font-style:italic;margin-bottom:4px">"Pour l'anniversaire de ma fille 🙏"</div>
+                <div class="wf-req-btns">
+                <div class="wf-req-btn accept">✅ Accepter</div>
+                <div class="wf-req-btn counter">🔄 Contre-offre</div>
+                <div class="wf-req-btn refuse">❌ Refuser</div>
+                </div>
+            </div>
+            <!-- Commande -->
+            <div style="font-size:9px;font-weight:700;color:#5C2D0A;margin-bottom:5px;margin-top:6px">📦 Commandes récentes</div>
+            <div style="background:white;border-radius:6px;padding:6px;border:1px solid #E2D0A8;display:flex;justify-content:space-between;align-items:center">
+                <div>
+                <div style="font-size:8px;font-weight:700;color:#2A1205">#MM-2847 · Robe Kente</div>
+                <div style="font-size:7px;color:#8A6040">Koné Fatoumata · Adjamé</div>
+                </div>
+                <div style="text-align:right">
+                <div style="font-size:9px;font-weight:700;color:#D4580A;font-family:Georgia">24 500 F</div>
+                <div style="font-size:7px;background:#EDE0FF;color:#7B3F9E;padding:1px 6px;border-radius:10px">🧺 En collecte</div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!--  Faiseuse de Marché -->
+    <div>
+        <div class="page-label">8 — Espace Faiseuse (mama-coursiere.html)</div>
+        <div class="frame">
+        <div class="frame-bar">
+            <div class="frame-dot" style="background:#FF5F57"></div>
+            <div class="frame-dot" style="background:#FEBC2E"></div>
+            <div class="frame-dot" style="background:#28C840"></div>
+            <div class="frame-url">mamamarket.ci/mama-coursiere.html</div>
+        </div>
+        <div class="frame-body">
+            <div style="background:linear-gradient(135deg,#2A1A4A,#0A0514);padding:12px">
+            <div style="font-family:Georgia;color:#C8A0E8;font-size:13px;font-weight:700">🧺 Mama Aminata</div>
+            <div style="color:rgba(255,255,255,.5);font-size:8px">Faiseuse de Marché · Adjamé</div>
+            <div style="display:flex;gap:8px;margin-top:6px">
+                <div style="background:rgba(255,255,255,.1);border-radius:6px;padding:4px 8px;text-align:center">
+                <div style="font-family:Georgia;font-size:12px;color:#C8A0E8;font-weight:700">8</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.4)">Missions</div>
+                </div>
+                <div style="background:rgba(255,255,255,.1);border-radius:6px;padding:4px 8px;text-align:center">
+                <div style="font-family:Georgia;font-size:12px;color:#C8A0E8;font-weight:700">4.9⭐</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.4)">Note</div>
+                </div>
+                <div style="background:rgba(255,255,255,.1);border-radius:6px;padding:4px 8px;text-align:center">
+                <div style="font-family:Georgia;font-size:12px;color:#C8A0E8;font-weight:700">1 200F</div>
+                <div style="font-size:7px;color:rgba(255,255,255,.4)">Aujourd'hui</div>
+                </div>
+            </div>
+            </div>
+            <div class="wf-kente"></div>
+            <div class="wf-section">
+
+        <!-- Mission en cours -->
+            <div style="font-size:9px;font-weight:700;color:#5C2D0A;margin-bottom:5px">⚡ Mission en cours</div>
+            <div class="wf-mission">
+                <div class="wf-mission-id">#MM-2847 · 1 000 FCFA</div>
+                <div class="wf-mission-title">Collecte pour Koné Fatoumata</div>
+                <div class="wf-progress"><div class="wf-progress-fill"></div></div>
+                <div style="font-size:7px;color:#8A6040;margin-bottom:4px">2 articles collectés sur 3</div>
+                <div class="wf-mission-articles">
+                <div class="wf-article">
+                    <div class="wf-chk done">✓</div>
+                    <div>Robe Kente — Stand B12 · Mama Fatou</div>
+                </div>
+                <div class="wf-article">
+                    <div class="wf-chk done">✓</div>
+                    <div>Karité Bio — Stand D4 · Mama Adjoa</div>
+                </div>
+                <div class="wf-article" style="border:1px solid rgba(123,63,158,.3);border-radius:4px">
+                    <div class="wf-chk todo"></div>
+                    <div style="color:#7B3F9E;font-weight:600">Collier Perles — Stand A7 ← à récupérer</div>
+                </div>
+                </div>
+                <div class="wf-mission-btn">📦 Confirmer remise au livreur</div>
+            </div>
+
+        <!-- Nouvelle mission -->
+            <div style="font-size:9px;font-weight:700;color:#5C2D0A;margin:6px 0 5px">🆕 Mission disponible</div>
+            <div class="wf-mission" style="border-left-color:#D4580A">
+                <div class="wf-mission-id">⚡ URGENT · #MM-2851 · 1 500 FCFA</div>
+                <div class="wf-mission-title">Collecte 4 articles · ~25 min</div>
+                <div style="display:flex;gap:5px;margin-top:5px">
+                <div class="wf-req-btn refuse">Refuser</div>
+                <div class="wf-req-btn accept" style="flex:1;text-align:center">Accepter</div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<div class="kente"></div>
+<div style="background:#2A1205;padding:12px 40px;display:flex;justify-content:space-between;align-items:center">
+    <div style="color:rgba(255,255,255,.5);font-size:11px">🌺 MamaMarket CI — Maquette UI · 8 écrans</div>
+    <div style="color:rgba(255,255,255,.3);font-size:10px">HTML · CSS · JavaScript · Nodejs · MySQL</div>
+</div>
+
+</body>
+</html>

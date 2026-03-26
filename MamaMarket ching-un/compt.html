@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MamaMarket – Mon Historique</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --orange:#D4580A;--orange2:#E8761A;--orange-pale:#FDF0E3;
+      --green:#2A6B35;--green2:#3A8B47;--green-pale:#E8F5EB;
+      --brown:#5C2D0A;--gold:#C8901A;--gold2:#E8B020;
+      --cream:#FBF5E8;--beige:#F0E4C8;--beige2:#E2D0A8;
+      --white:#FFFFFF;--text-dark:#2A1205;--text-mid:#5A3218;--text-light:#8A6040;
+      --shadow-sm:0 2px 8px rgba(92,45,10,.10);
+      --shadow-md:0 6px 24px rgba(92,45,10,.16);
+      --r-sm:10px;--r-md:16px;--r-lg:24px;--r-xl:40px;
+      --font-d:'Playfair Display',Georgia,serif;
+      --font-u:'Nunito',sans-serif;
+      --ease:cubic-bezier(.4,0,.2,1);
+      --spring:cubic-bezier(.34,1.56,.64,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font-u);background:var(--cream);color:var(--text-dark);overflow-x:hidden}
+    .kente{height:6px;background:repeating-linear-gradient(90deg,#D4580A 0,#D4580A 18px,#2A6B35 18px,#2A6B35 36px,#C8901A 36px,#C8901A 54px,#8B4513 54px,#8B4513 72px)}
+    .kente-thin{height:4px;background:repeating-linear-gradient(90deg,#D4580A 0,#D4580A 14px,#2A6B35 14px,#2A6B35 28px,#C8901A 28px,#C8901A 42px,#8B4513 42px,#8B4513 56px)}
+
+    /* ── HEADER ── */
+    .header{background:linear-gradient(135deg,#3A1000,#1A0500);padding:16px 20px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100}
+    .header-back{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:white;font-size:18px;cursor:pointer;text-decoration:none;transition:all .2s;flex-shrink:0}
+    .header-back:hover{background:rgba(255,255,255,.22)}
+    .header-info{flex:1}
+    .header-title{font-family:var(--font-d);font-size:20px;color:var(--gold2);font-weight:700}
+    .header-sub{font-size:12px;color:rgba(255,255,255,.5);margin-top:2px}
+    .header-date{font-size:11px;color:rgba(255,255,255,.4);text-align:right}
+    .live-dot{display:inline-block;width:7px;height:7px;background:#22C55E;border-radius:50%;margin-right:4px;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)}50%{box-shadow:0 0 0 5px rgba(34,197,94,0)}}
+
+    /* ── ONGLETS ── */
+    .tabs{background:var(--white);display:flex;border-bottom:2px solid var(--beige2);position:sticky;top:76px;z-index:99;box-shadow:var(--shadow-sm)}
+    .tab{flex:1;padding:12px 6px;text-align:center;font-size:12px;font-weight:700;color:var(--text-light);cursor:pointer;transition:all .22s;border-bottom:3px solid transparent;position:relative}
+    .tab.on{color:var(--orange);border-bottom-color:var(--orange);background:var(--orange-pale)}
+    .tab .tab-ico{font-size:16px;display:block;margin-bottom:2px}
+
+    /* ── CONTENU ── */
+    .content{display:none;padding:16px 14px 80px;max-width:900px;margin:0 auto}
+    .content.on{display:block}
+
+    /* ── CARTE JOUR (réinitialisée chaque jour) ── */
+    .day-card{background:linear-gradient(135deg,var(--orange),#B03A00);border-radius:var(--r-lg);padding:20px;margin-bottom:18px;position:relative;overflow:hidden;box-shadow:0 8px 28px rgba(212,88,10,.35)}
+    .day-card::before{content:'';position:absolute;right:-20px;top:-20px;width:120px;height:120px;background:rgba(255,255,255,.08);border-radius:50%}
+    .day-card::after{content:'';position:absolute;right:30px;bottom:-30px;width:80px;height:80px;background:rgba(255,255,255,.06);border-radius:50%}
+    .day-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+    .day-card-title{font-family:var(--font-d);font-size:16px;color:rgba(255,255,255,.9)}
+    .day-reset-badge{background:rgba(255,255,255,.18);color:white;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px}
+    .day-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .day-stat{background:rgba(255,255,255,.15);border-radius:10px;padding:10px;text-align:center}
+    .day-stat-n{font-family:var(--font-d);font-size:20px;font-weight:900;color:white}
+    .day-stat-l{font-size:9px;color:rgba(255,255,255,.7);margin-top:2px;font-weight:600}
+    .day-progress{margin-top:14px}
+    .day-progress-label{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.7);margin-bottom:5px}
+    .day-progress-bar{height:6px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden}
+    .day-progress-fill{height:100%;background:white;border-radius:3px;transition:width 1s var(--ease)}
+
+    /* ── SECTION ── */
+    .section-title{font-family:var(--font-d);font-size:16px;color:var(--brown);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--beige2)}
+
+    /* ── CARTE MOIS ── */
+    .month-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+    .month-card{background:var(--white);border-radius:var(--r-md);padding:14px;border-top:3px solid var(--orange);box-shadow:var(--shadow-sm)}
+    .month-card.green{border-top-color:var(--green)}
+    .month-card.gold{border-top-color:var(--gold)}
+    .month-card.purple{border-top-color:#7B3F9E}
+    .month-n{font-family:var(--font-d);font-size:22px;color:var(--brown);font-weight:900}
+    .month-l{font-size:11px;color:var(--text-light);margin-top:2px}
+    .month-trend{font-size:11px;font-weight:700;margin-top:6px}
+    .month-trend.up{color:var(--green)}
+    .month-trend.dn{color:#C0392B}
+
+    /* ── MINI GRAPHE (barres CSS) ── */
+    .mini-chart{display:flex;align-items:flex-end;gap:4px;height:50px;margin-top:10px;padding:0 2px}
+    .mini-bar{flex:1;border-radius:3px 3px 0 0;transition:height .8s var(--ease);min-height:3px}
+    .mini-bar-label{font-size:7px;color:var(--text-light);text-align:center;margin-top:3px}
+    .mini-chart-wrap{margin-bottom:20px}
+
+    /* ── LISTE COMMANDES ── */
+    .commande-item{background:var(--white);border-radius:var(--r-md);padding:14px;margin-bottom:10px;box-shadow:var(--shadow-sm);display:flex;align-items:flex-start;gap:12px;border-left:4px solid var(--beige2);transition:all .22s;cursor:pointer}
+    .commande-item:hover{box-shadow:var(--shadow-md);transform:translateX(3px)}
+    .commande-item.livree{border-left-color:var(--green)}
+    .commande-item.en-cours{border-left-color:var(--orange)}
+    .commande-item.annulee{border-left-color:#C0392B}
+    .commande-item.nego{border-left-color:#7B3F9E}
+    .cmd-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .cmd-ico.livree{background:var(--green-pale)}
+    .cmd-ico.en-cours{background:var(--orange-pale)}
+    .cmd-ico.annulee{background:#FDECEA}
+    .cmd-ico.nego{background:#F5EEFF}
+    .cmd-body{flex:1}
+    .cmd-ref{font-size:12px;font-weight:700;color:var(--brown)}
+    .cmd-client{font-size:11px;color:var(--text-light);margin-top:1px}
+    .cmd-produit{font-size:12px;color:var(--text-mid);margin-top:3px}
+    .cmd-right{text-align:right;flex-shrink:0}
+    .cmd-montant{font-family:var(--font-d);font-size:14px;font-weight:700;color:var(--orange)}
+    .cmd-date{font-size:10px;color:var(--text-light);margin-top:2px}
+    .cmd-statut{font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:4px;display:inline-block}
+    .cmd-statut.livree{background:var(--green-pale);color:var(--green)}
+    .cmd-statut.en-cours{background:var(--orange-pale);color:var(--orange)}
+    .cmd-statut.annulee{background:#FDECEA;color:#C0392B}
+    .cmd-statut.nego{background:#F5EEFF;color:#7B3F9E}
+
+    /* ── PAIEMENTS ── */
+    .paiement-item{background:var(--white);border-radius:var(--r-md);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow-sm)}
+    .pay-ico{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+    .pay-ico.om{background:#FF6600;color:white}
+    .pay-ico.wave{background:#0066FF;color:white}
+    .pay-ico.carte{background:var(--green);color:white}
+    .pay-body{flex:1}
+    .pay-ref{font-size:12px;font-weight:700;color:var(--brown)}
+    .pay-detail{font-size:11px;color:var(--text-light);margin-top:1px}
+    .pay-right{text-align:right}
+    .pay-montant{font-family:var(--font-d);font-size:15px;font-weight:700;color:var(--green)}
+    .pay-date{font-size:10px;color:var(--text-light);margin-top:1px}
+    .pay-badge{font-size:9px;background:var(--green-pale);color:var(--green);padding:2px 7px;border-radius:20px;font-weight:700;margin-top:3px;display:inline-block}
+
+    /* ── FILTRE DATE ── */
+    .filter-row{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap}
+    .filter-pill{padding:5px 14px;border-radius:var(--r-xl);font-size:11px;font-weight:700;background:var(--beige);color:var(--text-mid);cursor:pointer;transition:all .2s;border:1.5px solid transparent}
+    .filter-pill.on{background:var(--orange);color:white}
+    .filter-pill:hover:not(.on){border-color:var(--orange);color:var(--orange)}
+
+    /* ── EMPTY STATE ── */
+    .empty{text-align:center;padding:40px 20px;color:var(--text-light)}
+    .empty .ei{font-size:40px;margin-bottom:10px}
+    .empty p{font-size:13px}
+
+    /* ── TOTAL BARRE BAS ── */
+    .total-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:2px solid var(--beige2);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;z-index:200;box-shadow:0 -4px 20px rgba(92,45,10,.10)}
+    .total-bar-label{font-size:12px;color:var(--text-light);font-weight:600}
+    .total-bar-amount{font-family:var(--font-d);font-size:20px;font-weight:900;color:var(--orange)}
+    .total-bar-sub{font-size:10px;color:var(--green);font-weight:700}
+
+    @media(max-width:480px){.month-grid{grid-template-columns:1fr}.day-stats{grid-template-columns:repeat(3,1fr)}}
+  </style>
+</head>
+<body>
+
+<div class="kente"></div>
+
+<!-- Header -->
+<div class="header">
+  <a href="dashboard-vendeuse.html" class="header-back">←</a>
+  <div class="header-info">
+    <div class="header-title">📊 Mon Historique</div>
+    <div class="header-sub"><span class="live-dot"></span>Mise à jour en temps réel</div>
+  </div>
+  <div class="header-date" id="headerDate"></div>
+</div>
+<div class="kente-thin"></div>
+
+<!-- Onglets -->
+<div class="tabs">
+  <div class="tab on" onclick="switchTab('jour')">
+    <span class="tab-ico">☀️</span>Aujourd'hui
+  </div>
+  <div class="tab" onclick="switchTab('mois')">
+    <span class="tab-ico">📅</span>Ce mois
+  </div>
+  <div class="tab" onclick="switchTab('commandes')">
+    <span class="tab-ico">📦</span>Commandes
+  </div>
+  <div class="tab" onclick="switchTab('paiements')">
+    <span class="tab-ico">💳</span>Paiements
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ONGLET 1 — AUJOURD'HUI (reset chaque jour)
+═══════════════════════════════════════════ -->
+<div class="content on" id="tab-jour">
+
+  <!-- Carte du jour — réinitialisée à minuit -->
+  <div class="day-card">
+    <div class="day-card-head">
+      <div class="day-title" style="font-family:var(--font-d);font-size:16px;color:rgba(255,255,255,.9)">
+        ☀️ Aujourd'hui — <span id="jourLabel"></span>
+      </div>
+      <div class="day-reset-badge">🔄 Reset à minuit</div>
+    </div>
+    <div class="day-stats">
+      <div class="day-stat">
+        <div class="day-stat-n" id="dayVentes">7</div>
+        <div class="day-stat-l">Ventes</div>
+      </div>
+      <div class="day-stat">
+        <div class="day-stat-n" id="dayRevenu">84 500</div>
+        <div class="day-stat-l">FCFA</div>
+      </div>
+      <div class="day-stat">
+        <div class="day-stat-n" id="dayNego">3</div>
+        <div class="day-stat-l">Négos</div>
+      </div>
+    </div>
+    <div class="day-progress">
+      <div class="day-progress-label">
+        <span>Objectif du jour : 150 000 FCFA</span>
+        <span id="dayPct">56%</span>
+      </div>
+      <div class="day-progress-bar">
+        <div class="day-progress-fill" id="dayFill" style="width:56%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Commandes du jour -->
+  <div class="section-title">📦 Commandes du jour</div>
+
+  <div class="commande-item livree">
+    <div class="cmd-ico livree">✅</div>
+    <div class="cmd-body">
+      <div class="cmd-ref">#MM-2851</div>
+      <div class="cmd-client">👩🏿 Koné Fatoumata · Adjamé</div>
+      <div class="cmd-produit">Robe Kente Royale × 1</div>
+    </div>
+    <div class="cmd-right">
+      <div class="cmd-montant">24 500 F</div>
+      <div class="cmd-date">14:32</div>
+      <div class="cmd-statut livree">Livrée ✓</div>
+    </div>
+  </div>
+
+  <div class="commande-item en-cours">
+    <div class="cmd-ico en-cours">🔄</div>
+    <div class="cmd-body">
+      <div class="cmd-ref">#MM-2852</div>
+      <div class="cmd-client">👩🏽 Diallo Mariama · Cocody</div>
+      <div class="cmd-produit">Beurre de Karité Bio × 2</div>
+    </div>
+    <div class="cmd-right">
+      <div class="cmd-montant">10 400 F</div>
+      <div class="cmd-date">15:10</div>
+      <div class="cmd-statut en-cours">En collecte</div>
+    </div>
+  </div>
+
+  <div class="commande-item nego">
+    <div class="cmd-ico nego">🤝</div>
+    <div class="cmd-body">
+      <div class="cmd-ref">#MM-2853</div>
+      <div class="cmd-client">🧕🏾 Traoré Adja · Yopougon</div>
+      <div class="cmd-produit">Collier Perles Africaines × 1</div>
+    </div>
+    <div class="cmd-right">
+      <div class="cmd-montant" style="color:#7B3F9E">7 200 F</div>
+      <div class="cmd-date">16:05</div>
+      <div class="cmd-statut nego">Prix négocié</div>
+    </div>
+  </div>
+
+  <div class="commande-item livree">
+    <div class="cmd-ico livree">✅</div>
+    <div class="cmd-body">
+      <div class="cmd-ref">#MM-2847</div>
+      <div class="cmd-client">👩🏾 Aminata Koné · Adjamé</div>
+      <div class="cmd-produit">Pagne Wax 6 yards × 1</div>
+    </div>
+    <div class="cmd-right">
+      <div class="cmd-montant">18 000 F</div>
+      <div class="cmd-date">09:15</div>
+      <div class="cmd-statut livree">Livrée ✓</div>
+    </div>
+  </div>
+
+  <!-- Timer reset -->
+  <div style="text-align:center;margin-top:16px;background:var(--white);border-radius:var(--r-md);padding:12px;box-shadow:var(--shadow-sm)">
+    <div style="font-size:11px;color:var(--text-light);margin-bottom:4px">⏰ Remise à zéro dans</div>
+    <div style="font-family:var(--font-d);font-size:22px;color:var(--brown);font-weight:700" id="countdown"></div>
+    <div style="font-size:10px;color:var(--text-light);margin-top:2px">Les stats du jour sont réinitialisées chaque nuit à 00h00</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ONGLET 2 — CE MOIS
+═══════════════════════════════════════════ -->
+<div class="content" id="tab-mois">
+
+  <!-- Sélecteur mois -->
+  <div class="filter-row">
+    <div class="filter-pill on">Mars 2025</div>
+    <div class="filter-pill">Fév 2025</div>
+    <div class="filter-pill">Jan 2025</div>
+    <div class="filter-pill">Déc 2024</div>
+  </div>
+
+  <!-- Stats mois -->
+  <div class="month-grid">
+    <div class="month-card">
+      <div style="font-size:18px;margin-bottom:4px">💰</div>
+      <div class="month-n">847 500</div>
+      <div class="month-l">Revenus FCFA — Mars</div>
+      <div class="month-trend up">↑ +18% vs Fév</div>
+    </div>
+    <div class="month-card green">
+      <div style="font-size:18px;margin-bottom:4px">🛍️</div>
+      <div class="month-n">68</div>
+      <div class="month-l">Ventes ce mois</div>
+      <div class="month-trend up">↑ +12 vs Fév</div>
+    </div>
+    <div class="month-card gold">
+      <div style="font-size:18px;margin-bottom:4px">⭐</div>
+      <div class="month-n">4.9</div>
+      <div class="month-l">Note moyenne mars</div>
+      <div class="month-trend up">↑ +0.1 vs Fév</div>
+    </div>
+    <div class="month-card purple">
+      <div style="font-size:18px;margin-bottom:4px">🤝</div>
+      <div class="month-n">23</div>
+      <div class="month-l">Négociations — 17 acceptées</div>
+      <div class="month-trend up">74% de succès</div>
+    </div>
+  </div>
+
+  <!-- Mini graphe revenus par semaine -->
+  <div class="section-title">📈 Revenus par semaine</div>
+  <div class="mini-chart-wrap">
+    <div class="mini-chart" id="chartSemaine">
+      <!-- généré par JS -->
+    </div>
+    <div style="display:flex;justify-content:space-around;margin-top:4px">
+      <span style="font-size:9px;color:var(--text-light)">S1</span>
+      <span style="font-size:9px;color:var(--text-light)">S2</span>
+      <span style="font-size:9px;color:var(--text-light)">S3</span>
+      <span style="font-size:9px;color:var(--text-light)">S4</span>
+    </div>
+  </div>
+
+  <!-- Produits les plus vendus -->
+  <div class="section-title">🏆 Top produits ce mois</div>
+  <div id="topProduits"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ONGLET 3 — HISTORIQUE COMMANDES
+═══════════════════════════════════════════ -->
+<div class="content" id="tab-commandes">
+  <div class="filter-row">
+    <div class="filter-pill on" onclick="filterCmd('tout',this)">Tout</div>
+    <div class="filter-pill" onclick="filterCmd('livree',this)">✅ Livrées</div>
+    <div class="filter-pill" onclick="filterCmd('en-cours',this)">🔄 En cours</div>
+    <div class="filter-pill" onclick="filterCmd('nego',this)">🤝 Négociées</div>
+    <div class="filter-pill" onclick="filterCmd('annulee',this)">❌ Annulées</div>
+  </div>
+  <div id="listCommandes"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ONGLET 4 — PAIEMENTS MAMAPAY
+═══════════════════════════════════════════ -->
+<div class="content" id="tab-paiements">
+  <div class="filter-row">
+    <div class="filter-pill on">Tout</div>
+    <div class="filter-pill">📱 Orange Money</div>
+    <div class="filter-pill">💙 Wave</div>
+    <div class="filter-pill">💳 Carte</div>
+  </div>
+
+  <!-- Résumé paiements -->
+  <div style="background:linear-gradient(135deg,var(--green),#1A4A22);border-radius:var(--r-md);padding:16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <div style="font-size:11px;color:rgba(255,255,255,.6);margin-bottom:4px">💰 Total reçu ce mois</div>
+      <div style="font-family:var(--font-d);font-size:24px;color:white;font-weight:900">847 500 FCFA</div>
+      <div style="font-size:10px;color:rgba(255,255,255,.5);margin-top:2px">🔒 Sécurisé via MamaPay Escrow</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:10px;color:rgba(255,255,255,.6)">En attente</div>
+      <div style="font-family:var(--font-d);font-size:18px;color:var(--gold2);font-weight:700">12 500 F</div>
+    </div>
+  </div>
+
+  <div id="listPaiements"></div>
+</div>
+
+<!-- Barre total -->
+<div class="total-bar">
+  <div>
+    <div class="total-bar-label">Revenus aujourd'hui</div>
+    <div class="total-bar-sub">🔒 Via MamaPay</div>
+  </div>
+  <div style="text-align:right">
+    <div class="total-bar-amount" id="totalBar">84 500 FCFA</div>
+    <div style="font-size:10px;color:var(--green);font-weight:700">↑ +7 ventes aujourd'hui</div>
+  </div>
+</div>
+
+<script>
+
+/* ═══ DONNÉES ═══════════════════════════════════ */
+const COMMANDES = [
+  { id:'MM-2851', client:'Koné Fatoumata',   emo:'👩🏿', ville:'Adjamé',   produit:'Robe Kente Royale × 1',       montant:24500, date:'Auj. 14:32', statut:'livree' },
+  { id:'MM-2852', client:'Diallo Mariama',   emo:'👩🏽', ville:'Cocody',   produit:'Beurre de Karité × 2',        montant:10400, date:'Auj. 15:10', statut:'en-cours' },
+  { id:'MM-2853', client:'Traoré Adja',      emo:'🧕🏾', ville:'Yopougon', produit:'Collier Perles × 1',          montant:7200,  date:'Auj. 16:05', statut:'nego' },
+  { id:'MM-2847', client:'Aminata Koné',     emo:'👩🏾', ville:'Adjamé',   produit:'Pagne Wax 6 yards × 1',       montant:18000, date:'Auj. 09:15', statut:'livree' },
+  { id:'MM-2844', client:'Ouattara Awa',     emo:'👩🏽', ville:'Cocody',   produit:'Huile de Coco 200ml × 3',     montant:10500, date:'Hier 17:42', statut:'livree' },
+  { id:'MM-2840', client:'Bamba Nassita',    emo:'👩🏾', ville:'Abobo',    produit:'Panier Tressé Grand × 1',     montant:12800, date:'Hier 11:20', statut:'livree' },
+  { id:'MM-2838', client:'Coulibaly Fanta',  emo:'👩🏿', ville:'Adjamé',   produit:'Boubou Femme Bazin × 1',      montant:32000, date:'Hier 09:00', statut:'nego' },
+  { id:'MM-2835', client:'Konaté Mariame',   emo:'🧕🏾', ville:'Marcory',  produit:'Crème Visage Karité × 2',     montant:11600, date:'22/03',      statut:'livree' },
+  { id:'MM-2830', client:'Diabaté Rokia',    emo:'👩🏽', ville:'Yopougon', produit:'Savon Noir × 3 packs',        montant:12600, date:'21/03',      statut:'annulee' },
+  { id:'MM-2825', client:'Sanogo Assita',    emo:'👩🏾', ville:'Treichv.', produit:'Foulard Soie Kente × 1',     montant:8900,  date:'20/03',      statut:'livree' },
+  { id:'MM-2820', client:'Ouédraogo Fatou',  emo:'👩🏿', ville:'Adjamé',   produit:'Coffret Épices Ivoiriennes',  montant:6500,  date:'19/03',      statut:'livree' },
+  { id:'MM-2815', client:'Dembélé Mariam',   emo:'🧕🏾', ville:'Cocody',   produit:'Bracelet Perles Wax × 2',    montant:5000,  date:'18/03',      statut:'nego' },
+];
+
+const PAIEMENTS = [
+  { ref:'PAY-2851', methode:'om',    client:'Koné Fatoumata',  montant:24500, date:'Auj. 14:35', detail:'Orange Money CI · +225 07 11 22 33' },
+  { ref:'PAY-2847', methode:'wave',  client:'Aminata Koné',    montant:18000, date:'Auj. 09:18', detail:'Wave · +225 05 44 55 66' },
+  { ref:'PAY-2844', methode:'om',    client:'Ouattara Awa',    montant:10500, date:'Hier 17:45', detail:'Orange Money CI · +225 01 33 44 55' },
+  { ref:'PAY-2840', methode:'carte', client:'Bamba Nassita',   montant:12800, date:'Hier 11:22', detail:'Carte Visa · **** 4782' },
+  { ref:'PAY-2838', methode:'om',    client:'Coulibaly Fanta', montant:32000, date:'Hier 09:05', detail:'Orange Money CI · +225 07 99 88 77' },
+  { ref:'PAY-2835', methode:'wave',  client:'Konaté Mariame',  montant:11600, date:'22/03 16:10',detail:'Wave · +225 05 77 88 99' },
+  { ref:'PAY-2825', methode:'om',    client:'Sanogo Assita',   montant:8900,  date:'20/03 13:00',detail:'Orange Money CI · +225 07 22 33 44' },
+  { ref:'PAY-2820', methode:'carte', client:'Ouédraogo Fatou', montant:6500,  date:'19/03 11:30',detail:'Carte Mastercard · **** 2091' },
+];
+
+const TOP_PRODUITS = [
+  { nom:'Robe Kente Royale',      ico:'👗', ventes:18, revenu:441000, pct:85 },
+  { nom:'Beurre de Karité Bio',   ico:'🧴', ventes:14, revenu:72800,  pct:66 },
+  { nom:'Pagne Wax 6 yards',      ico:'🧣', ventes:11, revenu:198000, pct:52 },
+  { nom:'Boubou Femme Bazin',     ico:'👘', ventes:8,  revenu:256000, pct:38 },
+  { nom:'Panier Tressé Grand',    ico:'🧺', ventes:7,  revenu:89600,  pct:33 },
+];
+
+const SEMAINE_DATA = [180000, 245000, 210000, 212500];
+
+/* ═══ INIT ══════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  updateDate();
+  renderCommandes('tout');
+  renderPaiements();
+  renderTopProduits();
+  renderChart();
+  startCountdown();
+  animateDay();
+});
+
+/* ── Date header ── */
+function updateDate() {
+  const now = new Date();
+  const opts = { weekday:'long', day:'numeric', month:'long', year:'numeric' };
+  document.getElementById('headerDate').textContent = now.toLocaleDateString('fr-FR', opts);
+  document.getElementById('jourLabel').textContent   = now.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' });
+}
+
+/* ── Onglets ── */
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('on', ['jour','mois','commandes','paiements'][i]===id));
+  document.querySelectorAll('.content').forEach(c => c.classList.remove('on'));
+  document.getElementById('tab-' + id).classList.add('on');
+}
+
+/* ── Filtre commandes ── */
+function filterCmd(statut, el) {
+  document.querySelectorAll('#tab-commandes .filter-pill').forEach(p => p.classList.remove('on'));
+  el.classList.add('on');
+  renderCommandes(statut);
+}
+
+/* ── Render commandes ── */
+function renderCommandes(filtre) {
+  const list = filtre === 'tout' ? COMMANDES : COMMANDES.filter(c => c.statut === filtre);
+  const icoMap  = { livree:'✅', 'en-cours':'🔄', nego:'🤝', annulee:'❌' };
+  const labelMap = { livree:'Livrée ✓', 'en-cours':'En collecte', nego:'Prix négocié', annulee:'Annulée' };
+  document.getElementById('listCommandes').innerHTML = list.length === 0
+    ? '<div class="empty"><div class="ei">📭</div><p>Aucune commande dans cette catégorie</p></div>'
+    : list.map(c => `
+      <div class="commande-item ${c.statut}">
+        <div class="cmd-ico ${c.statut}">${icoMap[c.statut]}</div>
+        <div class="cmd-body">
+          <div class="cmd-ref">#${c.id}</div>
+          <div class="cmd-client">${c.emo} ${c.client} · ${c.ville}</div>
+          <div class="cmd-produit">${c.produit}</div>
+        </div>
+        <div class="cmd-right">
+          <div class="cmd-montant">${c.montant.toLocaleString('fr-FR')} F</div>
+          <div class="cmd-date">${c.date}</div>
+          <div class="cmd-statut ${c.statut}">${labelMap[c.statut]}</div>
+        </div>
+      </div>`).join('');
+}
+
+/* ── Render paiements ── */
+function renderPaiements() {
+  const methodeMap = { om:'📱', wave:'💙', carte:'💳' };
+  const labelMap   = { om:'Orange Money', wave:'Wave', carte:'Carte bancaire' };
+  document.getElementById('listPaiements').innerHTML = PAIEMENTS.map(p => `
+    <div class="paiement-item">
+      <div class="pay-ico ${p.methode}">${methodeMap[p.methode]}</div>
+      <div class="pay-body">
+        <div class="pay-ref">#${p.ref}</div>
+        <div class="pay-detail">${p.client} · ${p.detail}</div>
+      </div>
+      <div class="pay-right">
+        <div class="pay-montant">+${p.montant.toLocaleString('fr-FR')} F</div>
+        <div class="pay-date">${p.date}</div>
+        <div class="pay-badge">✓ ${labelMap[p.methode]}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ── Render top produits ── */
+function renderTopProduits() {
+  document.getElementById('topProduits').innerHTML = TOP_PRODUITS.map((p,i) => `
+    <div style="background:var(--white);border-radius:10px;padding:11px 14px;margin-bottom:8px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:10px">
+      <div style="font-size:20px;width:32px;text-align:center">${p.ico}</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:700;color:var(--brown)">${p.nom}</div>
+        <div style="height:5px;background:var(--beige2);border-radius:3px;margin-top:5px;overflow:hidden">
+          <div style="height:100%;width:${p.pct}%;background:var(--orange);border-radius:3px"></div>
+        </div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="font-family:var(--font-d);font-size:13px;color:var(--orange);font-weight:700">${p.revenu.toLocaleString('fr-FR')} F</div>
+        <div style="font-size:10px;color:var(--text-light)">${p.ventes} ventes</div>
+      </div>
+      <div style="font-size:18px;font-weight:900;color:var(--beige2);font-family:var(--font-d);width:24px;text-align:center">${i+1}</div>
+    </div>`).join('');
+}
+
+/* ── Mini graphe barres ── */
+function renderChart() {
+  const max = Math.max(...SEMAINE_DATA);
+  document.getElementById('chartSemaine').innerHTML = SEMAINE_DATA.map((v,i) => {
+    const h = Math.round((v / max) * 46) + 4;
+    const colors = [C_ORANGE, C_ORANGE, C_ORANGE, C_GOLD];
+    return `<div style="flex:1;display:flex;flex-direction:column;align-items:center">
+      <div style="font-size:8px;color:var(--text-light);margin-bottom:2px">${(v/1000).toFixed(0)}k</div>
+      <div style="width:100%;height:${h}px;background:${i===3?'var(--orange)':'var(--beige2)'};border-radius:3px 3px 0 0;transition:height 1s"></div>
+    </div>`;
+  }).join('');
+}
+const C_ORANGE = 'var(--orange)';
+const C_GOLD   = 'var(--gold)';
+
+/* ── Countdown minuit ── */
+function startCountdown() {
+  function update() {
+    const now  = new Date();
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+    const diff = midnight - now;
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('countdown').textContent =
+      `${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+  }
+  update();
+  setInterval(update, 1000);
+}
+
+/* ── Animation stats jour ── */
+function animateDay() {
+  // Simule une mise à jour des données du jour depuis le localStorage
+  const today = new Date().toDateString();
+  const stored = localStorage.getItem('mamamarket_day');
+  let dayData;
+
+  if (!stored || JSON.parse(stored).date !== today) {
+    // Nouveau jour → reset
+    dayData = { date: today, ventes: 0, revenu: 0, nego: 0 };
+    localStorage.setItem('mamamarket_day', JSON.stringify(dayData));
+  } else {
+    dayData = JSON.parse(stored);
+  }
+
+  // Pour la démo on affiche les valeurs en dur (en prod ça viendrait de l'API)
+  const ventes = 7, revenu = 84500, nego = 3, objectif = 150000;
+  const pct = Math.min(Math.round((revenu / objectif) * 100), 100);
+
+  document.getElementById('dayVentes').textContent = ventes;
+  document.getElementById('dayRevenu').textContent = revenu.toLocaleString('fr-FR');
+  document.getElementById('dayNego').textContent   = nego;
+  document.getElementById('dayPct').textContent    = pct + '%';
+  document.getElementById('dayFill').style.width   = pct + '%';
+}
+</script>
+</body>
+</html>

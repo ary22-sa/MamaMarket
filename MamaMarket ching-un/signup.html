@@ -484,6 +484,51 @@ function submitSignup() {
     window.location.href = destination;
   }, 2000);
 }
+// À mettre dans ton script de signup.html
+async function handleSignup() {
+    const userData = {
+        nom_complet: document.getElementById('sName').value,
+        email: document.getElementById('sEmail').value,
+        mot_de_passe: document.getElementById('sPw').value,
+        role: selT // Ta variable qui contient le rôle choisi
+    };
+
+    try {
+        const response = await fetch('http://localhost:3000/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userData)
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            alert("Bienvenue sur MamaMarket ! " + result.message);
+        }
+    } catch (error) {
+        console.error("Erreur lors de l'inscription:", error);
+    }
+    async function validerInscription() {
+    const donnees = {
+        nom: document.getElementById('nom_input').value,
+        email: document.getElementById('email_input').value,
+        mdp: document.getElementById('password_input').value,
+        role: 'vendeuse' // Ou récupère la valeur de ton bouton de sélection
+    };
+
+    const response = await fetch('http://localhost:3000/api/inscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(donnees)
+    });
+
+    const resultat = await response.json();
+    if (response.ok) {
+        alert("Succès : " + resultat.message);
+    } else {
+        alert("Erreur : " + resultat.error);
+    }
+}
+}
 </script>
 </body>
 </html>

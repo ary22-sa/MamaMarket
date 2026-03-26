@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MamaMarket – Mode Simple</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --orange:#D4580A;--green:#2A6B35;--gold:#C8901A;
+      --brown:#5C2D0A;--cream:#FBF5E8;--white:#FFFFFF;
+      --purple:#7B3F9E;--blue:#1565C0;--red:#C0392B;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Nunito',sans-serif;background:var(--cream);min-height:100vh;overflow-x:hidden}
+
+    /* ── KENTE ── */
+    .kente{height:10px;background:repeating-linear-gradient(90deg,#D4580A 0,#D4580A 22px,#2A6B35 22px,#2A6B35 44px,#C8901A 44px,#C8901A 66px,#8B4513 66px,#8B4513 88px)}
+
+    /* ── HEADER SIMPLE ── */
+    .header{background:linear-gradient(135deg,#5C1A00,#2A0800);padding:18px 16px;display:flex;align-items:center;justify-content:space-between}
+    .logo-big{display:flex;align-items:center;gap:10px}
+    .logo-ico{font-size:36px}
+    .logo-txt{font-size:22px;font-weight:900;color:white;line-height:1}
+    .logo-sub{font-size:13px;color:rgba(255,255,255,.55);margin-top:2px}
+    .header-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+    .mode-badge{background:var(--gold);color:var(--brown);font-size:11px;font-weight:900;padding:4px 12px;border-radius:20px}
+
+    /* ── BONJOUR CARD ── */
+    .bonjour{background:linear-gradient(135deg,var(--green),#1A4A22);margin:14px;border-radius:20px;padding:18px;display:flex;align-items:center;gap:14px;box-shadow:0 6px 20px rgba(42,107,53,.35)}
+    .bonjour-ava{font-size:48px;flex-shrink:0}
+    .bonjour-txt{color:white}
+    .bonjour-name{font-size:20px;font-weight:900}
+    .bonjour-sub{font-size:13px;color:rgba(255,255,255,.65);margin-top:3px}
+    .bonjour-speak{background:rgba(255,255,255,.2);border:none;border-radius:30px;padding:8px 16px;color:white;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;margin-top:8px;transition:all .2s;font-family:'Nunito',sans-serif}
+    .bonjour-speak:hover{background:rgba(255,255,255,.32)}
+    .bonjour-speak.speaking{background:var(--gold);color:var(--brown);animation:speakPulse .6s infinite alternate}
+    @keyframes speakPulse{from{transform:scale(1)}to{transform:scale(1.04)}}
+
+    /* ── SECTION ── */
+    .section{padding:14px 14px 0}
+    .section-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+    .section-label{font-size:16px;font-weight:900;color:var(--brown)}
+
+    /* ── GRANDS BOUTONS ACTIONS ── */
+    .actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 14px 14px}
+    .action-btn{border:none;border-radius:20px;padding:20px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all .25s;box-shadow:0 6px 18px rgba(0,0,0,.15);font-family:'Nunito',sans-serif;position:relative;overflow:hidden;min-height:130px}
+    .action-btn:active{transform:scale(.96)}
+    .action-btn .btn-ico{font-size:48px;line-height:1}
+    .action-btn .btn-txt{font-size:15px;font-weight:900;color:white;text-align:center;line-height:1.2}
+    .action-btn .btn-sub{font-size:11px;color:rgba(255,255,255,.75);text-align:center;font-weight:700}
+    .action-btn .speak-hint{position:absolute;top:8px;right:8px;font-size:16px;opacity:.7}
+    .action-btn.orange{background:linear-gradient(135deg,#D4580A,#8B2500)}
+    .action-btn.green{background:linear-gradient(135deg,#2A6B35,#0C2814)}
+    .action-btn.gold{background:linear-gradient(135deg,#C8901A,#7A4A00)}
+    .action-btn.purple{background:linear-gradient(135deg,#7B3F9E,#3A1A5A)}
+    .action-btn.blue{background:linear-gradient(135deg,#1565C0,#0A2A6A)}
+    .action-btn.red{background:linear-gradient(135deg,#C0392B,#6A1A14)}
+
+    /* ── STATS SIMPLES (grandes icônes) ── */
+    .stats-simple{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 14px 14px}
+    .stat-simple{background:var(--white);border-radius:16px;padding:14px 8px;text-align:center;box-shadow:0 3px 12px rgba(0,0,0,.08)}
+    .stat-simple .si{font-size:28px;margin-bottom:5px}
+    .stat-simple .sn{font-size:22px;font-weight:900;color:var(--brown)}
+    .stat-simple .sl{font-size:11px;font-weight:700;color:#8A6040;margin-top:2px}
+    .stat-simple .speak-btn{font-size:18px;margin-top:6px;cursor:pointer;display:block}
+
+    /* ── MODAL CONFIRMATION AUDIO ── */
+    .modal-audio{position:fixed;inset:0;background:rgba(42,18,5,.7);z-index:1000;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;padding:20px}
+    .modal-audio.on{opacity:1;pointer-events:all}
+    .modal-box{background:white;border-radius:24px 24px 16px 16px;width:100%;max-width:420px;padding:24px;transform:translateY(40px);transition:transform .3s;text-align:center}
+    .modal-audio.on .modal-box{transform:translateY(0)}
+    .modal-ico{font-size:60px;margin-bottom:12px;display:block}
+    .modal-title{font-size:22px;font-weight:900;color:var(--brown);margin-bottom:6px}
+    .modal-msg{font-size:14px;color:#8A6040;margin-bottom:20px;line-height:1.6}
+    .modal-btns{display:flex;gap:10px}
+    .modal-btn{flex:1;padding:14px;border-radius:40px;font-size:16px;font-weight:900;border:none;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s}
+    .modal-btn.oui{background:var(--green);color:white}
+    .modal-btn.non{background:var(--cream);color:var(--brown)}
+    .modal-btn:active{transform:scale(.97)}
+
+    /* ── COMMANDES SIMPLES (images/emojis) ── */
+    .cmd-simple{background:white;border-radius:16px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;box-shadow:0 3px 12px rgba(0,0,0,.08)}
+    .cmd-s-ico{font-size:32px;flex-shrink:0;width:50px;text-align:center}
+    .cmd-s-body{flex:1}
+    .cmd-s-client{font-size:14px;font-weight:900;color:var(--brown)}
+    .cmd-s-produit{font-size:13px;color:#5A3218;margin-top:2px}
+    .cmd-s-statut{display:flex;align-items:center;gap:6px;margin-top:6px}
+    .cmd-s-badge{font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px}
+    .cmd-s-badge.ok{background:#E8F5EB;color:var(--green)}
+    .cmd-s-badge.wait{background:#FDF0E3;color:var(--orange)}
+    .cmd-s-badge.nego{background:#F5EEFF;color:var(--purple)}
+    .cmd-s-prix{font-size:18px;font-weight:900;color:var(--orange);text-align:right;flex-shrink:0;font-family:'Nunito',sans-serif}
+    .cmd-s-speak{font-size:20px;cursor:pointer;margin-top:4px;display:block;text-align:right}
+
+    /* ── GUIDE VOCAL ── */
+    .guide{background:linear-gradient(135deg,#FDF0E3,#FBF5E8);border:2px solid rgba(212,88,10,.2);border-radius:16px;padding:16px;margin:0 14px 14px}
+    .guide-title{font-size:14px;font-weight:900;color:var(--orange);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .guide-step{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+    .guide-num{width:28px;height:28px;border-radius:50%;background:var(--orange);color:white;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .guide-text{font-size:13px;color:var(--brown);font-weight:700}
+    .guide-ico{font-size:20px;flex-shrink:0}
+
+    /* ── VOLUME CONTROL ── */
+    .volume-bar{position:fixed;top:0;left:0;right:0;background:var(--gold);padding:8px 16px;display:flex;align-items:center;gap:10px;z-index:200;transform:translateY(-100%);transition:transform .3s}
+    .volume-bar.on{transform:translateY(0)}
+    .volume-bar span{font-size:13px;font-weight:800;color:var(--brown);flex:1}
+    .vol-close{font-size:18px;cursor:pointer;color:var(--brown)}
+
+    /* ── TOAST ── */
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--brown);color:white;border-radius:40px;padding:12px 24px;font-size:14px;font-weight:800;z-index:500;transition:all .3s;white-space:nowrap;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+    .toast.on{transform:translateX(-50%) translateY(0)}
+
+    @media(min-width:600px){.actions-grid{grid-template-columns:repeat(3,1fr)}.stats-simple{grid-template-columns:repeat(4,1fr)}}
+  </style>
+</head>
+<body>
+
+<div class="kente"></div>
+
+<!-- Volume hint -->
+<div class="volume-bar" id="volumeBar">
+  <span>🔊 Augmente le volume pour entendre</span>
+  <span class="vol-close" onclick="document.getElementById('volumeBar').classList.remove('on')">✕</span>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo-big">
+    <div class="logo-ico">🌺</div>
+    <div>
+      <div class="logo-txt">MamaMarket</div>
+      <div class="logo-sub">Mode simple</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="mode-badge">🎙️ Avec audio</div>
+    <button onclick="speak('Mode simple activé. Appuie sur chaque bouton pour entendre.')" style="background:rgba(255,255,255,.15);border:none;color:white;font-size:12px;font-weight:700;padding:5px 12px;border-radius:20px;cursor:pointer;font-family:Nunito,sans-serif">
+      🔊 Aide
+    </button>
+  </div>
+</div>
+<div class="kente"></div>
+
+<!-- Bonjour -->
+<div class="bonjour">
+  <div class="bonjour-ava">👩🏾</div>
+  <div class="bonjour-txt">
+    <div class="bonjour-name">Bonjour Mama Awa ! 🌺</div>
+    <div class="bonjour-sub">Aujourd'hui tu as 7 ventes · 84 500 FCFA</div>
+    <button class="bonjour-speak" id="bonjourBtn" onclick="speakBonjour()">
+      🔊 Écoute ton résumé
+    </button>
+  </div>
+</div>
+
+<!-- Stats simples avec emojis -->
+<div class="section">
+  <div class="section-head">
+    <span style="font-size:22px">📊</span>
+    <span class="section-label">Aujourd'hui</span>
+    <span style="font-size:13px;color:#8A6040;font-weight:700;margin-left:auto">Appuie 🔊 pour écouter</span>
+  </div>
+</div>
+<div class="stats-simple">
+  <div class="stat-simple">
+    <div class="si">🛍️</div>
+    <div class="sn">7</div>
+    <div class="sl">Ventes</div>
+    <span class="speak-btn" onclick="speak('Tu as fait 7 ventes aujourd hui.')">🔊</span>
+  </div>
+  <div class="stat-simple">
+    <div class="si">💰</div>
+    <div class="sn">84K</div>
+    <div class="sl">FCFA</div>
+    <span class="speak-btn" onclick="speak('Tu as gagné 84 mille 500 francs aujourd hui.')">🔊</span>
+  </div>
+  <div class="stat-simple">
+    <div class="si">⭐</div>
+    <div class="sn">4.9</div>
+    <div class="sl">Ta note</div>
+    <span class="speak-btn" onclick="speak('Tes clientes te donnent une note de 4 virgule 9 sur 5. Très bien!')">🔊</span>
+  </div>
+</div>
+
+<!-- Grands boutons d'action -->
+<div class="section">
+  <div class="section-head">
+    <span style="font-size:22px">👆</span>
+    <span class="section-label">Que veux-tu faire ?</span>
+  </div>
+</div>
+
+<div class="actions-grid">
+
+  <button class="action-btn orange" onclick="actionBtn(this,'voir-commandes','Tes commandes. Tu as 4 nouvelles commandes aujourd hui.')">
+    <span class="speak-hint">🔊</span>
+    <span class="btn-ico">📦</span>
+    <span class="btn-txt">Mes Commandes</span>
+    <span class="btn-sub">4 nouvelles</span>
+  </button>
+
+  <button class="action-btn green" onclick="actionBtn(this,'mes-produits','Tes produits. Tu as 18 produits dans ta boutique.')">
+    <span class="speak-hint">🔊</span>
+    <span class="btn-ico">🏪</span>
+    <span class="btn-txt">Mes Produits</span>
+    <span class="btn-sub">18 articles</span>
+  </button>
+
+  <button class="action-btn gold" onclick="actionBtn(this,'mon-argent','Ton argent. Tu as reçu 84 mille 500 francs aujourd hui.')">
+    <span class="speak-hint">🔊</span>
+    <span class="btn-ico">💰</span>
+    <span class="btn-txt">Mon Argent</span>
+    <span class="btn-sub">84 500 FCFA</span>
+  </button>
+
+  <button class="action-btn purple" onclick="actionBtn(this,'negociations','Tes négociations. 3 clientes veulent négocier le prix.')">
+    <span class="speak-hint">🔊</span>
+    <span class="btn-ico">🤝</span>
+    <span class="btn-txt">Négociations</span>
+    <span class="btn-sub">3 en attente</span>
+  </button>
+
+  <button class="action-btn blue" onclick="actionBtn(this,'ajouter-produit','Ajouter un nouveau produit à ta boutique.')">
+    <span class="speak-hint">🔊</span>
+    <span class="btn-ico">➕</span>
+    <span class="btn-txt">Ajouter Produit</span>
+    <span class="btn-sub">Nouvelle vente</span>
+  </button>
+
+  <button class="action-btn red" onclick="openUrgence()">
+    <span class="speak-hint">🔊</span>
+    <span class="btn-ico">🆘</span>
+    <span class="btn-txt">Aide Urgente</span>
+    <span class="btn-sub">Appeler support</span>
+  </button>
+
+</div>
+
+<!-- Commandes simples (images) -->
+<div class="section">
+  <div class="section-head">
+    <span style="font-size:22px">📦</span>
+    <span class="section-label">Dernières commandes</span>
+  </div>
+</div>
+<div style="padding:0 14px 14px">
+
+  <div class="cmd-simple">
+    <div class="cmd-s-ico">👩🏿</div>
+    <div class="cmd-s-body">
+      <div class="cmd-s-client">Koné Fatoumata</div>
+      <div class="cmd-s-produit">👗 Robe Kente Royale</div>
+      <div class="cmd-s-statut">
+        <span class="cmd-s-badge ok">✅ Livrée</span>
+      </div>
+    </div>
+    <div>
+      <div class="cmd-s-prix">24 500 F</div>
+      <span class="cmd-s-speak" onclick="speak('Commande de Koné Fatoumata. Elle a acheté une robe Kente. 24 mille 500 francs. Commande livrée.')">🔊</span>
+    </div>
+  </div>
+
+  <div class="cmd-simple">
+    <div class="cmd-s-ico">👩🏽</div>
+    <div class="cmd-s-body">
+      <div class="cmd-s-client">Diallo Mariama</div>
+      <div class="cmd-s-produit">🧴 Karité Bio × 2</div>
+      <div class="cmd-s-statut">
+        <span class="cmd-s-badge wait">🔄 En chemin</span>
+      </div>
+    </div>
+    <div>
+      <div class="cmd-s-prix">10 400 F</div>
+      <span class="cmd-s-speak" onclick="speak('Commande de Diallo Mariama. Elle a acheté du beurre de karité. 10 mille 400 francs. La commande est en route.')">🔊</span>
+    </div>
+  </div>
+
+  <div class="cmd-simple">
+    <div class="cmd-s-ico">🧕🏾</div>
+    <div class="cmd-s-body">
+      <div class="cmd-s-client">Traoré Adja</div>
+      <div class="cmd-s-produit">📿 Collier Perles</div>
+      <div class="cmd-s-statut">
+        <span class="cmd-s-badge nego">🤝 Prix négocié</span>
+      </div>
+    </div>
+    <div>
+      <div class="cmd-s-prix">7 200 F</div>
+      <span class="cmd-s-speak" onclick="speak('Commande de Traoré Adja. Elle a acheté un collier. Le prix a été négocié à 7 mille 200 francs.')">🔊</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- Guide utilisation simple -->
+<div class="guide">
+  <div class="guide-title">
+    <span>📖</span> Comment utiliser MamaMarket ?
+    <button onclick="speakGuide()" style="background:var(--orange);border:none;color:white;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:800;cursor:pointer;font-family:Nunito,sans-serif;margin-left:auto">🔊 Écouter</button>
+  </div>
+  <div class="guide-step">
+    <div class="guide-num">1</div>
+    <span class="guide-ico">📸</span>
+    <span class="guide-text">Prends une photo de ton produit</span>
+  </div>
+  <div class="guide-step">
+    <div class="guide-num">2</div>
+    <span class="guide-ico">💰</span>
+    <span class="guide-text">Mets ton prix</span>
+  </div>
+  <div class="guide-step">
+    <div class="guide-num">3</div>
+    <span class="guide-ico">📦</span>
+    <span class="guide-text">Attends la commande</span>
+  </div>
+  <div class="guide-step">
+    <div class="guide-num">4</div>
+    <span class="guide-ico">🧺</span>
+    <span class="guide-text">La Faiseuse vient chercher chez toi</span>
+  </div>
+  <div class="guide-step">
+    <div class="guide-num">5</div>
+    <span class="guide-ico">📱</span>
+    <span class="guide-text">Tu reçois l'argent sur Orange Money</span>
+  </div>
+</div>
+
+<!-- Modal confirmation -->
+<div class="modal-audio" id="modalAudio">
+  <div class="modal-box">
+    <span class="modal-ico" id="modalIco">📦</span>
+    <div class="modal-title" id="modalTitle">Mes Commandes</div>
+    <div class="modal-msg" id="modalMsg">Tu veux voir tes commandes ?</div>
+    <div class="modal-btns">
+      <button class="modal-btn non" onclick="closeModal()">✕ Non</button>
+      <button class="modal-btn oui" onclick="goToPage()" id="modalOui">✅ Oui</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ─────────────────────────────────────
+   SYNTHÈSE VOCALE (Text-to-Speech)
+───────────────────────────────────── */
+let currentUtterance = null;
+let isSpeaking = false;
+
+function speak(text) {
+  if (!window.speechSynthesis) {
+    showToast('🔊 Audio non disponible sur cet appareil');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'fr-FR';
+  utt.rate = 0.85;   // vitesse lente pour meilleure compréhension
+  utt.pitch = 1.1;
+  utt.volume = 1;
+
+  // Chercher une voix féminine française
+  const voices = window.speechSynthesis.getVoices();
+  const frVoice = voices.find(v => v.lang.startsWith('fr') && v.name.toLowerCase().includes('female'))
+                || voices.find(v => v.lang.startsWith('fr'))
+                || voices[0];
+  if (frVoice) utt.voice = frVoice;
+
+  utt.onstart = () => { isSpeaking = true; };
+  utt.onend   = () => { isSpeaking = false; document.getElementById('bonjourBtn').classList.remove('speaking'); };
+
+  currentUtterance = utt;
+  window.speechSynthesis.speak(utt);
+}
+
+function speakBonjour() {
+  const btn = document.getElementById('bonjourBtn');
+  btn.classList.add('speaking');
+  speak('Bonjour Mama Awa ! Bienvenue sur MamaMarket. Aujourd hui tu as fait 7 ventes et gagné 84 mille 500 francs CFA. Bravo ! Continue comme ça.');
+}
+
+function speakGuide() {
+  speak('Comment utiliser MamaMarket. Étape 1 : Prends une photo de ton produit. Étape 2 : Mets ton prix. Étape 3 : Attends la commande. Étape 4 : La Faiseuse de Marché vient chercher tes produits. Étape 5 : Tu reçois l argent sur ton Orange Money.');
+}
+
+// Charger les voix (nécessaire sur Chrome)
+window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+/* ─────────────────────────────────────
+   NAVIGATION BOUTONS
+───────────────────────────────────── */
+let currentAction = null;
+const PAGES = {
+  'voir-commandes':   { ico:'📦', titre:'Mes Commandes',  url:'dashboard-vendeuse.html', msg:'Tu veux voir tes commandes ? Tu as 4 nouvelles.' },
+  'mes-produits':     { ico:'🏪', titre:'Mes Produits',   url:'dashboard-vendeuse.html', msg:'Tu veux voir et gérer tes produits ?' },
+  'mon-argent':       { ico:'💰', titre:'Mon Argent',     url:'historique-vendeuse.html',msg:'Tu veux voir tes revenus et paiements reçus ?' },
+  'negociations':     { ico:'🤝', titre:'Négociations',   url:'dashboard-vendeuse.html', msg:'3 clientes attendent ta réponse pour négocier le prix.' },
+  'ajouter-produit':  { ico:'➕', titre:'Nouveau Produit',url:'dashboard-vendeuse.html', msg:'Tu veux ajouter un nouveau produit à ta boutique ?' },
+};
+
+function actionBtn(btn, action, audio) {
+  speak(audio);
+  currentAction = action;
+  const page = PAGES[action];
+  if (!page) return;
+  document.getElementById('modalIco').textContent    = page.ico;
+  document.getElementById('modalTitle').textContent  = page.titre;
+  document.getElementById('modalMsg').textContent    = page.msg;
+  document.getElementById('modalAudio').classList.add('on');
+  setTimeout(() => speak(page.msg + ' Appuie Oui pour continuer ou Non pour rester ici.'), 800);
+}
+
+function closeModal() {
+  document.getElementById('modalAudio').classList.remove('on');
+  speak('D accord, tu restes ici.');
+}
+
+function goToPage() {
+  const page = PAGES[currentAction];
+  if (page) {
+    speak('Je t emmène. Un moment...');
+    setTimeout(() => window.location.href = page.url, 1200);
+  }
+  document.getElementById('modalAudio').classList.remove('on');
+}
+
+function openUrgence() {
+  speak('Aide urgente. Appelle le support MamaMarket au 07 00 00 00.');
+  showToast('📞 Support : 07 00 00 00');
+}
+
+/* ─────────────────────────────────────
+   TOAST
+───────────────────────────────────── */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('on'), 3500);
+}
+
+/* ─────────────────────────────────────
+   INIT
+───────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  // Message de bienvenue audio (après 1.5s)
+  setTimeout(() => {
+    document.getElementById('volumeBar').classList.add('on');
+    setTimeout(() => document.getElementById('volumeBar').classList.remove('on'), 4000);
+    speak('Bienvenue Mama Awa ! Appuie sur les boutons pour que je te parle.');
+  }, 1500);
+});
+</script>
+</body>
+</html>
