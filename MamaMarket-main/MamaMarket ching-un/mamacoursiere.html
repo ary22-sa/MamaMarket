@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MamaMarket – Espace Faiseuse de Marché</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+        --purple:      #7B3F9E;
+        --purple2:     #9B5FBE;
+        --purple-pale: #F5EEFF;
+        --orange:      #D4580A;
+        --orange2:     #E8761A;
+        --orange-pale: #FDF0E3;
+        --green:       #2A6B35;
+        --green2:      #3A8B47;
+        --green-pale:  #E8F5EB;
+        --brown:       #5C2D0A;
+        --brown2:      #8B4513;
+        --gold:        #C8901A;
+        --gold2:       #E8B020;
+        --cream:       #FBF5E8;
+        --beige:       #F0E4C8;
+        --beige2:      #E2D0A8;
+        --white:       #FFFFFF;
+        --text-dark:   #2A1205;
+        --text-mid:    #5A3218;
+        --text-light:  #8A6040;
+        --shadow-sm:   0 2px 8px  rgba(92,45,10,.10);
+        --shadow-md:   0 6px 24px rgba(92,45,10,.16);
+        --shadow-lg:   0 16px 48px rgba(92,45,10,.22);
+        --r-sm: 10px; --r-md: 16px; --r-lg: 24px; --r-xl: 40px;
+        --font-d: 'Playfair Display', Georgia, serif;
+        --font-u: 'Nunito', sans-serif;
+        --ease: cubic-bezier(.4,0,.2,1);
+        --spring: cubic-bezier(.34,1.56,.64,1);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-u); background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        button { border: none; cursor: pointer; font-family: var(--font-u); }
+
+        .kente { height: 7px; background: repeating-linear-gradient(90deg,#D4580A 0,#D4580A 18px,#7B3F9E 18px,#7B3F9E 36px,#C8901A 36px,#C8901A 54px,#2A6B35 54px,#2A6B35 72px,#8B4513 72px,#8B4513 90px); }
+        .kente-thin { height: 4px; background: repeating-linear-gradient(90deg,#7B3F9E 0,#7B3F9E 14px,#D4580A 14px,#D4580A 28px,#2A6B35 28px,#2A6B35 42px,#C8901A 42px,#C8901A 56px); }
+
+        /* ============================================
+        HEADER
+        ============================================ */
+        .header { position: sticky; top: 0; z-index: 1000; background: var(--white); box-shadow: var(--shadow-sm); }
+        .navbar { max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; gap: 14px; }
+        .logo { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .logo-ico { width: 38px; height: 38px; border-radius: 9px; background: linear-gradient(135deg,var(--purple),#4A1870); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .logo-txt { font-family: var(--font-d); font-size: 22px; font-weight: 900; color: var(--brown); }
+        .logo-txt em { color: var(--purple); font-style: normal; }
+        .role-badge { background: var(--purple-pale); color: var(--purple); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 800; border: 1.5px solid rgba(123,63,158,.25); }
+        .nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+        .nav-icon { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--brown); background: transparent; transition: all .2s; cursor: pointer; text-decoration: none; position: relative; }
+        .nav-icon:hover { background: var(--beige); color: var(--purple); }
+        .notif-dot { position: absolute; top: 2px; right: 2px; width: 10px; height: 10px; border-radius: 50%; background: var(--orange); border: 2px solid var(--white); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(212,88,10,.4)} 50%{box-shadow:0 0 0 5px rgba(212,88,10,0)} }
+
+        /* ============================================
+        HERO BIENVENUE
+        ============================================ */
+        .hero-welcome {
+        background: linear-gradient(135deg, #3A1060 0%, #1A0830 50%, #0A0418 100%);
+        position: relative; overflow: hidden; padding: 36px 20px;
+        }
+        .hero-welcome::before {
+        content: ''; position: absolute; inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cpolygon points='40,5 75,40 40,75 5,40' stroke='%239B5FBE' stroke-width='1.2' stroke-opacity='0.20'/%3E%3Ccircle cx='40' cy='40' r='11' stroke='%239B5FBE' stroke-width='.8' stroke-opacity='0.14'/%3E%3C/g%3E%3C/svg%3E");
+        pointer-events: none;
+        }
+        .hero-welcome::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: repeating-linear-gradient(180deg,#7B3F9E 0,#7B3F9E 10px,#D4580A 10px,#D4580A 20px,#2A6B35 20px,#2A6B35 30px,#C8901A 30px,#C8901A 40px); }
+        .hero-right-band { position: absolute; right: 0; top: 0; bottom: 0; width: 7px; background: repeating-linear-gradient(180deg,#D4580A 0,#D4580A 10px,#7B3F9E 10px,#7B3F9E 20px,#C8901A 20px,#C8901A 30px,#2A6B35 30px,#2A6B35 40px); }
+        .hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 0 12px; flex-wrap: wrap; }
+        .hero-text { color: var(--white); }
+        .hero-greet { font-size: 13px; color: rgba(255,255,255,.60); margin-bottom: 4px; }
+        .hero-name { font-family: var(--font-d); font-size: clamp(22px,4vw,36px); font-weight: 900; margin-bottom: 6px; }
+        .hero-name em { color: #C8A0E8; font-style: normal; }
+        .hero-sub { font-size: 13px; color: rgba(255,255,255,.68); line-height: 1.6; max-width: 420px; }
+        .hero-stats { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+        .hero-stat { background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.16); border-radius: var(--r-md); padding: 12px 18px; text-align: center; min-width: 90px; }
+        .hero-stat-n { font-family: var(--font-d); font-size: 22px; font-weight: 900; color: #C8A0E8; }
+        .hero-stat-l { font-size: 11px; color: rgba(255,255,255,.55); margin-top: 2px; }
+
+        /* Status indicator */
+        .status-card { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18); border-radius: var(--r-md); padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; min-width: 200px; }
+        .status-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .status-label { font-size: 12px; color: rgba(255,255,255,.65); font-weight: 600; }
+        .status-toggle { display: flex; align-items: center; gap: 8px; }
+        .toggle-sw { width: 44px; height: 24px; border-radius: 12px; background: rgba(255,255,255,.2); position: relative; cursor: pointer; transition: all .3s; }
+        .toggle-sw.on { background: #22C55E; }
+        .toggle-sw::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--white); transition: transform .3s var(--spring); box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+        .toggle-sw.on::after { transform: translateX(20px); }
+        .status-txt { font-size: 11px; font-weight: 700; color: var(--white); }
+        .earn-today { font-size: 18px; font-weight: 800; color: #C8A0E8; font-family: var(--font-d); }
+
+        /* ============================================
+        MAIN LAYOUT
+        ============================================ */
+        .main { max-width: 1200px; margin: 0 auto; padding: 28px 20px 60px; display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
+
+        /* ============================================
+        SECTION CARD
+        ============================================ */
+        .section-card { background: var(--white); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 20px; }
+        .section-card::before { content: ''; display: block; height: 4px; background: repeating-linear-gradient(90deg,var(--purple) 0,var(--purple) 12px,var(--orange) 12px,var(--orange) 24px,var(--gold) 24px,var(--gold) 36px,var(--green) 36px,var(--green) 48px); }
+        .card-head { padding: 18px 20px 0; display: flex; align-items: center; justify-content: space-between; }
+        .card-title { font-family: var(--font-d); font-size: 18px; color: var(--brown); display: flex; align-items: center; gap: 8px; }
+        .card-title::after { content: ''; display: block; width: 32px; height: 3px; background: var(--purple); border-radius: 2px; margin-top: 4px; }
+        .card-body { padding: 16px 20px 20px; }
+
+        /* ============================================
+        MISSIONS DISPONIBLES
+        ============================================ */
+        .mission-card {
+        border: 2px solid var(--beige2); border-radius: var(--r-md);
+        padding: 16px; margin-bottom: 12px;
+        transition: all .25s var(--ease); position: relative;
+        overflow: hidden;
+        }
+        .mission-card::after { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 4px; background: var(--purple); }
+        .mission-card:hover { border-color: var(--purple); box-shadow: var(--shadow-sm); transform: translateX(3px); }
+        .mission-card.urgent::after { background: var(--orange); }
+        .mission-card.urgent { border-color: rgba(212,88,10,.30); }
+        .mission-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+        .mission-id { font-size: 11px; color: var(--text-light); font-weight: 600; }
+        .mission-earn { font-family: var(--font-d); font-size: 18px; font-weight: 700; color: var(--purple); }
+        .mission-badge { padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 800; }
+        .badge-new    { background: var(--purple-pale); color: var(--purple); }
+        .badge-urgent { background: var(--orange-pale); color: var(--orange); }
+        .badge-done   { background: var(--green-pale);  color: var(--green); }
+
+        /* Articles à collecter */
+        .articles-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+        .article-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: var(--cream); border-radius: var(--r-sm); font-size: 13px; }
+        .article-img { width: 38px; height: 38px; border-radius: 7px; overflow: hidden; flex-shrink: 0; }
+        .article-img img { width: 100%; height: 100%; object-fit: cover; }
+        .article-info { flex: 1; min-width: 0; }
+        .article-name { font-weight: 700; color: var(--text-dark); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .article-seller { font-size: 11px; color: var(--green); font-weight: 600; }
+        .article-marche { font-size: 10px; color: var(--text-light); }
+        .article-chk { width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--beige2); background: var(--cream); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: all .2s; }
+        .article-chk.done { background: var(--green); border-color: var(--green); }
+        .article-chk.done::after { content: '✓'; color: var(--white); font-size: 11px; font-weight: 800; }
+
+        .mission-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+        .mission-info { display: flex; gap: 12px; flex-wrap: wrap; }
+        .minfo-item { font-size: 11px; color: var(--text-light); display: flex; align-items: center; gap: 4px; }
+        .minfo-item strong { color: var(--text-mid); }
+        .btn-accept { padding: 9px 20px; background: var(--purple); color: var(--white); border-radius: var(--r-xl); font-size: 13px; font-weight: 800; transition: all .25s var(--spring); }
+        .btn-accept:hover { background: var(--purple2); transform: translateY(-2px); box-shadow: 0 5px 16px rgba(123,63,158,.35); }
+        .btn-decline { padding: 9px 14px; border: 2px solid var(--beige2); color: var(--text-light); background: transparent; border-radius: var(--r-xl); font-size: 13px; font-weight: 700; transition: all .2s; }
+        .btn-decline:hover { border-color: var(--orange); color: var(--orange); }
+
+        /* Mission en cours */
+        .mission-progress { background: linear-gradient(135deg,var(--purple-pale),#EDE0FF); border: 2px solid rgba(123,63,158,.25); border-radius: var(--r-md); padding: 16px; margin-bottom: 12px; }
+        .mp-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .mp-title { font-family: var(--font-d); font-size: 16px; color: var(--purple); font-weight: 700; }
+        .mp-earn { font-family: var(--font-d); font-size: 20px; color: var(--purple); font-weight: 900; }
+        .progress-bar { height: 8px; background: rgba(123,63,158,.15); border-radius: 4px; margin-bottom: 8px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg,var(--purple),var(--purple2)); transition: width .5s var(--ease); }
+        .progress-txt { font-size: 12px; color: var(--text-light); margin-bottom: 12px; }
+        .btn-remettre { width: 100%; padding: 12px; background: linear-gradient(135deg,var(--purple),var(--purple2)); color: var(--white); border-radius: var(--r-xl); font-size: 14px; font-weight: 800; transition: all .25s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-remettre:hover { opacity: .9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(123,63,158,.35); }
+        .btn-remettre:disabled { opacity: .5; pointer-events: none; }
+
+        /* ============================================
+        CARTE DU MARCHÉ — étapes visuelles
+        ============================================ */
+        .flow-steps { display: flex; flex-direction: column; gap: 0; }
+        .flow-step { display: flex; gap: 14px; align-items: flex-start; position: relative; }
+        .flow-step:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 32px; bottom: -14px; width: 2px; background: linear-gradient(180deg,var(--purple),rgba(123,63,158,.1)); z-index: 0; }
+        .flow-ico { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; position: relative; z-index: 1; border: 2px solid var(--beige2); background: var(--white); }
+        .flow-ico.done { background: var(--green); border-color: var(--green); }
+        .flow-ico.active { background: var(--purple); border-color: var(--purple); animation: glowPulse 1.5s ease-in-out infinite; }
+        @keyframes glowPulse { 0%,100%{box-shadow:0 0 0 0 rgba(123,63,158,.4)} 50%{box-shadow:0 0 0 6px rgba(123,63,158,0)} }
+        .flow-ico.pending { background: var(--beige); border-color: var(--beige2); }
+        .flow-content { padding-bottom: 18px; flex: 1; }
+        .flow-title { font-size: 13px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px; }
+        .flow-title.done { color: var(--green); }
+        .flow-title.active { color: var(--purple); }
+        .flow-desc { font-size: 11px; color: var(--text-light); line-height: 1.5; }
+        .flow-seller { display: inline-flex; align-items: center; gap: 4px; background: var(--green-pale); color: var(--green); padding: 2px 9px; border-radius: 20px; font-size: 10px; font-weight: 700; margin-top: 4px; }
+
+        /* ============================================
+        PANNEAU DROIT — Stats & Info
+        ============================================ */
+        .right-panel {}
+
+        .earnings-card { background: linear-gradient(135deg,var(--purple),#4A1870); border-radius: var(--r-lg); padding: 22px; color: var(--white); margin-bottom: 20px; position: relative; overflow: hidden; }
+        .earnings-card::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg width='50' height='50' viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='25,3 47,25 25,47 3,25' stroke='%23FFFFFF' stroke-width='.8' stroke-opacity='0.12' fill='none'/%3E%3C/svg%3E"); pointer-events: none; }
+        .earnings-card::after { content: ''; display: block; height: 3px; position: absolute; top: 0; left: 0; right: 0; background: repeating-linear-gradient(90deg,#D4580A 0,#D4580A 10px,#C8A0E8 10px,#C8A0E8 20px,#2A6B35 20px,#2A6B35 30px); }
+        .ec-label { font-size: 12px; color: rgba(255,255,255,.65); margin-bottom: 4px; position: relative; z-index: 1; }
+        .ec-amount { font-family: var(--font-d); font-size: 32px; font-weight: 900; position: relative; z-index: 1; margin-bottom: 16px; }
+        .ec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; position: relative; z-index: 1; }
+        .ec-item { background: rgba(255,255,255,.10); border-radius: var(--r-sm); padding: 10px 12px; }
+        .ec-item-n { font-family: var(--font-d); font-size: 18px; font-weight: 700; }
+        .ec-item-l { font-size: 10px; color: rgba(255,255,255,.60); margin-top: 2px; }
+        .btn-retirer { width: 100%; margin-top: 14px; padding: 11px; background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.25); color: var(--white); border-radius: var(--r-xl); font-size: 13px; font-weight: 700; transition: all .22s; position: relative; z-index: 1; }
+        .btn-retirer:hover { background: rgba(255,255,255,.25); }
+
+        /* Livreur assigné */
+        .livreur-card { background: var(--white); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); overflow: hidden; margin-bottom: 20px; }
+        .livreur-card::before { content: ''; display: block; height: 4px; background: linear-gradient(90deg,var(--orange),var(--gold)); }
+        .lc-body { padding: 16px 18px; }
+        .lc-title { font-size: 13px; font-weight: 800; color: var(--text-mid); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .lc-profile { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--beige); border-radius: var(--r-sm); margin-bottom: 12px; }
+        .lc-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg,#D4580A,#8B3005); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; border: 3px solid var(--white); box-shadow: var(--shadow-sm); }
+        .lc-name { font-weight: 800; color: var(--brown); font-size: 14px; }
+        .lc-info { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+        .lc-online { color: #22C55E; font-weight: 700; }
+        .lc-eta { font-size: 12px; color: var(--text-mid); display: flex; align-items: center; gap: 5px; margin-bottom: 12px; }
+        .lc-eta strong { color: var(--purple); }
+        .btn-appeler { width: 100%; padding: 10px; background: var(--green); color: var(--white); border-radius: var(--r-xl); font-size: 13px; font-weight: 700; transition: all .22s; display: flex; align-items: center; justify-content: center; gap: 7px; margin-bottom: 8px; }
+        .btn-appeler:hover { background: var(--green2); transform: translateY(-1px); }
+        .btn-sms { width: 100%; padding: 10px; border: 2px solid var(--beige2); color: var(--text-mid); background: transparent; border-radius: var(--r-xl); font-size: 13px; font-weight: 700; transition: all .22s; display: flex; align-items: center; justify-content: center; gap: 7px; }
+        .btn-sms:hover { border-color: var(--orange); color: var(--orange); background: var(--orange-pale); }
+
+        /* Tips */
+        .tips-card { background: var(--white); border-radius: var(--r-lg); box-shadow: var(--shadow-sm); overflow: hidden; }
+        .tips-card::before { content: ''; display: block; height: 4px; background: linear-gradient(90deg,var(--gold),var(--orange)); }
+        .tips-body { padding: 16px 18px; }
+        .tip-title { font-size: 13px; font-weight: 800; color: var(--text-mid); margin-bottom: 12px; }
+        .tip-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+        .tip-ico { font-size: 18px; flex-shrink: 0; margin-top: -1px; }
+
+        /* ============================================
+        TOAST
+        ============================================ */
+        .toast { position: fixed; bottom: 22px; right: 22px; z-index: 9999; background: var(--brown); color: var(--white); border-radius: var(--r-md); padding: 12px 16px; display: flex; align-items: center; gap: 9px; box-shadow: var(--shadow-lg); transform: translateY(60px); opacity: 0; transition: all .32s var(--ease); max-width: 280px; }
+        .toast::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: repeating-linear-gradient(90deg,var(--purple) 0,var(--purple) 9px,var(--orange) 9px,var(--orange) 18px,var(--gold) 18px,var(--gold) 27px); border-radius: var(--r-md) var(--r-md) 0 0; }
+        .toast.on { transform: translateY(0); opacity: 1; }
+        .toast strong { display: block; font-size: 13px; }
+        .toast span { font-size: 11px; opacity: .78; }
+
+        /* ============================================
+        RESPONSIVE
+        ============================================ */
+        @media(max-width:900px) { .main { grid-template-columns: 1fr; } }
+        @media(max-width:560px) { .main { padding: 16px 14px 48px; } .hero-stats { gap: 10px; } .hero-stat { min-width: 70px; } }
+    </style>
+    </head>
+    <body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+    <div class="kente-thin"></div>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+        <div class="logo-ico">🧺</div>
+        <div class="logo-txt">Mama<em>Market</em></div>
+        </a>
+        <span class="role-badge">🧺 Faiseuse de Marché</span>
+        <div class="nav-right">
+        <div class="nav-icon" title="Notifications" onclick="showToast('🔔','2 nouvelles missions disponibles !','Acceptez vite avant qu\'elles partent')">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            <div class="notif-dot"></div>
+        </div>
+        <a href="login.html" class="nav-icon" title="Mon profil">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        </a>
+        </div>
+    </nav>
+    </header>
+
+    <div class="kente"></div>
+
+    <!-- ===== HERO BIENVENUE ===== -->
+    <div class="hero-welcome">
+    <div class="hero-right-band"></div>
+    <div class="hero-inner">
+        <div class="hero-text">
+        <div class="hero-greet">Bonjour 👋 Bienvenue sur ton espace</div>
+        <div class="hero-name">Mama <em>Aminata</em> 🧺</div>
+        <div class="hero-sub">Tu es la Faiseuse de Marché — tu collectes les articles chez les vendeuses et tu remets tout au livreur. Simple, rapide, bien payé.</div>
+        <div class="hero-stats">
+            <div class="hero-stat">
+            <div class="hero-stat-n" id="statMissions">8</div>
+            <div class="hero-stat-l">Missions faites</div>
+            </div>
+            <div class="hero-stat">
+            <div class="hero-stat-n" id="statGains">6 400</div>
+            <div class="hero-stat-l">FCFA gagnés</div>
+            </div>
+            <div class="hero-stat">
+            <div class="hero-stat-n" id="statNote">4.9 ⭐</div>
+            <div class="hero-stat-l">Ma note</div>
+            </div>
+            <div class="hero-stat">
+            <div class="hero-stat-n">98%</div>
+            <div class="hero-stat-l">Taux succès</div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Statut disponibilité -->
+        <div class="status-card">
+        <div class="status-row">
+            <span class="status-label">Mon statut</span>
+            <div class="status-toggle">
+            <div class="toggle-sw on" id="statusToggle" onclick="toggleStatus()"></div>
+            <span class="status-txt" id="statusTxt">Disponible</span>
+            </div>
+        </div>
+        <div>
+            <div style="font-size:11px;color:rgba(255,255,255,.55);margin-bottom:4px">Gains aujourd'hui</div>
+            <div class="earn-today" id="todayEarnings">1 200 FCFA</div>
+        </div>
+        <div style="font-size:11px;color:rgba(255,255,255,.50)">
+            📍 Marché Adjamé uniquement · Tu ne reçois que les missions de ton marché
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- ===== CONTENU PRINCIPAL ===== -->
+    <div class="main">
+
+    <!-- ===== COLONNE GAUCHE ===== -->
+    <div>
+
+        <!-- Mission en cours -->
+        <div class="section-card">
+        <div class="card-head">
+            <div class="card-title">⚡ Mission en cours</div>
+            <span style="font-size:12px;color:var(--purple);font-weight:700">2/3 articles collectés</span>
+        </div>
+        <div class="card-body">
+            <div class="mission-progress">
+            <div class="mp-header">
+                <div>
+                <div style="font-size:11px;color:var(--text-light);margin-bottom:3px">Commande #MM-2847</div>
+                <div class="mp-title">Collecte pour Koné Fatoumata</div>
+                </div>
+                <div class="mp-earn">1 000 FCFA</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width:67%"></div>
+            </div>
+            <div class="progress-txt">2 articles récupérés sur 3 — 1 article restant</div>
+
+            <!-- Liste des articles avec cases à cocher -->
+            <div class="articles-list">
+
+                <div class="article-row">
+                <div class="article-img">
+                    <img src="photo/robe royal.jpeg" alt="Robe"
+                        onerror="this.style.background='linear-gradient(135deg,#C87840,#8B4513)';this.style.display='none';this.parentNode.style.background='linear-gradient(135deg,#C87840,#8B4513)'"/>
+                </div>
+                <div class="article-info">
+                    <div class="article-name">Robe Kente Royale</div>
+                    <div class="article-seller">Mama Fatou ✓</div>
+                    <div class="article-marche">📍 Stand B12 – Marché Adjamé</div>
+                </div>
+                <div class="article-chk done" id="chk1" onclick="toggleArticle(1)"></div>
+                </div>
+
+                <div class="article-row">
+                <div class="article-img">
+                    <img src="photo/beurre de karité.jpg" alt="Karité"
+                        onerror="this.style.display='none'"/>
+                </div>
+                <div class="article-info">
+                    <div class="article-name">Beurre de Karité 250g</div>
+                    <div class="article-seller">Mama Adjoa ✓</div>
+                    <div class="article-marche">📍 Stand D4 – Marché Adjamé</div>
+                </div>
+                <div class="article-chk done" id="chk2" onclick="toggleArticle(2)"></div>
+                </div>
+
+                <div class="article-row" style="border:2px solid rgba(123,63,158,.25);border-radius:var(--r-sm)">
+                <div class="article-img">
+                    <img src="photo/colier perle.jpeg" alt="Collier"
+                        onerror="this.style.display='none'"/>
+                </div>
+                <div class="article-info">
+                    <div class="article-name">Collier Perles Africaines</div>
+                    <div class="article-seller" style="color:var(--purple)">⚡ À récupérer maintenant</div>
+                    <div class="article-marche">📍 Stand A7 – Marché Adjamé</div>
+                </div>
+                <div class="article-chk" id="chk3" onclick="toggleArticle(3)"></div>
+                </div>
+
+            </div>
+
+            <button class="btn-remettre" id="btnRemettre" disabled onclick="confirmerRemise()">
+                📦 Confirmer la remise au livreur
+            </button>
+            </div>
+
+            <!-- Étapes du flow -->
+            <div style="margin-top:4px">
+            <div style="font-size:12px;font-weight:700;color:var(--text-mid);margin-bottom:12px">📋 Étapes de la mission</div>
+            <div class="flow-steps">
+                <div class="flow-step">
+                <div class="flow-ico done">✓</div>
+                <div class="flow-content">
+                    <div class="flow-title done">Mission acceptée</div>
+                    <div class="flow-desc">Tu as accepté la mission à 9h14</div>
+                </div>
+                </div>
+                <div class="flow-step">
+                <div class="flow-ico done">✓</div>
+                <div class="flow-content">
+                    <div class="flow-title done">Robe Kente récupérée</div>
+                    <div class="flow-desc">Stand B12 – 9h32</div>
+                    <div class="flow-seller">Mama Fatou ✓</div>
+                </div>
+                </div>
+                <div class="flow-step">
+                <div class="flow-ico done">✓</div>
+                <div class="flow-content">
+                    <div class="flow-title done">Beurre Karité récupéré</div>
+                    <div class="flow-desc">Stand D4 – 9h48</div>
+                    <div class="flow-seller">Mama Adjoa ✓</div>
+                </div>
+                </div>
+                <div class="flow-step">
+                <div class="flow-ico active">🧺</div>
+                <div class="flow-content">
+                    <div class="flow-title active">Collier Perles à récupérer</div>
+                    <div class="flow-desc">Va au Stand A7 – Mama Diallo t'attend</div>
+                    <div class="flow-seller">Mama Diallo ✓</div>
+                </div>
+                </div>
+                <div class="flow-step">
+                <div class="flow-ico pending">📦</div>
+                <div class="flow-content">
+                    <div class="flow-title" style="color:var(--text-light)">Remise au livreur</div>
+                    <div class="flow-desc">Point de remise : Entrée principale Marché Adjamé</div>
+                </div>
+                </div>
+                <div class="flow-step">
+                <div class="flow-ico pending">💜</div>
+                <div class="flow-content">
+                    <div class="flow-title" style="color:var(--text-light)">Paiement MamaPay</div>
+                    <div class="flow-desc">1 000 FCFA versés automatiquement après confirmation du livreur</div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Nouvelles missions disponibles -->
+        <div class="section-card">
+        <div class="card-head">
+            <div class="card-title">🆕 Missions disponibles</div>
+            <span style="font-size:12px;color:var(--text-light)">2 près de toi</span>
+        </div>
+        <!-- ✅ Explication règle 1 marché -->
+        <div style="margin:0 20px 0;background:linear-gradient(135deg,#F5EEFF,#EDE0FF);border:1.5px solid rgba(123,63,158,.25);border-radius:var(--r-sm);padding:10px 14px;display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--text-mid)">
+            <span style="font-size:16px;flex-shrink:0">🧺</span>
+            <div>
+            <strong style="color:var(--purple)">Règle du marché unique</strong><br/>
+            Tu reçois uniquement les missions du <strong>Marché Adjamé</strong> — ton marché déclaré à l'inscription. Tous les articles d'une même commande viennent du même marché. Tu n'as jamais besoin de traverser Abidjan.
+            </div>
+        </div>
+        <div class="card-body">
+
+            <!-- Mission 1 -->
+            <div class="mission-card">
+            <div class="mission-header">
+                <div>
+                <div class="mission-id">Commande #MM-2851</div>
+                <div style="font-size:14px;font-weight:700;color:var(--text-dark);margin-top:3px">Collecte 4 articles</div>
+                </div>
+                <div style="text-align:right">
+                <div class="mission-earn">1 500 FCFA</div>
+                <span class="mission-badge badge-new">Nouveau</span>
+                </div>
+            </div>
+            <div class="articles-list">
+                <div class="article-row">
+                <div class="article-img"><img src="photo/panier.jpeg" alt="Panier" onerror="this.style.display='none'"/></div>
+                <div class="article-info">
+                    <div class="article-name">Panier Tressé Grand Format</div>
+                    <div class="article-seller">Mama Koné ✓</div>
+                    <div class="article-marche">📍 Stand G3 – Marché Adjamé</div>
+                </div>
+                </div>
+                <div class="article-row">
+                <div class="article-img"><img src="photo/savon noir.jpeg" alt="Savon" onerror="this.style.display='none'"/></div>
+                <div class="article-info">
+                    <div class="article-name">Savon Noir x3</div>
+                    <div class="article-seller">Mama Sanogo ✓</div>
+                    <div class="article-marche">📍 Stand C8 – Marché Adjamé</div>
+                </div>
+                </div>
+                <div style="font-size:11px;color:var(--text-light);padding:4px 10px">+ 2 autres articles…</div>
+            </div>
+            <div class="mission-footer">
+                <div class="mission-info">
+                <span class="minfo-item">⏱ <strong>~25 min</strong> estimées</span>
+                <span class="minfo-item">📍 <strong>Adjamé</strong></span>
+                </div>
+                <div style="display:flex;gap:8px">
+                <button class="btn-decline" onclick="showToast('👋','Mission refusée','Elle sera proposée à une autre Faiseuse')">Refuser</button>
+                <button class="btn-accept" onclick="accepterMission(2851,1500)">Accepter</button>
+                </div>
+            </div>
+            </div>
+
+            <!-- Mission 2 -->
+            <div class="mission-card urgent">
+            <div class="mission-header">
+                <div>
+                <div class="mission-id">Commande #MM-2853 · <span style="color:var(--orange);font-weight:700">⚡ Urgent</span></div>
+                <div style="font-size:14px;font-weight:700;color:var(--text-dark);margin-top:3px">Collecte 2 articles</div>
+                </div>
+                <div style="text-align:right">
+                <div class="mission-earn" style="color:var(--orange)">800 FCFA</div>
+                <span class="mission-badge badge-urgent">Urgent</span>
+                </div>
+            </div>
+            <div class="articles-list">
+                <div class="article-row">
+                <div class="article-img"><img src="photo/huile.jpeg" alt="Huile" onerror="this.style.display='none'"/></div>
+                <div class="article-info">
+                    <div class="article-name">Huile de Coco 200ml</div>
+                    <div class="article-seller">Mama Aminata ✓</div>
+                    <div class="article-marche">📍 Stand E2 – Marché Adjamé</div>
+                </div>
+                </div>
+                <div class="article-row">
+                <div class="article-img"><img src="photo/aloevera.jpeg" alt="Crème" onerror="this.style.display='none'"/></div>
+                <div class="article-info">
+                    <div class="article-name">Crème Karité Aloe Vera</div>
+                    <div class="article-seller">Mama Yéboué ✓</div>
+                    <div class="article-marche">📍 Stand E5 – Marché Adjamé</div>
+                </div>
+                </div>
+            </div>
+            <div class="mission-footer">
+                <div class="mission-info">
+                <span class="minfo-item">⏱ <strong>~12 min</strong> estimées</span>
+                <span class="minfo-item">🔥 <strong>Expire dans 8 min</strong></span>
+                </div>
+                <div style="display:flex;gap:8px">
+                <button class="btn-decline" onclick="showToast('👋','Mission refusée','Elle sera proposée à une autre Faiseuse')">Refuser</button>
+                <button class="btn-accept" style="background:var(--orange)" onclick="accepterMission(2853,800)">Accepter vite</button>
+                </div>
+            </div>
+            </div>
+
+        </div>
+        </div>
+
+        <!-- Historique -->
+        <div class="section-card">
+        <div class="card-head">
+            <div class="card-title">📋 Dernières missions</div>
+        </div>
+        <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--green-pale);border-radius:var(--r-sm)">
+                <div><div style="font-size:13px;font-weight:700;color:var(--text-dark)">#MM-2844 · 3 articles</div><div style="font-size:11px;color:var(--text-light)">Hier à 10h22 · Marché Adjamé</div></div>
+                <div style="text-align:right"><div style="font-family:var(--font-d);font-size:16px;color:var(--green);font-weight:700">+900 FCFA</div><span style="font-size:10px;background:var(--green);color:#fff;padding:2px 8px;border-radius:20px;font-weight:700">✓ Payée</span></div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--green-pale);border-radius:var(--r-sm)">
+                <div><div style="font-size:13px;font-weight:700;color:var(--text-dark)">#MM-2841 · 5 articles</div><div style="font-size:11px;color:var(--text-light)">Hier à 8h45 · Marché Adjamé</div></div>
+                <div style="text-align:right"><div style="font-family:var(--font-d);font-size:16px;color:var(--green);font-weight:700">+1 500 FCFA</div><span style="font-size:10px;background:var(--green);color:#fff;padding:2px 8px;border-radius:20px;font-weight:700">✓ Payée</span></div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--green-pale);border-radius:var(--r-sm)">
+                <div><div style="font-size:13px;font-weight:700;color:var(--text-dark)">#MM-2836 · 2 articles</div><div style="font-size:11px;color:var(--text-light)">Avant-hier · Marché Adjamé</div></div>
+                <div style="text-align:right"><div style="font-family:var(--font-d);font-size:16px;color:var(--green);font-weight:700">+600 FCFA</div><span style="font-size:10px;background:var(--green);color:#fff;padding:2px 8px;border-radius:20px;font-weight:700">✓ Payée</span></div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+
+    <!-- ===== COLONNE DROITE ===== -->
+    <div class="right-panel">
+
+        <!-- Gains MamaPay -->
+        <div class="earnings-card">
+        <div class="ec-label">💜 Mon solde MamaPay</div>
+        <div class="ec-amount">6 400 FCFA</div>
+        <div class="ec-grid">
+            <div class="ec-item">
+            <div class="ec-item-n">8</div>
+            <div class="ec-item-l">Missions totales</div>
+            </div>
+            <div class="ec-item">
+            <div class="ec-item-n">1 200</div>
+            <div class="ec-item-l">FCFA aujourd'hui</div>
+            </div>
+            <div class="ec-item">
+            <div class="ec-item-n">4.9 ⭐</div>
+            <div class="ec-item-l">Ma note livreur</div>
+            </div>
+            <div class="ec-item">
+            <div class="ec-item-n">98%</div>
+            <div class="ec-item-l">Missions réussies</div>
+            </div>
+        </div>
+        <button class="btn-retirer" onclick="showToast('💜','Retrait initié !','Virement Orange Money sous 5 minutes')">
+            📱 Retirer sur Orange Money
+        </button>
+        </div>
+
+        <!-- Livreur assigné -->
+        <div class="livreur-card">
+        <div class="lc-body">
+            <div class="lc-title">🚚 Livreur assigné à ta mission</div>
+            <div class="lc-profile">
+            <div class="lc-avatar">🧔🏾</div>
+            <div>
+                <div class="lc-name">Kofi Mensah</div>
+                <div class="lc-info">Livreur MamaMarket · <span class="lc-online">🟢 En route</span></div>
+            </div>
+            </div>
+            <div class="lc-eta">📍 Il arrive dans <strong>environ 15 minutes</strong> au point de remise</div>
+            <div style="font-size:11px;color:var(--text-light);margin-bottom:12px;padding:8px 10px;background:var(--beige);border-radius:var(--r-sm)">
+            📦 Point de remise :<br/><strong style="color:var(--text-mid)">Entrée principale – Marché Adjamé</strong>
+            </div>
+            <button class="btn-appeler" onclick="showToast('📞','Appel en cours…','Connexion avec Kofi Mensah')">
+            📞 Appeler le livreur
+            </button>
+            <button class="btn-sms" onclick="showToast('💬','SMS envoyé !','Le livreur a reçu ton message')">
+            💬 Envoyer un SMS
+            </button>
+        </div>
+        </div>
+
+        <!-- Conseils -->
+        <div class="tips-card">
+        <div class="tips-body">
+            <div class="tip-title">💡 Conseils pour bien réussir</div>
+            <div class="tip-item"><div class="tip-ico">🕐</div><div>Accepte les missions <strong>tôt le matin</strong> — les marchés sont plus animés de 7h à 11h</div></div>
+            <div class="tip-item"><div class="tip-ico">📸</div><div>Prends une <strong>photo des articles</strong> dès que tu les récupères chez la vendeuse</div></div>
+            <div class="tip-item"><div class="tip-ico">🧺</div><div>Apporte toujours un <strong>grand panier</strong> ou un sac solide pour tout mettre</div></div>
+            <div class="tip-item"><div class="tip-ico">⭐</div><div>Sois <strong>ponctuelle au point de remise</strong> — ta note dépend de la satisfaction du livreur</div></div>
+            <div class="tip-item"><div class="tip-ico">📱</div><div>Garde ton téléphone <strong>chargé</strong> pour recevoir tes missions et contacter le livreur</div></div>
+        </div>
+        </div>
+
+    </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+    <span style="font-size:18px;flex-shrink:0" id="toastIco">✓</span>
+    <div><strong id="toastT">Action effectuée</strong><span id="toastS"></span></div>
+    </div>
+
+    <script>
+    /* ---- Toggle disponibilité ---- */
+    let isAvailable = true;
+    function toggleStatus() {
+        isAvailable = !isAvailable;
+        const sw  = document.getElementById('statusToggle');
+        const txt = document.getElementById('statusTxt');
+        sw.classList.toggle('on', isAvailable);
+        txt.textContent = isAvailable ? 'Disponible' : 'Indisponible';
+        showToast(
+        isAvailable ? '🟢' : '🔴',
+        isAvailable ? 'Tu es maintenant disponible' : 'Tu es maintenant indisponible',
+        isAvailable ? 'Les missions vont t\'être proposées' : 'Tu ne recevras plus de missions pour l\'instant'
+        );
+    }
+
+    /* ---- Cocher un article collecté ---- */
+    let checked = new Set([1, 2]); // articles déjà récupérés au départ
+
+    function toggleArticle(id) {
+        const el = document.getElementById('chk' + id);
+        if (checked.has(id)) {
+        checked.delete(id);
+        el.classList.remove('done');
+        } else {
+        checked.add(id);
+        el.classList.add('done');
+        showToast('✅', 'Article récupéré !', 'Continue vers le prochain stand');
+        }
+        // Activer bouton remise seulement si tous les articles sont cochés (3 articles)
+        const btnRemettre = document.getElementById('btnRemettre');
+        btnRemettre.disabled = checked.size < 3;
+
+        // Mettre à jour la barre de progression
+        const pct = Math.round((checked.size / 3) * 100);
+        document.querySelector('.progress-fill').style.width = pct + '%';
+        document.querySelector('.progress-txt').textContent =
+        checked.size + ' article' + (checked.size > 1 ? 's' : '') + ' récupéré' + (checked.size > 1 ? 's' : '') + ' sur 3' +
+        (checked.size < 3 ? ' — ' + (3 - checked.size) + ' article' + (3 - checked.size > 1 ? 's' : '') + ' restant' : ' — Prêt à remettre !');
+    }
+
+    /* ---- Confirmer remise au livreur ---- */
+    function confirmerRemise() {
+        showToast('📦', 'Remise confirmée !', 'Le livreur a été notifié. Paiement en cours…');
+        setTimeout(() => {
+        showToast('💜', '+1 000 FCFA reçus !', 'Bravo ! Mission #MM-2847 terminée avec succès 🌺');
+        // Mise à jour stats
+        document.getElementById('statMissions').textContent = '9';
+        document.getElementById('statGains').textContent = '7 400';
+        document.getElementById('todayEarnings').textContent = '2 200 FCFA';
+        }, 2500);
+    }
+
+    /* ---- Accepter une mission ---- */
+    function accepterMission(id, gain) {
+        showToast('🧺', 'Mission #MM-' + id + ' acceptée !', 'Direction le marché — ' + gain.toLocaleString('fr-FR') + ' FCFA t\'attendent');
+    }
+
+    /* ---- Toast ---- */
+    let toastTimer;
+    function showToast(ico, title, sub) {
+        document.getElementById('toastIco').textContent = ico;
+        document.getElementById('toastT').textContent   = title;
+        document.getElementById('toastS').textContent   = sub;
+        const t = document.getElementById('toast');
+        t.classList.add('on');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove('on'), 3500);
+    }
+</script>
+</body>
+</html>

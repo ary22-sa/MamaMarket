@@ -1,0 +1,14 @@
+# Dépendances (très lourd, on ne les envoie jamais)
+node_modules/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers de configuration VS Code
+.vscode/
+
+# Fichiers temporaires ou logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
